@@ -1,0 +1,59 @@
+<!-- product-card.component.html -->
+<div class="product-card h-100" [ngClass]="{'product-card-list': layout === 'list'}">
+    <div class="product-badges">
+        <span class="badge bg-primary" *ngIf="product.attributes?.isNew">New</span>
+        <span class="badge bg-danger" *ngIf="discountPercentage > 0">-{{ discountPercentage }}%</span>
+        <span class="badge bg-success" *ngIf="product.attributes?.organic">Organic</span>
+    </div>
+
+    <div class="product-actions">
+        <button type="button" class="btn-action" [ngClass]="{'active': isFavorite}" (click)="toggleWishlist()"
+            aria-label="Add to wishlist">
+            <i class="bi" [ngClass]="isFavorite ? 'bi-heart-fill' : 'bi-heart'"></i>
+        </button>
+        <button type="button" class="btn-action" (click)="openQuickView()" aria-label="Quick view">
+            <i class="bi bi-eye"></i>
+        </button>
+    </div>
+
+    <div class="product-thumb">
+        <a [routerLink]="['/products', product.id]">
+            <img [src]="product.images[0]?.url || 'assets/images/placeholder.jpg'" [alt]="product.name"
+                class="product-img">
+        </a>
+        <div class="product-stock">
+            <span [ngClass]="getStockClass()">{{ getStockLabel() }}</span>
+        </div>
+    </div>
+
+    <div class="product-content">
+        <div class="product-category">{{ product.category }}</div>
+        <h3 class="product-title">
+            <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
+        </h3>
+
+        <div class="product-price">
+            <span class="current-price">{{ formattedPrice }}</span>
+            <span class="old-price" *ngIf="discountPercentage > 0">
+                {{ countryService.formatPrice(product.attributes?.originalPrice) }}
+            </span>
+        </div>
+
+        <div class="product-description" *ngIf="layout === 'list'">
+            <p>{{ product.description | slice:0:150 }}{{ product.description.length > 150 ? '...' : '' }}</p>
+        </div>
+
+        <div class="product-bottom-action">
+            <button type="button" class="btn btn-primary btn-add-to-cart w-100"
+                [disabled]="!product.stock || product.stock <= 0" [ngClass]="{'is-adding': isAddingToCart}"
+                (click)="addToCart()">
+                <span class="btn-text">
+                    <i class="bi bi-cart-plus me-1"></i>
+                    {{ product.stock > 0 ? 'Add to Cart' : 'Out of Stock' }}
+                </span>
+                <span class="btn-added"><i class="bi bi-check-lg me-1"></i> Added</span>
+                <span class="btn-loader spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+</div>

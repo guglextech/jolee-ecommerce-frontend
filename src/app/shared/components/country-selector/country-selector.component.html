@@ -1,0 +1,50 @@
+<div class="country-selector" (document:click)="onDocumentClick($event)">
+  <button
+    type="button"
+    class="country-selector-toggle"
+    (click)="toggleDropdown()"
+  >
+    <img
+      [src]="getCurrentCountry().flag"
+      [alt]="getCurrentCountry().name"
+      class="country-flag"
+    />
+    <span class="country-name">{{ getCurrentCountry().name }}</span>
+    <span class="country-currency">({{ getCurrentCountry().currency }})</span>
+    <i
+      class="bi"
+      [ngClass]="isDropdownOpen ? 'bi-chevron-up' : 'bi-chevron-down'"
+    ></i>
+  </button>
+
+  <div class="country-dropdown" [ngClass]="{ show: isDropdownOpen }">
+    <div class="country-dropdown-header">
+      <h6 class="mb-0">Select Country</h6>
+    </div>
+    <div class="country-dropdown-body">
+      <button
+        *ngFor="let country of countries"
+        type="button"
+        class="country-option"
+        [ngClass]="{ active: country.code === currentCountry }"
+        (click)="changeCountry(country.code)"
+      >
+        <img [src]="country.flag" [alt]="country.name" class="country-flag" />
+        <div class="country-info">
+          <span class="country-name">{{ country.name }}</span>
+          <span class="country-currency">{{ country.currency }}</span>
+        </div>
+        <i
+          class="bi bi-check-lg check-icon"
+          *ngIf="country.code === currentCountry"
+        ></i>
+      </button>
+    </div>
+    <div class="country-dropdown-footer">
+      <p class="mb-0 small">
+        Prices, products, and shipping options will be updated based on your
+        country selection.
+      </p>
+    </div>
+  </div>
+</div>

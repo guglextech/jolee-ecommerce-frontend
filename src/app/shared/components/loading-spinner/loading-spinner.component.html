@@ -1,0 +1,10 @@
+
+<div class="spinner-container" [ngClass]="{
+    'fullscreen': fullscreen,
+    'overlay': overlay && !fullscreen
+  }">
+    <div class="spinner-content">
+      <div [class]="spinnerClasses" role="status"></div>
+      <span *ngIf="message" class="spinner-message">{{ message }}</span>
+    </div>
+  </div>

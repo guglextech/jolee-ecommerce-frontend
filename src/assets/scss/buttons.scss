@@ -1,0 +1,345 @@
+/* _buttons.scss */
+
+// Base button styles
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: $input-btn-padding-y $input-btn-padding-x;
+    font-size: $input-btn-font-size;
+    line-height: $input-btn-line-height;
+    border-radius: $border-radius;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, 
+                border-color .15s ease-in-out, box-shadow .15s ease-in-out,
+                transform .15s ease-in-out;
+    
+    &:focus,
+    &.focus {
+      outline: 0;
+      box-shadow: $input-btn-focus-box-shadow;
+    }
+    
+    &:hover {
+      transform: translateY(-1px);
+    }
+    
+    &:active,
+    &.active {
+      transform: translateY(0);
+    }
+    
+    &:disabled,
+    &.disabled {
+      opacity: 0.65;
+      box-shadow: none;
+      transform: none;
+    }
+    
+    // Add icon margins when icons are used with buttons
+    i, .bi {
+      margin-right: 0.375rem;
+      
+      &:last-child:not(:first-child) {
+        margin-right: 0;
+        margin-left: 0.375rem;
+      }
+      
+      &:first-child:last-child {
+        margin-right: 0;
+        margin-left: 0;
+      }
+    }
+  }
+  
+  // Variant buttons
+  .btn-primary {
+    @include button-variant($primary, $primary);
+    box-shadow: 0 4px 6px rgba($primary, .25);
+  }
+  
+  .btn-secondary {
+    @include button-variant($secondary, $secondary);
+    box-shadow: 0 4px 6px rgba($secondary, .25);
+  }
+  
+  .btn-success {
+    @include button-variant($success, $success);
+    box-shadow: 0 4px 6px rgba($success, .25);
+  }
+  
+  .btn-info {
+    @include button-variant($info, $info);
+    box-shadow: 0 4px 6px rgba($info, .25);
+    color: $white;
+    
+    &:hover {
+      color: $white;
+    }
+  }
+  
+  .btn-warning {
+    @include button-variant($warning, $warning);
+    box-shadow: 0 4px 6px rgba($warning, .25);
+    color: $gray-900;
+    
+    &:hover {
+      color: $gray-900;
+    }
+  }
+  
+  .btn-danger {
+    @include button-variant($danger, $danger);
+    box-shadow: 0 4px 6px rgba($danger, .25);
+  }
+  
+  .btn-light {
+    @include button-variant($light, $light);
+    color: $gray-900;
+  }
+  
+  .btn-dark {
+    @include button-variant($dark, $dark);
+    box-shadow: 0 4px 6px rgba($dark, .25);
+  }
+  
+  // Outlined buttons
+  .btn-outline-primary {
+    @include button-outline-variant($primary);
+  }
+  
+  .btn-outline-secondary {
+    @include button-outline-variant($secondary);
+  }
+  
+  .btn-outline-success {
+    @include button-outline-variant($success);
+  }
+  
+  .btn-outline-info {
+    @include button-outline-variant($info);
+  }
+  
+  .btn-outline-warning {
+    @include button-outline-variant($warning);
+  }
+  
+  .btn-outline-danger {
+    @include button-outline-variant($danger);
+  }
+  
+  .btn-outline-light {
+    @include button-outline-variant($light);
+  }
+  
+  .btn-outline-dark {
+    @include button-outline-variant($dark);
+  }
+  
+  // Button sizes
+  .btn-lg {
+    @include button-size($input-btn-padding-y-lg, $input-btn-padding-x-lg, $input-btn-font-size-lg, $input-btn-line-height-lg, $border-radius-lg);
+  }
+  
+  .btn-sm {
+    @include button-size($input-btn-padding-y-sm, $input-btn-padding-x-sm, $input-btn-font-size-sm, $input-btn-line-height-sm, $border-radius-sm);
+  }
+  
+  // Icon-only buttons
+  .btn-icon {
+    padding: $input-btn-padding-y;
+    width: calc(#{$input-btn-line-height} * 1em + #{$input-btn-padding-y} * 2);
+    height: calc(#{$input-btn-line-height} * 1em + #{$input-btn-padding-y} * 2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    
+    i, .bi {
+      margin: 0;
+    }
+    
+    &.btn-sm {
+      width: calc(#{$input-btn-line-height-sm} * 1em + #{$input-btn-padding-y-sm} * 2);
+      height: calc(#{$input-btn-line-height-sm} * 1em + #{$input-btn-padding-y-sm} * 2);
+    }
+    
+    &.btn-lg {
+      width: calc(#{$input-btn-line-height-lg} * 1em + #{$input-btn-padding-y-lg} * 2);
+      height: calc(#{$input-btn-line-height-lg} * 1em + #{$input-btn-padding-y-lg} * 2);
+    }
+  }
+  
+  // Full width button
+  .btn-block {
+    display: flex;
+    width: 100%;
+  }
+  
+  // Loading button styles
+  .btn-loading {
+    position: relative;
+    color: transparent !important;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 1rem;
+      height: 1rem;
+      top: calc(50% - 0.5rem);
+      left: calc(50% - 0.5rem);
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #fff;
+      animation: spin 0.6s linear infinite;
+      pointer-events: none;
+    }
+    
+    &.btn-link::after,
+    &.btn-outline-primary::after,
+    &.btn-outline-secondary::after,
+    &.btn-outline-success::after,
+    &.btn-outline-info::after,
+    &.btn-outline-warning::after,
+    &.btn-outline-danger::after,
+    &.btn-outline-light::after,
+    &.btn-outline-dark::after,
+    &.btn-light::after {
+      border: 2px solid rgba($gray-600, 0.3);
+      border-top-color: $gray-800;
+    }
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  // Special buttons
+  .btn-glass {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: $white;
+    
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.25) !important;
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+  }
+  
+  .btn-gradient-primary {
+    background: linear-gradient(135deg, $primary 0%, lighten($primary, 15%) 100%);
+    border: none;
+    color: white;
+    
+    &:hover {
+      background: linear-gradient(135deg, darken($primary, 5%) 0%, lighten($primary, 10%) 100%);
+    }
+  }
+  
+  .btn-gradient-secondary {
+    background: linear-gradient(135deg, $secondary 0%, lighten($secondary, 15%) 100%);
+    border: none;
+    color: white;
+    
+    &:hover {
+      background: linear-gradient(135deg, darken($secondary, 5%) 0%, lighten($secondary, 10%) 100%);
+    }
+  }
+  
+  // Link Buttons
+  .btn-link {
+    font-weight: $font-weight-normal;
+    color: $link-color;
+    text-decoration: none;
+    box-shadow: none;
+    
+    &:hover {
+      color: $link-hover-color;
+      text-decoration: $link-hover-decoration;
+      background-color: transparent;
+      border-color: transparent;
+    }
+    
+    &:focus,
+    &.focus {
+      text-decoration: $link-hover-decoration;
+      box-shadow: none;
+    }
+    
+    &:disabled,
+    &.disabled {
+      color: $gray-600;
+    }
+  }
+  
+  // Add to cart button animation
+  .btn-add-to-cart {
+    position: relative;
+    transition: all 0.3s ease;
+    
+    .btn-text, .btn-added, .btn-loader {
+      transition: all 0.3s ease;
+    }
+    
+    .btn-added, .btn-loader {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+    }
+    
+    &.is-adding {
+      .btn-text {
+        opacity: 0;
+      }
+      
+      .btn-loader {
+        opacity: 1;
+      }
+      
+      &.added {
+        background-color: $success;
+        border-color: $success;
+        
+        .btn-added {
+          opacity: 1;
+        }
+        
+        .btn-loader {
+          opacity: 0;
+        }
+      }
+    }
+  }
+  
+  // Product action buttons
+  .btn-action {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $white;
+    border: none;
+    box-shadow: 0 2px 5px rgba($black, 0.1);
+    transition: all 0.2s ease;
+    color: $gray-600;
+    
+    &:hover {
+      background-color: $primary;
+      color: $white;
+      transform: translateY(-2px);
+    }
+    
+    &.active {
+      background-color: $danger;
+      color: $white;
+    }
+  }

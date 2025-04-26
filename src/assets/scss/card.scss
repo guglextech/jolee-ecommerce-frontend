@@ -1,0 +1,479 @@
+/* _cards.scss */
+
+// Base card styling
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: $white;
+    background-clip: border-box;
+    border: $card-border-width solid $card-border-color;
+    border-radius: $card-border-radius;
+    box-shadow: $box-shadow-sm;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: $box-shadow;
+    }
+    
+    .card-header {
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 0;
+      background-color: $card-cap-bg;
+      border-bottom: 1px solid $card-border-color;
+      
+      &:first-child {
+        border-radius: calc(#{$card-border-radius} - #{$card-border-width}) calc(#{$card-border-radius} - #{$card-border-width}) 0 0;
+      }
+      
+      h5, h6 {
+        margin-bottom: 0;
+      }
+    }
+    
+    .card-body {
+      flex: 1 1 auto;
+      padding: 1.5rem;
+    }
+    
+    .card-title {
+      margin-bottom: 1rem;
+      font-weight: $font-weight-bold;
+      color: $gray-900;
+    }
+    
+    .card-subtitle {
+      margin-top: -0.5rem;
+      margin-bottom: 0.5rem;
+      color: $gray-600;
+    }
+    
+    .card-text {
+      color: $gray-700;
+      
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+    .card-footer {
+      padding: 1.25rem 1.5rem;
+      background-color: $card-cap-bg;
+      border-top: 1px solid $card-border-color;
+      
+      &:last-child {
+        border-radius: 0 0 calc(#{$card-border-radius} - #{$card-border-width}) calc(#{$card-border-radius} - #{$card-border-width});
+      }
+    }
+    
+    .card-img,
+    .card-img-top,
+    .card-img-bottom {
+      width: 100%;
+    }
+    
+    .card-img,
+    .card-img-top {
+      border-top-left-radius: calc(#{$card-border-radius} - #{$card-border-width});
+      border-top-right-radius: calc(#{$card-border-radius} - #{$card-border-width});
+    }
+    
+    .card-img,
+    .card-img-bottom {
+      border-bottom-left-radius: calc(#{$card-border-radius} - #{$card-border-width});
+      border-bottom-right-radius: calc(#{$card-border-radius} - #{$card-border-width});
+    }
+    
+    .card-img-overlay {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      padding: 1.5rem;
+      border-radius: calc(#{$card-border-radius} - #{$card-border-width});
+      
+      .card-title,
+      .card-text {
+        color: $white;
+        text-shadow: 0 1px 3px rgba($black, 0.3);
+      }
+    }
+  }
+  
+  // Card groups
+  .card-group {
+    display: flex;
+    flex-direction: column;
+    
+    @include media-breakpoint-up(md) {
+      flex-flow: row wrap;
+      
+      > .card {
+        flex: 1 0 0%;
+        margin-bottom: 0;
+        
+        + .card {
+          margin-left: 0;
+          border-left: 0;
+        }
+        
+        &:not(:last-child) {
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          
+          .card-img-top,
+          .card-header {
+            border-top-right-radius: 0;
+          }
+          
+          .card-img-bottom,
+          .card-footer {
+            border-bottom-right-radius: 0;
+          }
+        }
+        
+        &:not(:first-child) {
+          border-top-left-radius: 0;
+          border-bottom-left-radius: 0;
+          
+          .card-img-top,
+          .card-header {
+            border-top-left-radius: 0;
+          }
+          
+          .card-img-bottom,
+          .card-footer {
+            border-bottom-left-radius: 0;
+          }
+        }
+      }
+    }
+  }
+  
+  // Card decks
+  .card-deck {
+    display: flex;
+    flex-direction: column;
+    
+    @include media-breakpoint-up(md) {
+      flex-flow: row wrap;
+      margin-right: -0.75rem;
+      margin-left: -0.75rem;
+      
+      .card {
+        display: flex;
+        flex: 1 0 0%;
+        flex-direction: column;
+        margin-right: 0.75rem;
+        margin-bottom: 1.5rem;
+        margin-left: 0.75rem;
+      }
+    }
+  }
+  
+  // Card columns
+  .card-columns {
+    @include media-breakpoint-up(md) {
+      column-count: 3;
+      column-gap: 1.5rem;
+      orphans: 1;
+      widows: 1;
+      
+      .card {
+        display: inline-block;
+        width: 100%;
+        margin-bottom: 1.5rem;
+      }
+    }
+  }
+  
+  // Custom card variants
+  // Horizontal card
+  .card-horizontal {
+    flex-direction: row;
+    
+    .card-img,
+    .card-img-top,
+    .card-img-bottom {
+      width: 40%;
+      border-top-right-radius: 0;
+      border-bottom-left-radius: calc(#{$card-border-radius} - #{$card-border-width});
+      border-bottom-right-radius: 0;
+    }
+    
+    .card-body {
+      flex: 1;
+    }
+    
+    @include media-breakpoint-down(md) {
+      flex-direction: column;
+      
+      .card-img,
+      .card-img-top,
+      .card-img-bottom {
+        width: 100%;
+        border-radius: calc(#{$card-border-radius} - #{$card-border-width}) calc(#{$card-border-radius} - #{$card-border-width}) 0 0;
+      }
+    }
+  }
+  
+  // Elevated card
+  .card-elevated {
+    border: none;
+    box-shadow: $box-shadow;
+    
+    &:hover {
+      box-shadow: $box-shadow-lg;
+    }
+  }
+  
+  // Bordered card
+  .card-bordered {
+    border-width: 1px;
+    border-style: solid;
+    
+    &.border-primary {
+      border-color: $primary;
+      .card-header {
+        background-color: rgba($primary, 0.1);
+        border-bottom-color: $primary;
+      }
+    }
+    
+    &.border-secondary {
+      border-color: $secondary;
+      .card-header {
+        background-color: rgba($secondary, 0.1);
+        border-bottom-color: $secondary;
+      }
+    }
+    
+    &.border-success {
+      border-color: $success;
+      .card-header {
+        background-color: rgba($success, 0.1);
+        border-bottom-color: $success;
+      }
+    }
+    
+    &.border-info {
+      border-color: $info;
+      .card-header {
+        background-color: rgba($info, 0.1);
+        border-bottom-color: $info;
+      }
+    }
+    
+    &.border-warning {
+      border-color: $warning;
+      .card-header {
+        background-color: rgba($warning, 0.1);
+        border-bottom-color: $warning;
+      }
+    }
+    
+    &.border-danger {
+      border-color: $danger;
+      .card-header {
+        background-color: rgba($danger, 0.1);
+        border-bottom-color: $danger;
+      }
+    }
+  }
+  
+  // Icon card
+  .card-icon {
+    overflow: visible;
+    
+    .card-icon-container {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      background-color: $primary;
+      color: $white;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      box-shadow: $box-shadow;
+      margin-top: -30px;
+      margin-bottom: 1rem;
+    }
+    
+    &.card-icon-primary .card-icon-container {
+      background-color: $primary;
+    }
+    
+    &.card-icon-secondary .card-icon-container {
+      background-color: $secondary;
+    }
+    
+    &.card-icon-success .card-icon-container {
+      background-color: $success;
+    }
+    
+    &.card-icon-info .card-icon-container {
+      background-color: $info;
+    }
+    
+    &.card-icon-warning .card-icon-container {
+      background-color: $warning;
+    }
+    
+    &.card-icon-danger .card-icon-container {
+      background-color: $danger;
+    }
+  }
+  
+  // Stats card
+  .card-stats {
+    .stats-number {
+      font-size: 2rem;
+      font-weight: $font-weight-bold;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+    
+    .stats-title {
+      font-size: 0.875rem;
+      color: $gray-600;
+      margin-bottom: 0.75rem;
+    }
+    
+    .stats-icon {
+      font-size: 1.75rem;
+      color: $gray-500;
+    }
+    
+    .stats-change {
+      display: flex;
+      align-items: center;
+      font-size: 0.875rem;
+      
+      &.positive {
+        color: $success;
+      }
+      
+      &.negative {
+        color: $danger;
+      }
+      
+      i {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+  
+  // Feature card
+  .card-feature {
+    text-align: center;
+    border: none;
+    background-color: transparent;
+    box-shadow: none;
+    
+    &:hover {
+      transform: translateY(-10px);
+    }
+    
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      border-radius: 50%;
+      background-color: rgba($primary, 0.1);
+      color: $primary;
+      font-size: 2rem;
+      transition: all 0.3s ease;
+    }
+    
+    &:hover .feature-icon {
+      background-color: $primary;
+      color: $white;
+      box-shadow: 0 10px 20px rgba($primary, 0.3);
+    }
+  }
+  
+  // Pricing card
+  .card-pricing {
+    text-align: center;
+    border: 1px solid $gray-200;
+    transition: all 0.3s ease;
+    
+    .pricing-title {
+      font-size: 1.25rem;
+      font-weight: $font-weight-bold;
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-price {
+      font-size: 3rem;
+      font-weight: $font-weight-bold;
+      margin-bottom: 1rem;
+      color: $primary;
+      
+      .pricing-currency {
+        font-size: 1.5rem;
+        vertical-align: super;
+        margin-right: 0.25rem;
+      }
+      
+      .pricing-period {
+        font-size: 0.875rem;
+        color: $gray-600;
+        font-weight: $font-weight-normal;
+      }
+    }
+    
+    .pricing-features {
+      list-style: none;
+      padding: 0;
+      margin: 1.5rem 0;
+      
+      li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid $gray-200;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+        
+        &.disabled {
+          color: $gray-500;
+          text-decoration: line-through;
+        }
+        
+        i {
+          margin-right: 0.5rem;
+          color: $success;
+          
+          &.disabled {
+            color: $gray-500;
+          }
+        }
+      }
+    }
+    
+    .pricing-footer {
+      padding: 1.5rem;
+    }
+    
+    &.pricing-highlighted {
+      transform: scale(1.05);
+      border-color: $primary;
+      box-shadow: $box-shadow;
+      z-index: 1;
+      
+      .card-header {
+        background-color: $primary;
+        color: $white;
+      }
+    }
+  }

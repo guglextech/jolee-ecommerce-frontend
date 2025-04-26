@@ -1,0 +1,26 @@
+src/
+├── app/
+│   ├── core/
+│   │   ├── services/
+│   │   ├── guards/
+│   │   ├── interceptors/
+│   │   └── models/
+│   ├── shared/
+│   │   ├── components/
+│   │   ├── directives/
+│   │   └── pipes/
+│   ├── features/
+│   │   ├── home/
+│   │   ├── product/
+│   │   ├── cart/
+│   │   ├── checkout/
+│   │   ├── account/
+│   │   └── admin/
+│   ├── country-specific/
+│   │   ├── ghana/
+│   │   └── usa/
+│   └── app.module.ts
+└── assets/
+    ├── i18n/
+    ├── images/
+    └── styles/

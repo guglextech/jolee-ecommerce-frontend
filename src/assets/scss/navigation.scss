@@ -1,0 +1,646 @@
+/* _navigation.scss */
+
+// Navbar styling
+.navbar {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: $navbar-padding-y $navbar-padding-x;
+    transition: all 0.3s ease;
+
+    .navbar-brand {
+        padding-top: 0.375rem;
+        padding-bottom: 0.375rem;
+        margin-right: 1rem;
+        font-size: $navbar-brand-font-size;
+        font-weight: $font-weight-bold;
+        text-decoration: none;
+        white-space: nowrap;
+
+        img {
+            height: 40px;
+            width: auto;
+        }
+    }
+
+    .navbar-nav {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+            color: $gray-700;
+            transition: color 0.15s ease-in-out;
+
+            &:hover,
+            &:focus {
+                color: $primary;
+            }
+
+            &.active {
+                color: $primary;
+                font-weight: $font-weight-bold;
+            }
+
+            &.disabled {
+                color: $gray-500;
+                cursor: default;
+            }
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            z-index: 1000;
+            display: none;
+            min-width: 10rem;
+            padding: 0.75rem 0;
+            margin: 0;
+            font-size: 0.9rem;
+            color: $body-color;
+            text-align: left;
+            list-style: none;
+            background-color: $white;
+            background-clip: padding-box;
+            border: 1px solid $gray-200;
+            border-radius: $border-radius;
+            box-shadow: $box-shadow;
+
+            &.show {
+                display: block;
+            }
+
+            .dropdown-item {
+                display: block;
+                width: 100%;
+                padding: 0.5rem 1.5rem;
+                clear: both;
+                font-weight: 400;
+                font-weight: 400;
+                color: $gray-800;
+                text-align: inherit;
+                text-decoration: none;
+                white-space: nowrap;
+                background-color: transparent;
+                border: 0;
+                transition: all 0.2s ease;
+
+                &:hover,
+                &:focus {
+                    color: $primary;
+                    background-color: rgba($primary, 0.05);
+                    text-decoration: none;
+                }
+
+                &.active,
+                &:active {
+                    color: $white;
+                    background-color: $primary;
+                }
+
+                &.disabled {
+                    color: $gray-500;
+                    pointer-events: none;
+                    background-color: transparent;
+                }
+            }
+
+            .dropdown-divider {
+                height: 0;
+                margin: 0.5rem 0;
+                overflow: hidden;
+                border-top: 1px solid $gray-200;
+            }
+
+            .dropdown-header {
+                display: block;
+                padding: 0.5rem 1.5rem;
+                margin-bottom: 0;
+                font-size: 0.875rem;
+                color: $gray-600;
+                text-transform: uppercase;
+                white-space: nowrap;
+            }
+        }
+
+        .dropdown-toggle {
+            &::after {
+                margin-left: 0.5rem;
+                vertical-align: middle;
+                border-top: 0.3em solid;
+                border-right: 0.3em solid transparent;
+                border-bottom: 0;
+                border-left: 0.3em solid transparent;
+                transition: transform 0.2s ease;
+            }
+
+            &.show::after {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    .navbar-toggler {
+        padding: 0.5rem;
+        font-size: 1.25rem;
+        line-height: 1;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-radius: $border-radius;
+        transition: box-shadow 0.15s ease-in-out;
+
+        &:focus {
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+        }
+
+        &-icon {
+            display: inline-block;
+            width: 1.5em;
+            height: 1.5em;
+            vertical-align: middle;
+            background-image: none;
+            position: relative;
+
+            &::before,
+            &::after,
+            span {
+                position: absolute;
+                left: 0;
+                width: 100%;
+                height: 2px;
+                background-color: currentColor;
+                border-radius: 2px;
+                transition: transform 0.2s ease;
+            }
+
+            &::before,
+            &::after {
+                content: "";
+            }
+
+            &::before {
+                top: 0.25em;
+            }
+
+            span {
+                top: 0.75em;
+            }
+
+            &::after {
+                top: 1.25em;
+            }
+        }
+
+        &[aria-expanded="true"] {
+            .navbar-toggler-icon {
+                &::before {
+                    transform: rotate(45deg) translate(0.35em, 0.35em);
+                }
+
+                span {
+                    opacity: 0;
+                }
+
+                &::after {
+                    transform: rotate(-45deg) translate(0.35em, -0.35em);
+                }
+            }
+        }
+    }
+
+    .navbar-collapse {
+        flex-basis: 100%;
+        flex-grow: 1;
+        align-items: center;
+    }
+
+    .navbar-text {
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+        color: $gray-700;
+    }
+
+    @include media-breakpoint-up(md) {
+        .navbar-expand-md {
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+
+            .navbar-nav {
+                flex-direction: row;
+
+                .nav-link {
+                    padding-right: 1rem;
+                    padding-left: 1rem;
+                    position: relative;
+
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        bottom: 0;
+                        left: 50%;
+                        width: 0;
+                        height: 2px;
+                        background-color: $primary;
+                        transition: all 0.3s ease;
+                        transform: translateX(-50%);
+                    }
+
+                    &:hover::after,
+                    &.active::after {
+                        width: 60%;
+                    }
+                }
+
+                .dropdown-menu {
+                    position: absolute;
+                }
+            }
+
+            .navbar-collapse {
+                display: flex !important;
+                flex-basis: auto;
+            }
+
+            .navbar-toggler {
+                display: none;
+            }
+        }
+    }
+}
+
+// Dark navbar
+.navbar-dark {
+    background-color: $dark;
+
+    .navbar-brand {
+        color: $white;
+    }
+
+    .navbar-nav {
+        .nav-link {
+            color: rgba($white, 0.8);
+
+            &:hover,
+            &:focus {
+                color: $white;
+            }
+
+            &.active {
+                color: $white;
+            }
+
+            &.disabled {
+                color: rgba($white, 0.5);
+            }
+        }
+    }
+
+    .navbar-toggler {
+        color: rgba($white, 0.8);
+        border-color: rgba($white, 0.2);
+    }
+
+    .navbar-text {
+        color: rgba($white, 0.8);
+    }
+}
+
+// Light navbar
+.navbar-light {
+    background-color: $white;
+    box-shadow: 0 2px 10px rgba($black, 0.1);
+
+    .navbar-brand {
+        color: $gray-900;
+    }
+
+    .navbar-nav {
+        .nav-link {
+            color: $gray-700;
+
+            &:hover,
+            &:focus {
+                color: $primary;
+            }
+
+            &.active {
+                color: $primary;
+            }
+
+            &.disabled {
+                color: $gray-500;
+            }
+        }
+    }
+
+    .navbar-toggler {
+        color: $gray-700;
+        border-color: $gray-300;
+    }
+
+    .navbar-text {
+        color: $gray-700;
+    }
+}
+
+// Transparent navbar
+.navbar-transparent {
+    background-color: transparent;
+    box-shadow: none;
+
+    &.navbar-dark {
+        .navbar-brand,
+        .navbar-nav .nav-link,
+        .navbar-text {
+            color: $white;
+            text-shadow: 0 1px 3px rgba($black, 0.3);
+        }
+    }
+
+    &.navbar-light {
+        .navbar-brand,
+        .navbar-nav .nav-link,
+        .navbar-text {
+            color: $gray-900;
+        }
+    }
+
+    &.navbar-scrolled {
+        background-color: $white;
+        box-shadow: 0 2px 10px rgba($black, 0.1);
+
+        &.navbar-dark {
+            background-color: $dark;
+
+            .navbar-brand,
+            .navbar-nav .nav-link,
+            .navbar-text {
+                text-shadow: none;
+            }
+        }
+    }
+}
+
+// Navigation styles
+// Pills
+.nav-pills {
+    .nav-link {
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        background: none;
+        border: 0;
+        border-radius: $border-radius;
+        transition: all 0.2s ease;
+        color: $gray-700;
+
+        &:hover {
+            color: $primary;
+            background-color: rgba($primary, 0.05);
+        }
+
+        &.active {
+            color: $white;
+            background-color: $primary;
+            box-shadow: 0 4px 8px rgba($primary, 0.25);
+        }
+    }
+}
+
+// Tabs
+.nav-tabs {
+    border-bottom: 1px solid $gray-300;
+
+    .nav-link {
+        padding: 0.75rem 1.25rem;
+        font-weight: 500;
+        color: $gray-700;
+        background-color: transparent;
+        border: 1px solid transparent;
+        border-top-left-radius: $border-radius;
+        border-top-right-radius: $border-radius;
+        transition: all 0.2s ease;
+        margin-bottom: -1px;
+
+        &:hover {
+            color: $primary;
+            border-color: transparent;
+        }
+
+        &.active {
+            color: $primary;
+            background-color: $white;
+            border-color: $gray-300 $gray-300 $white;
+            font-weight: $font-weight-bold;
+        }
+    }
+}
+
+// Custom tab styles
+.tab-line {
+    border-bottom: 1px solid $gray-300;
+
+    .nav-link {
+        padding: 0.75rem 1.25rem;
+        font-weight: 500;
+        color: $gray-700;
+        background-color: transparent;
+        border: none;
+        position: relative;
+        transition: all 0.2s ease;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: $primary;
+            transition: width 0.2s ease;
+        }
+
+        &:hover {
+            color: $primary;
+        }
+
+        &.active {
+            color: $primary;
+            font-weight: $font-weight-bold;
+
+            &::after {
+                width: 100%;
+            }
+        }
+    }
+}
+
+// Breadcrumbs
+.breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: $gray-100;
+    border-radius: $border-radius;
+
+    &-item {
+        display: flex;
+
+        + .breadcrumb-item {
+            padding-left: 0.75rem;
+
+            &::before {
+                display: inline-block;
+                padding-right: 0.75rem;
+                color: $gray-500;
+                content: "\f054"; // This is a forward slash icon in Bootstrap Icons
+                font-family: "bootstrap-icons";
+                font-size: 0.675rem;
+                line-height: 1.75;
+            }
+        }
+
+        &.active {
+            color: $gray-600;
+        }
+
+        a {
+            color: $gray-700;
+            text-decoration: none;
+            transition: color 0.15s ease-in-out;
+
+            &:hover {
+                color: $primary;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
+// Modern breadcrumb (no background)
+.breadcrumb-modern {
+    background-color: transparent;
+    padding: 0.5rem 0;
+
+    .breadcrumb-item {
+        a {
+            color: $gray-600;
+
+            &:hover {
+                color: $primary;
+            }
+        }
+
+        + .breadcrumb-item::before {
+            color: $gray-400;
+        }
+
+        &.active {
+            color: $gray-800;
+            font-weight: $font-weight-bold;
+        }
+    }
+}
+
+// Pagination
+.pagination {
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+
+    .page-item {
+        &:first-child {
+            .page-link {
+                border-top-left-radius: $border-radius;
+                border-bottom-left-radius: $border-radius;
+            }
+        }
+
+        &:last-child {
+            .page-link {
+                border-top-right-radius: $border-radius;
+                border-bottom-right-radius: $border-radius;
+            }
+        }
+
+        &.active .page-link {
+            z-index: 3;
+            color: $white;
+            background-color: $primary;
+            border-color: $primary;
+            box-shadow: 0 2px 5px rgba($primary, 0.3);
+        }
+
+        &.disabled .page-link {
+            color: $gray-500;
+            pointer-events: none;
+            background-color: $white;
+            border-color: $gray-300;
+        }
+    }
+
+    .page-link {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        padding: 0.375rem 0.75rem;
+        margin-left: -1px;
+        line-height: 1.25;
+        color: $gray-700;
+        text-decoration: none;
+        background-color: $white;
+        border: 1px solid $gray-300;
+        transition: all 0.2s ease;
+
+        &:hover {
+            z-index: 2;
+            color: $primary;
+            background-color: $gray-200;
+            border-color: $gray-300;
+        }
+
+        &:focus {
+            z-index: 3;
+            outline: 0;
+            box-shadow: 0 0 0 0.2rem rgba($primary, 0.25);
+        }
+    }
+}
+
+// Rounded pagination
+.pagination-rounded {
+    .page-link {
+        border-radius: 50% !important;
+        margin: 0 0.25rem;
+    }
+}
+
+// Modern pagination
+.pagination-modern {
+    .page-link {
+        border: none;
+        background-color: transparent;
+
+        &:hover {
+            background-color: $gray-200;
+        }
+    }
+
+    .page-item {
+        &.active .page-link {
+            background-color: $primary;
+            color: $white;
+            border-radius: $border-radius;
+        }
+    }
+}

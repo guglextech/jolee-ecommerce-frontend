@@ -1,0 +1,162 @@
+<footer class="site-footer pt-5">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-widget">
+          <a routerLink="/" class="footer-logo mb-3 d-inline-block">
+            <img
+              src="assets/images/logo.png"
+              alt="Bakery & Grocery"
+              height="40"
+            />
+          </a>
+          <p class="mb-4">
+            Your one-stop shop for delicious bakery items and essential grocery
+            products from Ghana and the USA.
+          </p>
+
+          <h5 class="widget-title">Follow Us</h5>
+          <div class="social-links">
+            <a
+              *ngFor="let social of socialLinks"
+              [href]="social.url"
+              target="_blank"
+              class="social-link"
+              [attr.aria-label]="social.name"
+            >
+              <i class="bi" [ngClass]="social.icon"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6">
+        <div class="footer-widget">
+          <h5 class="widget-title">Quick Links</h5>
+          <ul class="footer-menu">
+            <li *ngFor="let link of quickLinks">
+              <a [routerLink]="link.url">{{ link.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-6">
+        <div class="footer-widget">
+          <h5 class="widget-title">Categories</h5>
+          <ul class="footer-menu">
+            <li *ngFor="let category of categories">
+              <a [routerLink]="category.url">{{ category.name }}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="footer-widget">
+          <h5 class="widget-title">Newsletter</h5>
+          <p class="mb-3">
+            Subscribe to our newsletter to receive updates on new products and
+            special offers.
+          </p>
+
+          <form [formGroup]="newsletterForm" (ngSubmit)="onSubmitNewsletter()">
+            <div class="input-group mb-3">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Your email address"
+                formControlName="email"
+              />
+              <button
+                class="btn btn-primary"
+                type="submit"
+                [disabled]="!newsletterForm.valid"
+              >
+                Subscribe
+              </button>
+            </div>
+
+            <div
+              *ngIf="
+                newsletterForm.get('email')?.invalid &&
+                newsletterForm.get('email')?.touched
+              "
+              class="text-danger small mb-3"
+            >
+              Please enter a valid email address.
+            </div>
+
+            <div *ngIf="subscribeSuccess" class="text-success small mb-3">
+              Thank you for subscribing to our newsletter!
+            </div>
+          </form>
+
+          <h5 class="widget-title mt-4">Contact Us</h5>
+          <address class="mb-0">
+            <p class="mb-2">
+              <i class="bi bi-geo-alt me-2"></i> 123 Bakery Street, Accra, Ghana
+            </p>
+            <p class="mb-2">
+              <i class="bi bi-telephone me-2"></i>{{ " +233 (0)30 123 4567" }}
+            </p>
+            <!-- <p class="mb-0"><i class="bi bi-envelope me-2"></i> {{"info@bakery-grocery.com"}}</p> -->
+          </address>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-methods mt-4 pt-4 border-top">
+      <div class="row align-items-center">
+        <div class="col-md-6 mb-3 mb-md-0">
+          <h6 class="mb-2">We Accept:</h6>
+          <div class="payment-icons">
+            @for (payment of paymentMethods; track payment.name; let i = $index)
+            {
+            <img
+              [src]="payment.icon"
+              [alt]="payment.name"
+              height="30"
+              class="me-2 mb-2"
+            />
+            }
+          </div>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <p class="mb-0 text-muted small">
+            Our payment processing is secure and reliable. Shop with confidence.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright mt-5 py-3 bg-dark text-white">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <p class="mb-0">
+            &copy; {{ currentYear }} Bakery & Grocery. All rights reserved.
+          </p>
+        </div>
+        <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
+          <ul class="nav justify-content-center justify-content-md-end small">
+            <li class="nav-item">
+              <a href="/privacy" class="nav-link px-2 text-white-50"
+                >Privacy Policy</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/terms" class="nav-link px-2 text-white-50"
+                >Terms of Service</a
+              >
+            </li>
+            <li class="nav-item">
+              <a href="/sitemap" class="nav-link px-2 text-white-50">Sitemap</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

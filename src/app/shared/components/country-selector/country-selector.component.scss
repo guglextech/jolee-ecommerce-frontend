@@ -1,0 +1,160 @@
+.country-selector {
+    position: relative;
+
+    .country-selector-toggle {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: transparent;
+        border: none;
+        padding: 0.5rem;
+        border-radius: 0.25rem;
+        color: inherit;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .country-flag {
+            width: 20px;
+            height: 15px;
+            object-fit: cover;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .country-name {
+            font-weight: 500;
+
+            @media (max-width: 576px) {
+                display: none;
+            }
+        }
+
+        .country-currency {
+            font-size: 0.75rem;
+            opacity: 0.8;
+
+            @media (max-width: 767px) {
+                display: none;
+            }
+        }
+
+        i {
+            font-size: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+    }
+
+    .country-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        width: 250px;
+        background-color: #fff;
+        border-radius: 0.375rem;
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        z-index: 1000;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+        overflow: hidden;
+
+        &.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .country-dropdown-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+            h6 {
+                color: #495057;
+                font-weight: 600;
+            }
+        }
+
+        .country-dropdown-body {
+            max-height: 250px;
+            overflow-y: auto;
+
+            .country-option {
+                display: flex;
+                align-items: center;
+                width: 100%;
+                padding: 0.75rem 1rem;
+                background: none;
+                border: none;
+                text-align: left;
+                cursor: pointer;
+                transition: background-color 0.2s ease;
+
+                &:hover {
+                    background-color: rgba(var(--bs-primary-rgb), 0.1);
+                }
+
+                &.active {
+                    background-color: rgba(var(--bs-primary-rgb), 0.1);
+                }
+
+                .country-flag {
+                    width: 24px;
+                    height: 18px;
+                    object-fit: cover;
+                    margin-right: 0.75rem;
+                    border-radius: 2px;
+                    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+                }
+
+                .country-info {
+                    flex: 1;
+
+                    .country-name {
+                        display: block;
+                        font-weight: 500;
+                        color: #212529;
+                    }
+
+                    .country-currency {
+                        display: block;
+                        font-size: 0.75rem;
+                        color: #6c757d;
+                    }
+                }
+
+                .check-icon {
+                    color: var(--bs-primary);
+                    font-size: 1rem;
+                }
+            }
+        }
+
+        .country-dropdown-footer {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            background-color: #f8f9fa;
+
+            p {
+                color: #6c757d;
+            }
+        }
+    }
+}
+
+:host-context(.bg-primary),
+:host-context(.bg-dark) {
+    .country-selector {
+        .country-selector-toggle {
+            color: white;
+
+            &:hover {
+                background-color: rgba(255, 255, 255, 0.2);
+            }
+        }
+    }
+}

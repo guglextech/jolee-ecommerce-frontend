@@ -1,0 +1,45 @@
+/* src/app/standalone/loading-spinner/loading-spinner.component.scss */
+.spinner-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.7);
+        z-index: 1000;
+    }
+
+    &.fullscreen {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(255, 255, 255, 0.9);
+        z-index: 9999;
+    }
+
+    .spinner-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .spinner-message {
+        margin-top: 1rem;
+        font-size: 0.9rem;
+        color: #6c757d;
+        text-align: center;
+    }
+
+    .spinner-large {
+        width: 3rem;
+        height: 3rem;
+    }
+}

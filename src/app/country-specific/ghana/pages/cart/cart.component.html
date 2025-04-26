@@ -1,0 +1,150 @@
+<app-header></app-header>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12">
+      <h1 class="mb-4">Shopping Cart</h1>
+      
+      <!-- Empty cart message -->
+      <div *ngIf="cartItems.length === 0" class="text-center py-5">
+        <div class="empty-cart-icon mb-4">
+          <i class="bi bi-cart-x display-1 text-muted"></i>
+        </div>
+        <h3>Your cart is empty</h3>
+        <p class="text-muted mb-4">Looks like you haven't added any products to your cart yet.</p>
+        <a routerLink="/" class="btn btn-primary btn-lg">Continue Shopping</a>
+      </div>
+      
+      <!-- Cart content -->
+      <div *ngIf="cartItems.length > 0">
+        <!-- Cart items -->
+        <div class="card mb-4 cart-items-table">
+          <div class="card-body p-0">
+            <div class="table-responsive">
+              <table class="table mb-0">
+                <thead>
+                  <tr>
+                    <th class="border-0 bg-light">Product</th>
+                    <th class="border-0 bg-light">Price</th>
+                    <th class="border-0 bg-light">Quantity</th>
+                    <th class="border-0 bg-light">Total</th>
+                    <th class="border-0 bg-light"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of cartItems">
+                    <td class="align-middle">
+                      <div class="d-flex align-items-center">
+                        <img [src]="item.images && item.images[0]?.url || 'assets/images/placeholder.jpg'" 
+                             [alt]="item.name" class="img-fluid cart-item-image me-3">
+                        <div>
+                          <h6 class="mb-0">{{ item.name }}</h6>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="align-middle">{{ formatPrice(item.price) }}</td>
+                    <td class="align-middle">
+                      <div class="quantity-control d-flex align-items-center">
+                        <button class="btn btn-sm btn-outline-secondary" 
+                                [disabled]="item.quantity <= 1" 
+                                (click)="decrementQuantity(item)">
+                          <i class="bi bi-dash"></i>
+                        </button>
+                        <input type="number" class="form-control mx-2" min="1" max="99" 
+                               [(ngModel)]="item.quantity" 
+                               (change)="updateQuantity(item.id, item.quantity)">
+                        <button class="btn btn-sm btn-outline-secondary" 
+                                (click)="incrementQuantity(item)">
+                          <i class="bi bi-plus"></i>
+                        </button>
+                      </div>
+                    </td>
+                    <td class="align-middle">{{ formatPrice(item.price * item.quantity) }}</td>
+                    <td class="align-middle text-end">
+                      <button class="btn btn-sm btn-outline-danger" (click)="removeItem(item.id)">
+                        <i class="bi bi-trash"></i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cart actions -->
+        <div class="d-flex justify-content-between mb-4">
+          <div>
+            <a routerLink="/" class="btn btn-outline-primary">
+              <i class="bi bi-arrow-left me-2"></i>Continue Shopping
+            </a>
+          </div>
+          <div>
+            <button class="btn btn-outline-danger" (click)="clearCart()">
+              <i class="bi bi-trash me-2"></i>Clear Cart
+            </button>
+          </div>
+        </div>
+        
+        <!-- Cart summary -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title mb-3">Promo Code</h5>
+                <div class="input-group mb-3">
+                  <input type="text" class="form-control" [(ngModel)]="promoCode" 
+                         placeholder="Enter promo code" [disabled]="promoApplied">
+                  <button class="btn btn-outline-primary" type="button" 
+                          (click)="applyPromoCode()" 
+                          [disabled]="!promoCode || promoApplied">
+                    Apply
+                  </button>
+                </div>
+                <div *ngIf="promoApplied" class="promo-applied alert alert-success d-flex align-items-center">
+                  <i class="bi bi-check-circle me-2"></i>
+                  <div>Promo code applied successfully!</div>
+                  <button type="button" class="btn-close ms-auto" (click)="removePromo()"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-md-6">
+            <div class="card mb-4">
+              <div class="card-body">
+                <h5 class="card-title mb-3">Order Summary</h5>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Subtotal</span>
+                  <span>{{ formatPrice(subtotal) }}</span>
+                </div>
+                <div *ngIf="promoDiscount > 0" class="d-flex justify-content-between mb-2 text-success">
+                  <span>Discount</span>
+                  <span>-{{ formatPrice(promoDiscount) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-2">
+                  <span>Shipping</span>
+                  <span>{{ formatPrice(shipping) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                  <span>Tax</span>
+                  <span>{{ formatPrice(tax) }}</span>
+                </div>
+                <hr>
+                <div class="d-flex justify-content-between mb-3">
+                  <span class="fw-bold">Total</span>
+                  <span class="fw-bold">{{ formatPrice(total) }}</span>
+                </div>
+                <button class="btn btn-primary w-100" (click)="checkout()">
+                  Proceed to Checkout
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>
