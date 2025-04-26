@@ -244,6 +244,7 @@ export class MockProductService {
       createdAt: '2023-05-10T14:20:00Z',
       updatedAt: '2023-05-10T14:20:00Z'
     },
+    
     {
       id: '3',
       name: 'Organic Quinoa',
