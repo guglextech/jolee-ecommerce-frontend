@@ -1,74 +1,94 @@
-<!-- index.component.html -->
 <app-header></app-header>
 
 <div class="container py-4">
-  <!-- Loading spinner -->
   <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
 
-  <!-- Layout Controls -->
   <div class="mb-4 d-flex justify-content-end align-items-center">
     <div class="layout-controls">
-      <button 
-        class="btn btn-sm me-2" 
-        [ngClass]="{'btn-primary': selectedLayout === 'grid', 'btn-outline-primary': selectedLayout !== 'grid'}"
-        (click)="changeLayout('grid')">
+      <button
+        class="btn btn-sm me-2"
+        [ngClass]="{
+          'btn-primary': selectedLayout === 'grid',
+          'btn-outline-primary': selectedLayout !== 'grid'
+        }"
+        (click)="changeLayout('grid')"
+      >
         <i class="bi bi-grid"></i>
       </button>
-      <button 
-        class="btn btn-sm" 
-        [ngClass]="{'btn-primary': selectedLayout === 'list', 'btn-outline-primary': selectedLayout !== 'list'}"
-        (click)="changeLayout('list')">
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': selectedLayout === 'list',
+          'btn-outline-primary': selectedLayout !== 'list'
+        }"
+        (click)="changeLayout('list')"
+      >
         <i class="bi bi-list"></i>
       </button>
     </div>
-    
+
     <div class="ms-3 column-controls" *ngIf="selectedLayout === 'grid'">
-      <button 
-        class="btn btn-sm" 
-        [ngClass]="{'btn-primary': selectedColumns === 2, 'btn-outline-primary': selectedColumns !== 2}"
-        (click)="changeColumns(2)">
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': selectedColumns === 2,
+          'btn-outline-primary': selectedColumns !== 2
+        }"
+        (click)="changeColumns(2)"
+      >
         <i class="bi bi-columns-gap"></i> 2
       </button>
-      <button 
-        class="btn btn-sm mx-1" 
-        [ngClass]="{'btn-primary': selectedColumns === 3, 'btn-outline-primary': selectedColumns !== 3}"
-        (click)="changeColumns(3)">
+      <button
+        class="btn btn-sm mx-1"
+        [ngClass]="{
+          'btn-primary': selectedColumns === 3,
+          'btn-outline-primary': selectedColumns !== 3
+        }"
+        (click)="changeColumns(3)"
+      >
         <i class="bi bi-columns-gap"></i> 3
       </button>
-      <button 
-        class="btn btn-sm" 
-        [ngClass]="{'btn-primary': selectedColumns === 4, 'btn-outline-primary': selectedColumns !== 4}"
-        (click)="changeColumns(4)">
+      <button
+        class="btn btn-sm"
+        [ngClass]="{
+          'btn-primary': selectedColumns === 4,
+          'btn-outline-primary': selectedColumns !== 4
+        }"
+        (click)="changeColumns(4)"
+      >
         <i class="bi bi-columns-gap"></i> 4
       </button>
     </div>
   </div>
 
-  <!-- Products container with responsive grid -->
   <div class="row g-4">
-    <div *ngFor="let product of products" 
-         [ngClass]="{
-           'col-12': selectedLayout === 'list',
-           'col-6 col-md-4 col-lg-4': selectedLayout === 'grid' && selectedColumns === 3,
-           'col-6 col-md-3 col-lg-3': selectedLayout === 'grid' && selectedColumns === 4,
-           'col-6 col-md-6 col-lg-6': selectedLayout === 'grid' && selectedColumns === 2
-         }">
-      <app-product-card 
-        [product]="product" 
+    <div
+      *ngFor="let product of products"
+      [ngClass]="{
+        'col-12': selectedLayout === 'list',
+        'col-6 col-md-4 col-lg-4':
+          selectedLayout === 'grid' && selectedColumns === 3,
+        'col-6 col-md-3 col-lg-3':
+          selectedLayout === 'grid' && selectedColumns === 4,
+        'col-6 col-md-6 col-lg-6':
+          selectedLayout === 'grid' && selectedColumns === 2
+      }"
+    >
+      <app-product-card
+        [product]="product"
         [layout]="selectedLayout"
         (addToCartClicked)="handleAddToCart($event)"
-        (quickViewClicked)="handleQuickView($event)">
+        (quickViewClicked)="handleQuickView($event)"
+      >
       </app-product-card>
     </div>
   </div>
 
-  <!-- Show message when no products are found -->
   <div *ngIf="products.length === 0 && !isLoading" class="text-center my-5">
     <h3>No products found</h3>
     <p>Try changing your filters or search criteria</p>
   </div>
 
-  <!-- Pagination -->
   <app-pagination *ngIf="products.length > 0" class="mt-4"></app-pagination>
 </div>
 

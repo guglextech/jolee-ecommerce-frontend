@@ -26,8 +26,6 @@ export class CountryService {
   private countrySubject = new BehaviorSubject<CountryCode>('US');
   public country$ = this.countrySubject.asObservable();
 
-
-  
   private countryConfig: Record<CountryCode, CountryConfig> = {
     GH: {
       currency: 'GHS',

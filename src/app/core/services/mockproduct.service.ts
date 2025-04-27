@@ -244,7 +244,6 @@ export class MockProductService {
       createdAt: '2023-05-10T14:20:00Z',
       updatedAt: '2023-05-10T14:20:00Z'
     },
-    
     {
       id: '3',
       name: 'Organic Quinoa',
@@ -331,6 +330,8 @@ export class MockProductService {
   getProducts(filter?: any): Observable<Product[]> {
     return of(this.mockProducts).pipe(delay(800));
   }
+
+  
 
   getProduct(id: string): Observable<Product | undefined> {
     const product = this.mockProducts.find(p => p.id === id);
