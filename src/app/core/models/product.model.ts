@@ -1,3 +1,4 @@
+import { SafeHtml } from '@angular/platform-browser';
 /**
  * @property {string} countryCode
  * @property {number} amount
@@ -51,4 +52,29 @@ export interface Product {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface IProducts {
+  product: Product[];
+}
+
+export interface IProduct {
+  id: number;
+  image: string;
+  product_name: SafeHtml;
+  sort_description: string;
+  description: string;
+  discount_price: number;
+  price: any;
+  discount?: number;
+  tag?: string;
+  stock: string;
+  review: number;
+  category: string;
+  rating: any;
+  colors: string[];
+  size: string[];
+  tags: string[];
+  sku: string;
+  qty: any;
 }

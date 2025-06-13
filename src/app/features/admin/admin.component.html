@@ -1,1 +1,29 @@
-<p>admin works!</p>
+page-wrapper Start
+<div
+  class="page-wrapper"
+  [ngClass]="layoutService.config.settings.sidebar_type"
+  id="pageWrapper"
+>
+  <div class="page-header" [class.close_icon]="layoutService.closeSidebar">
+    <app-header></app-header>
+  </div>
+
+  <div class="page-body-wrapper">
+    <div
+      class="sidebar-wrapper"
+      [attr.data-layout]="layoutService.config.settings.icon"
+      [class.close_icon]="layoutService.closeSidebar"
+    >
+      <app-sidebar></app-sidebar>
+    </div>
+
+    <div class="page-body">
+      <app-breadcrumbs></app-breadcrumbs>
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  </div>
+</div>
+
+<app-customizer></app-customizer>
