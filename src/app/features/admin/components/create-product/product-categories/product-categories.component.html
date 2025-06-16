@@ -8,19 +8,20 @@
         </label>
         <select
           class="form-select"
-          aria-label="Select parent category"
-          formControlName="categoryName"
+          aria-label="Select category"
+          formControlName="category"
         >
-          <option selected="">T-shirts</option>
-          <option value="1">Purse</option>
-          <option value="2">Cameras</option>
-          <option value="3">Shoes</option>
-          <option value="4">Handbags</option>
-          <option value="5">Sleepers</option>
-          <option value="6">Watches</option>
+          <option selected="">Select One</option>
+          @for (item of productCategory; track $index) {
+          <option [value]="item.id">{{ item.name }}</option>
+          }
         </select>
-        <div class="invalid-feedback">Please choose a parent category.</div>
+        @if (createCategoryForm.get('category').invalid &&
+        createCategoryForm.get('category').touched) {
+        <div class="invalid-feedback">You must choose a category.</div>
+        } @else {
         <div class="valid-feedback">Looks good!</div>
+        }
       </div>
       <div class="col-auto">
         <div class="category-btn">
@@ -33,7 +34,7 @@
           >
         </div>
       </div>
-      <div class="col-sm-12 common-tagify">
+      <!-- <div class="col-sm-12 common-tagify">
         <label class="form-label">Add Sub Category</label>
         <input
           class="form-control"
@@ -43,7 +44,7 @@
           placeholder="Enter Sub Category"
           required
         />
-      </div>
+      </div> -->
       <div class="col-12 product-buttons">
         <button class="btn" type="button" (click)="previous()">
           <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous

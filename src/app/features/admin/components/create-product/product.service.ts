@@ -1,29 +1,55 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import {
+  IProductCategoriesRes,
+  IProductCategory,
+  IProductCategoryRes,
+} from '../../../../core/models/category';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
   productForm: any;
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private api: ApiService) {
     this.productForm = this.fb.group({
       sku: [''],
       name: [''],
       description: [''],
-      price: this.fb.group({
-        countryCode: [''],
-        amount: [''],
-        currency: [''],
-      }),
+      price: this.fb.array([]),
       category: [''],
       subcategory: [''],
-      image: this.fb.group({
-        url: [''],
-        alt: [''],
-        isPrimary: [''],
-      }),
+      image: this.fb.array([]),
       stock: [''],
     });
+  }
+
+  get prices(): FormArray {
+    return this.productForm.get('prices') as FormArray;
+  }
+
+  get images(): FormArray {
+    return this.productForm.get('image') as FormArray;
+  }
+
+  createProductCategory(category: IProductCategory) {
+    return this.api.post('categories', category);
+  }
+
+  deleteProductCategory(categoryId: string) {
+    return this.api.delete(`categories/${categoryId}`);
+  }
+
+  getProductCategories() {
+    return this.api.get<IProductCategoriesRes>('categories');
+  }
+
+  getProductCategoryById(categoryId: string) {
+    return this.api.get<IProductCategoryRes>(`categories/${categoryId}`);
+  }
+
+  updateProductCategory(categoryId: string, category: IProductCategory) {
+    return this.api.put(`categories/${categoryId}`, category);
   }
 }

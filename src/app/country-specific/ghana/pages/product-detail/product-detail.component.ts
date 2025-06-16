@@ -39,14 +39,13 @@ export class ProductDetailsComponent implements OnInit {
     this.product$ = this.route.paramMap.pipe(
       tap((params) => {
         const productId = params.get('id');
-        
       }),
       switchMap((params) => {
         const productId = params.get('id');
         if (!productId) {
           return of(undefined);
         }
-     
+
         return this.productService.getProduct(productId).pipe(
           tap((product) => console.log('Product fetched:', product)),
           catchError((error) => {
@@ -64,7 +63,6 @@ export class ProductDetailsComponent implements OnInit {
       })
     );
   }
- 
 
   getRelatedProducts(product: Product): void {
     this.relatedProducts$ = this.productService
@@ -120,17 +118,20 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   getOriginalPrice(product: Product): number | undefined {
-    if (product.attributes?.originalPrice) {
-      return product.attributes.originalPrice;
-    }
+    // Uncomment the following lines if you have original price logic
+    // if (product.attributes?.originalPrice) {
+    //   return product.attributes.originalPrice;
+    // }
     return undefined;
   }
 
   isOnSale(product: Product): boolean {
-    return (
-      product.attributes?.badges?.includes('Sale') ||
-      !!product.attributes?.originalPrice
-    );
+    return true; // Placeholder for sale logic
+    // Uncomment the following lines if you have sale logic
+    // (
+    //   product.attributes?.badges?.includes('Sale') ||
+    //   !!product.attributes?.originalPrice
+    // );
   }
 
   isNew(product: Product): boolean {

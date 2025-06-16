@@ -282,7 +282,6 @@ export const products: IProduct[] = [
     description:
       "Lorate Solid Men's Fashion Full Sleeves Latest Jacket for Men With Button Closure Long Sleeve Casual Torn Lycra Denim Jacket.",
     discount_price: 35,
-    price: 50,
     discount: 30,
     stock: 'in_stock',
     review: 250,
@@ -293,6 +292,7 @@ export const products: IProduct[] = [
     tags: ['Diesel', 'Hudson', 'Lee'],
     sku: 'SKU12345',
     qty: Math.floor(Math.random() * 101),
+    price: [],
   },
   {
     id: 2,
@@ -302,7 +302,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 100,
-    price: 200,
+    price: [],
     discount: 50,
     tag: 'Sale',
     stock: 'in_stock',
@@ -323,7 +323,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 100,
-    price: 350,
+    price: [],
     discount: 71.43,
     stock: 'out_of_stock',
     review: 250,
@@ -343,7 +343,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 50,
-    price: 99,
+    price: [],
     discount: 49,
     stock: 'in_stock',
     tag: 'discount',
@@ -364,7 +364,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 840,
-    price: 990,
+    price: [],
     discount: 15.15,
     stock: 'in_stock',
     review: 250,
@@ -384,7 +384,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 150,
-    price: 310,
+    price: [],
     discount: 51.61,
     stock: 'in_stock',
     tag: 'gift',
@@ -405,7 +405,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 50,
-    price: 120,
+    price: [],
     discount: 58.33,
     stock: 'in_stock',
     review: 250,
@@ -425,7 +425,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 150,
-    price: 400,
+    price: [],
     discount: 62.5,
     stock: 'in_stock',
     review: 250,
@@ -445,7 +445,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 350,
-    price: 500,
+    price: [],
     discount: 30,
     stock: 'in_stock',
     review: 250,
@@ -465,7 +465,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 399,
-    price: 699,
+    price: [],
     discount: 42.8,
     stock: 'in_stock',
     review: 250,
@@ -485,7 +485,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 250,
-    price: 350,
+    price: [],
     discount: 28.57,
     stock: 'in_stock',
     review: 250,
@@ -505,7 +505,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 110,
-    price: 350,
+    price: [],
     discount: 68.57,
     stock: 'in_stock',
     review: 250,
@@ -525,7 +525,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 120,
-    price: 200,
+    price: [],
     discount: 40,
     stock: 'in_stock',
     tag: 'heart',
@@ -546,7 +546,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 120,
-    price: 300,
+    price: [],
     discount: 60,
     stock: 'in_stock',
     review: 250,
@@ -566,7 +566,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 300,
-    price: 600,
+    price: [],
     discount: 50,
     stock: 'in_stock',
     tag: 'Hot',
@@ -587,7 +587,7 @@ export const products: IProduct[] = [
     description:
       'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo.',
     discount_price: 99,
-    price: 120,
+    price: [],
     discount: 17.5,
     stock: 'out_of_stock',
     tag: 'none',

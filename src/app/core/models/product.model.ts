@@ -39,19 +39,54 @@ export interface ProductImage {
  * @property {string} updatedAt
  */
 export interface Product {
-  id: string;
+  inStock: boolean;
+  discount: number;
+  reviews: any[];
+  totalQty: number;
+  totalSold: number;
+  _id: string;
   name: string;
   description: string;
   category: string;
-  subcategory?: string;
-  prices: ProductPrice[];
-  images: ProductImage[];
-  attributes: Record<string, any>;
+  subcategory: string;
+  images?: {
+    _id: string;
+    url: string;
+    alt: string;
+    isPrimary: boolean;
+  }[];
+  prices: [
+    {
+      _id: string;
+      countryCode: string;
+      amount: number;
+      currency: string;
+    },
+    {
+      _id: string;
+      countryCode: string;
+      amount: number;
+      currency: string;
+    }
+  ];
+  attributes: {
+    badges: string[];
+    allergens: any[];
+    _id: string;
+    weight: string;
+    ingredients: string;
+    organic: boolean;
+    isNew?: boolean;
+  };
   stock: number;
   sku: string;
   isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
+  __v: number;
+  metadata: any[];
+  qtyLeft: string;
+  totalReviews: number;
+  averageRating: number | string;
+  id: string;
 }
 
 export interface IProducts {
@@ -65,7 +100,7 @@ export interface IProduct {
   sort_description: string;
   description: string;
   discount_price: number;
-  price: any;
+  price: productPrice[];
   discount?: number;
   tag?: string;
   stock: string;
@@ -77,4 +112,10 @@ export interface IProduct {
   tags: string[];
   sku: string;
   qty: any;
+}
+
+export interface productPrice {
+  countryCode: string;
+  amount: number;
+  currency: string;
 }
