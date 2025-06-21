@@ -23,7 +23,7 @@ import { ProductCardComponent } from 'src/app/shared/components/product-card/pro
     FooterComponent,
     NgFor,
     NgIf,
-    NgClass
+    NgClass,
   ],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss',
@@ -33,9 +33,9 @@ export class IndexComponent {
   isLoading = true;
   selectedLayout: 'grid' | 'list' = 'grid';
   selectedColumns = 3;
-  
+
   currentCountry = 'US';
-  
+
   constructor(
     private mockProductService: MockProductService,
     private countryService: CountryService,
@@ -43,61 +43,62 @@ export class IndexComponent {
     private notificationService: NotificationService,
     private wishlistService: WishlistService
   ) {}
-  
+
   ngOnInit(): void {
     this.loadProducts();
-    
+
     // Subscribe to country changes
-    this.countryService.country$.subscribe(country => {
+    this.countryService.country$.subscribe((country) => {
       this.currentCountry = country;
       // No need to reload products since the ProductCard component handles price display by country
     });
   }
-  
+
   loadProducts(): void {
     this.isLoading = true;
     this.mockProductService.getProducts().subscribe(
-      products => {
+      (products) => {
         this.products = products;
         this.isLoading = false;
       },
-      error => {
+      (error) => {
         console.error('Error loading products', error);
         this.notificationService.error('Failed to load products');
         this.isLoading = false;
       }
     );
   }
-  
+
   changeLayout(layout: 'grid' | 'list'): void {
     this.selectedLayout = layout;
   }
-  
+
   changeColumns(columns: number): void {
     this.selectedColumns = columns;
   }
-  
+
   handleAddToCart(product: Product): void {
     // The product card component already adds to cart, but we can show a notification
+    this.cartService.addToCart(product);
     this.notificationService.success(`${product.name} added to cart`);
   }
-  
+
   handleQuickView(product: Product): void {
     // In a real app, this would open a modal with product details
     this.notificationService.info(`Quick view for ${product.name}`);
   }
-  
+
   toggleWishlist(productId: string): void {
     if (this.wishlistService.isInWishlist(productId)) {
       this.wishlistService.removeFromWishlist(productId);
     } else {
-      const product = this.products.find(p => p.id === productId);
+      const product = this.products.find((p) => p.id === productId);
       if (product) {
         this.wishlistService.addToWishlist(product);
       }
     }
   }
-  
+
   refreshData(): void {
     this.loadProducts();
   }
