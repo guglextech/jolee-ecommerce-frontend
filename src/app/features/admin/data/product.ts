@@ -44,26 +44,16 @@ export const additionalOptions = [
     title: 'Inventory',
     value: 'inventory',
   },
-  {
-    id: 2,
-    title: 'SEO Tag',
-    value: 'seo tag',
-  },
-  {
-    id: 3,
-    title: 'Shipping',
-    value: 'shipping',
-  },
-  {
-    id: 4,
-    title: 'Variations',
-    value: 'variations',
-  },
-  {
-    id: 5,
-    title: 'Publish',
-    value: 'publish',
-  },
+  // {
+  //   id: 2,
+  //   title: 'Variations',
+  //   value: 'variations',
+  // },
+  // {
+  //   id: 3,
+  //   title: 'Publish',
+  //   value: 'publish',
+  // },
 ];
 
 export const stockAvailability = [

@@ -47,7 +47,6 @@ export class ProductCategoriesComponent implements OnInit {
   ) {
     this.createCategoryForm = this.fb.group({
       category: ['', Validators.required],
-      subCategory: [''],
     });
   }
 
@@ -91,7 +90,7 @@ export class ProductCategoriesComponent implements OnInit {
     this.changeTab.emit({
       activeTab: this.active,
       formProps: {
-        productCategory: this.createCategoryForm.value,
+        category: this.createCategoryForm.value.category,
       },
     });
   }

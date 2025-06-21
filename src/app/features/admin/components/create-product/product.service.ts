@@ -14,14 +14,17 @@ export class ProductService {
   productForm: any;
   constructor(private fb: FormBuilder, private api: ApiService) {
     this.productForm = this.fb.group({
-      sku: [''],
+      inStock: [''],
       name: [''],
       description: [''],
-      price: this.fb.array([]),
+      price: [[]],
+      discount: [0],
+      images: [[]],
+      reviews: [[]],
       category: [''],
       subcategory: [''],
-      image: this.fb.array([]),
-      stock: [''],
+      totalQty: [0],
+      metadata: [[]],
     });
   }
 

@@ -20,7 +20,7 @@ import {
 })
 export class ProductPriceDiscountComponent {
   @Input() active: number;
-  @Output() changeTab = new EventEmitter<number>();
+  @Output() changeTab = new EventEmitter<any>();
   public discountedPrice: number = 0;
   public discountPercentage: number = 0;
   public priceForm: any;
@@ -37,17 +37,21 @@ export class ProductPriceDiscountComponent {
       this.fb.group({
         countryCode: ['UK'],
         amount: [0],
-        currency: ['$'],
+        discount: [0],
+        currency: ['£'],
       }),
     ]);
 
     this.priceForm.controls.forEach((control: any) => {
       control.valueChanges.subscribe((value: productPrice) => {
-        if (this.discountPercentage > 0) {
+        if (this.discountPercentage && this.discountPercentage > 0) {
           this.getDiscount(value.countryCode);
         }
-        if (this.discountedPrice > 0) {
+        if (this.discountedPrice && this.discountedPrice > 0) {
           this.getDiscountedPrice(value.countryCode);
+        }
+        if (this.discountPercentage && this.discountPercentage === 0) {
+          this.discountedPrice = value.amount;
         }
       });
     });
@@ -87,11 +91,21 @@ export class ProductPriceDiscountComponent {
 
   next() {
     this.active = this.active + 1;
-    this.changeTab.emit(this.active);
+    this.changeTab.emit({
+      activeTab: this.active,
+      formProps: {
+        price: this.prices,
+      },
+    });
   }
 
   previous() {
     this.active = this.active - 1;
-    this.changeTab.emit(this.active);
+    this.changeTab.emit({
+      activeTab: this.active,
+      formProps: {
+        price: this.prices,
+      },
+    });
   }
 }
