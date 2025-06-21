@@ -13,7 +13,7 @@ yarn-error.log
 
 # But include the these two folders
 !node_modules/ng-select2-component/
-!node_modules/ng-select2/**
+!node_modules/ng-select2/
 
 # IDEs and editors
 .idea/
