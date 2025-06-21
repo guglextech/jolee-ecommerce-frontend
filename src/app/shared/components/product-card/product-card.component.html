@@ -3,7 +3,7 @@
   [ngClass]="{ 'product-card-list': layout === 'list' }"
 >
   <div class="product-badges">
-    <span class="badge bg-primary" *ngIf="product.attributes?.isNew">New</span>
+    <!-- <span class="badge bg-primary" *ngIf="product.attributes?.isNew">New</span> -->
     <span class="badge bg-danger" *ngIf="discountPercentage > 0"
       >-{{ discountPercentage }}%</span
     >
@@ -34,11 +34,11 @@
 
   <div class="product-thumb">
     <a [routerLink]="['/products', product.id]">
-      <img
+      <!-- <img
         [src]="product.images[0]?.url || 'assets/images/placeholder.jpg'"
         [alt]="product.name"
         class="product-img"
-      />
+      /> -->
     </a>
     <div class="product-stock">
       <span [ngClass]="getStockClass()">{{ getStockLabel() }}</span>

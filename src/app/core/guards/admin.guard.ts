@@ -1,35 +1,31 @@
 // src/app/core/guards/admin.guard.ts
 import { Injectable } from '@angular/core';
-import { 
-  CanActivate, 
-  ActivatedRouteSnapshot, 
-  RouterStateSnapshot, 
-  Router 
+import {
+  CanActivate,
+  ActivatedRouteSnapshot,
+  RouterStateSnapshot,
+  Router,
 } from '@angular/router';
+import { AuthService } from 'src/app/auth/auth.service';
 import { Observable } from 'rxjs';
-import { AuthService } from '../services/auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AdminGuard implements CanActivate {
-  
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
-  
+  constructor(private authService: AuthService, private router: Router) {}
+
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean> | Promise<boolean> | boolean {
-    if (this.authService.isAuthenticated() && this.authService.isAdmin()) {
+    if (this.authService.getAuthStatus()) {
       return true;
     }
-    
+
     // Not authenticated or not admin, redirect to home
-    this.router.navigate(['/']);
-    
+    this.router.navigate(['/dashboard/login']);
+
     return false;
   }
 }

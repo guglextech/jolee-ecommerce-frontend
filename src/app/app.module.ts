@@ -1,13 +1,30 @@
-import { NgModule } from '@angular/core';
+import { importProvidersFrom, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutes } from './app.routing';
 import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import {
+  HttpClient,
   provideHttpClient,
+  withFetch,
+  withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { provideToastr } from 'ngx-toastr';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { Select2Module } from 'ng-select2-component';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { httpInterceptor } from './core/interceptors/http.interceptor';
+
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,10 +32,29 @@ import {
   imports: [
     BrowserModule,
     FormsModule,
+    AngularEditorModule,
+    Select2Module,
+    NgbTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     AppRoutes,
   ],
-  providers: [provideHttpClient(withInterceptorsFromDi())],
+  providers: [
+    importProvidersFrom(
+      TranslateModule.forRoot({
+        loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient],
+        },
+      }),
+      CalendarModule.forRoot({
+        provide: DateAdapter,
+        useFactory: adapterFactory,
+      })
+    ),
+    provideToastr(),
+    provideHttpClient(withInterceptors([httpInterceptor]), withFetch()),
+  ],
 })
 export class AppModule {}

@@ -1,135 +1,226 @@
 <header class="site-header sticky-top">
-    <div class="topbar bg-primary text-white py-2">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-4 d-none d-lg-block">
-                    <div class="topbar-contact">
-                        <span class="me-3"><i class="bi bi-telephone-fill me-1"></i>{{" +1 (555) 123-4567"}}</span>
-                        <span><i class="bi bi-envelope-fill me-1"></i> {{"info@bakery-grocery.com"}}</span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 text-center">
-                    <div class="topbar-message">
-                        <span> Ship to your location at ease </span>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 d-flex justify-content-end">
-                    <app-country-selector></app-country-selector>
-                </div>
-            </div>
+  <div class="topbar bg-primary text-white py-2">
+    <div class="container">
+      <div
+        class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0"
+      >
+        <app-header-notice></app-header-notice>
+      </div>
+      <div class="row align-items-center">
+        <div class="col-lg-4 d-none d-lg-block">
+          <div class="topbar-contact">
+            <span class="me-3"
+              ><i class="bi bi-telephone-fill me-1"></i
+              >{{ " +1 (555) 123-4567" }}</span
+            >
+            <span
+              ><i class="bi bi-envelope-fill me-1"></i>
+              {{ "info@bakery-grocery.com" }}</span
+            >
+          </div>
         </div>
+        <div class="col-lg-4 col-md-6 text-center">
+          <div class="topbar-message">
+            <span> Ship to your location at ease </span>
+          </div>
+        </div>
+        <div class="col-lg-4 col-md-6 d-flex justify-content-end">
+          <app-country-selector></app-country-selector>
+        </div>
+      </div>
     </div>
+  </div>
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
-        <div class="container">
-            <a class="navbar-brand" routerLink="/">
-                <img src="assets/images/logo.png" alt="Jolee" height="40">
-            </a>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand" routerLink="/">
+        <img src="assets/images/logo.png" alt="Jolee" height="40" />
+      </a>
 
-            <div class="d-flex align-items-center ms-auto order-lg-last">
-                <button class="btn btn-link d-lg-none me-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#searchCollapse" aria-expanded="false">
-                    <i class="bi bi-search fs-5"></i>
-                </button>
+      <div class="d-flex align-items-center ms-auto order-lg-last">
+        <button
+          class="btn btn-link d-lg-none me-2"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#searchCollapse"
+          aria-expanded="false"
+        >
+          <i class="bi bi-search fs-5"></i>
+        </button>
 
+        <a routerLink="/cart" class="btn btn-link position-relative me-2">
+          <i class="bi bi-cart3 fs-5"></i>
+          <span
+            *ngIf="cartItemCount > 0"
+            class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+          >
+            {{ cartItemCount > 99 ? "99+" : cartItemCount }}
+          </span>
+        </a>
 
-                <a routerLink="/cart" class="btn btn-link position-relative me-2">
-                    <i class="bi bi-cart3 fs-5"></i>
-                    <span *ngIf="cartItemCount > 0"
-                        class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ cartItemCount > 99 ? '99+' : cartItemCount }}
-                    </span>
-                </a>
-
-                <!-- User Menu -->
-                <div class="dropdown" *ngIf="isAuthenticated">
-                    <button class="btn btn-link dropdown-toggle" type="button" id="userMenuDropdown"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="bi bi-person-circle fs-5"></i>
-                    </button>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuDropdown">
-                        <li><span class="dropdown-item-text">Hello, {{ userName }}</span></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" routerLink="/account/profile">My Profile</a></li>
-                        <li><a class="dropdown-item" routerLink="/account/orders">My Orders</a></li>
-                        <li><a class="dropdown-item" routerLink="/account/wishlist">Wishlist</a></li>
-                        <li *ngIf="isAdmin"><a class="dropdown-item" routerLink="/admin/dashboard">Admin Dashboard</a>
-                        </li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" (click)="logout()">Logout</a></li>
-                    </ul>
-                </div>
-
-                <!-- Login/Register Buttons -->
-                <div class="d-flex" *ngIf="!isAuthenticated">
-                    <a routerLink="/auth/login" class="btn btn-sm btn-outline-primary me-2">Login</a>
-                    <a routerLink="/auth/register" class="btn btn-sm btn-primary d-none d-sm-inline-block">Register</a>
-                </div>
-
-                <!-- Navbar Toggler (Mobile) -->
-                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
-
-            <!-- Mobile Search Collapse -->
-            <div class="collapse w-100 mt-2 order-lg-last" id="searchCollapse">
-                <form class="d-flex" (ngSubmit)="search()">
-                    <input class="form-control me-2" type="search" placeholder="Search products..."
-                        [(ngModel)]="searchQuery" name="search">
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </form>
-            </div>
-
-            <!-- Navbar Content -->
-            <div class="collapse navbar-collapse" id="navbarContent">
-                <!-- Main Navigation -->
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/" routerLinkActive="active"
-                            [routerLinkActiveOptions]="{exact: true}">Home</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="categoriesDropdown" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Categories
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
-                            <li *ngFor="let category of categories">
-                                <a class="dropdown-item" [routerLink]="category.route">
-                                    <i class="bi" [ngClass]="category.icon"></i> {{ category.name }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/deals" routerLinkActive="active">Deals</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/about" routerLinkActive="active">About Us</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/contact" routerLinkActive="active">Contact</a>
-                    </li>
-                </ul>
-
-                <!-- Desktop Search -->
-                <form class="d-none d-lg-flex" (ngSubmit)="search()">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search products..."
-                            [(ngModel)]="searchQuery" name="search">
-                        <button class="btn btn-outline-primary" type="submit">
-                            <i class="bi bi-search"></i>
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <!-- User Menu -->
+        <div class="dropdown" *ngIf="isAuthenticated">
+          <button
+            class="btn btn-link dropdown-toggle"
+            type="button"
+            id="userMenuDropdown"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i class="bi bi-person-circle fs-5"></i>
+          </button>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="userMenuDropdown"
+          >
+            <li>
+              <span class="dropdown-item-text">Hello, {{ userName }}</span>
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/account/profile"
+                >My Profile</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/account/orders"
+                >My Orders</a
+              >
+            </li>
+            <li>
+              <a class="dropdown-item" routerLink="/account/wishlist"
+                >Wishlist</a
+              >
+            </li>
+            <li *ngIf="isAdmin">
+              <a class="dropdown-item" routerLink="/admin/dashboard"
+                >Admin Dashboard</a
+              >
+            </li>
+            <li>
+              <hr class="dropdown-divider" />
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                href="javascript:void(0)"
+                (click)="logout()"
+                >Logout</a
+              >
+            </li>
+          </ul>
         </div>
-    </nav>
+
+        <!-- Login/Register Buttons -->
+        <div class="d-flex" *ngIf="!isAuthenticated">
+          <a
+            routerLink="/auth/login"
+            class="btn btn-sm btn-outline-primary me-2"
+            >Login</a
+          >
+          <a
+            routerLink="/auth/register"
+            class="btn btn-sm btn-primary d-none d-sm-inline-block"
+            >Register</a
+          >
+        </div>
+
+        <!-- Navbar Toggler (Mobile) -->
+        <button
+          class="navbar-toggler ms-2"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+
+      <!-- Mobile Search Collapse -->
+      <div class="collapse w-100 mt-2 order-lg-last" id="searchCollapse">
+        <form class="d-flex" (ngSubmit)="search()">
+          <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search products..."
+            [(ngModel)]="searchQuery"
+            name="search"
+          />
+          <button class="btn btn-outline-primary" type="submit">Search</button>
+        </form>
+      </div>
+
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <!-- Main Navigation -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a
+              class="nav-link"
+              routerLink="/"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              >Home</a
+            >
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="#"
+              id="categoriesDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              Categories
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+              <li *ngFor="let category of categories">
+                <a class="dropdown-item" [routerLink]="category.route">
+                  <i class="bi" [ngClass]="category.icon"></i>
+                  {{ category.name }}
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/deals" routerLinkActive="active"
+              >Deals</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/about" routerLinkActive="active"
+              >About Us</a
+            >
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/contact" routerLinkActive="active"
+              >Contact</a
+            >
+          </li>
+        </ul>
+
+        <!-- Desktop Search -->
+        <form class="d-none d-lg-flex" (ngSubmit)="search()">
+          <div class="input-group">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search products..."
+              [(ngModel)]="searchQuery"
+              name="search"
+            />
+            <button class="btn btn-outline-primary" type="submit">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </nav>
 </header>

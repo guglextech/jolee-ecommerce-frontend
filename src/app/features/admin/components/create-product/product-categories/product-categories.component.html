@@ -1,0 +1,59 @@
+<div class="tab-content custom-input">
+  <div class="sidebar-body common-form e-category">
+    <form class="row g-3 common-form" [formGroup]="createCategoryForm">
+      <div class="col-md">
+        <label class="form-label"
+          >Parent Category
+          <span class="txt-danger">*</span>
+        </label>
+        <select
+          class="form-select"
+          aria-label="Select category"
+          formControlName="category"
+        >
+          <option selected="">Select One</option>
+          @for (item of productCategory; track $index) {
+          <option [value]="item.id">{{ item.name }}</option>
+          }
+        </select>
+        @if (createCategoryForm.get('category').invalid &&
+        createCategoryForm.get('category').touched) {
+        <div class="invalid-feedback">You must choose a category.</div>
+        } @else {
+        <div class="valid-feedback">Looks good!</div>
+        }
+      </div>
+      <div class="col-auto">
+        <div class="category-btn">
+          <a
+            class="btn button-primary"
+            href="javascript:void(0)"
+            (click)="createCategoryModal()"
+          >
+            <i class="me-2 fa-solid fa-plus"> </i>Create New Category</a
+          >
+        </div>
+      </div>
+      <!-- <div class="col-sm-12 common-tagify">
+        <label class="form-label">Add Sub Category</label>
+        <input
+          class="form-control"
+          id="validationSubCategory"
+          type="text"
+          formControlName="subCategory"
+          placeholder="Enter Sub Category"
+          required
+        />
+      </div> -->
+      <div class="col-12 product-buttons">
+        <button class="btn" type="button" (click)="previous()">
+          <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous
+        </button>
+        <button class="btn" type="button" (click)="next()">
+          Next
+          <app-svg-icon [icon]="'front-arrow'"></app-svg-icon>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
