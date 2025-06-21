@@ -5,26 +5,53 @@ import {
   stockAvailability,
   stockLevel,
 } from 'src/app/features/admin/data/product';
+import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-inventory',
   standalone: true,
-  imports: [Select2Module, SvgIconComponent],
+  imports: [
+    Select2Module,
+    SvgIconComponent,
+    NgbNavModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
   templateUrl: './inventory.component.html',
   styleUrl: './inventory.component.scss',
 })
 export class InventoryComponent {
   @Input() active: number;
   @Input() additionalActiveId: number;
-  @Output() changeTab = new EventEmitter<number>();
+  @Output() changeTab = new EventEmitter<any>();
   @Output() changeTabDetails = new EventEmitter<number>();
+  public stockForm: any;
 
-  public stockAvailability = stockAvailability;
-  public stockLevel = stockLevel;
+  constructor(public fb: FormBuilder) {
+    this.stockForm = this.fb.array([
+      this.fb.group({
+        countryCode: ['GH'],
+        totalQty: [0],
+        inStock: [''],
+      }),
+      this.fb.group({
+        countryCode: ['UK'],
+        totalQty: [0],
+        inStock: [''],
+      }),
+    ]);
+  }
 
   next() {
-    this.additionalActiveId = this.additionalActiveId + 1;
-    this.changeTabDetails.emit(this.additionalActiveId);
+    // this.additionalActiveId = this.additionalActiveId + 1;
+    // this.changeTabDetails.emit(this.additionalActiveId);
+    this.changeTab.emit({
+      activeTab: this.active,
+      formProps: {
+        totalQty: this.stockForm.value.totalQty,
+      },
+    });
   }
 
   previous() {

@@ -18,15 +18,15 @@ export class CategoryFilterComponent {
   public categoryType: Select2Data = [];
 
   constructor() {
-    this.category.filter((category) => {
-      this.parentCategory.push({
-        value: category.category_name,
-        label: category.category_name,
-      });
-      this.categoryType.push({
-        value: category.category_type,
-        label: category.category_type,
-      });
-    });
+    // this.category.filter((category) => {
+    //   this.parentCategory.push({
+    //     value: category.category_name,
+    //     label: category.category_name,
+    //   });
+    //   this.categoryType.push({
+    //     value: category.category_type,
+    //     label: category.category_type,
+    //   });
+    // });
   }
 }

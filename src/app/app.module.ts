@@ -9,6 +9,7 @@ import {
   HttpClient,
   provideHttpClient,
   withFetch,
+  withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -18,6 +19,8 @@ import { provideToastr } from 'ngx-toastr';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { Select2Module } from 'ng-select2-component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { httpInterceptor } from './core/interceptors/http.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,7 +54,7 @@ export function HttpLoaderFactory(http: HttpClient) {
       })
     ),
     provideToastr(),
-    provideHttpClient(withFetch()),
+    provideHttpClient(withInterceptors([httpInterceptor]), withFetch()),
   ],
 })
 export class AppModule {}
