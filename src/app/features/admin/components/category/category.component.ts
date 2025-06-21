@@ -57,11 +57,11 @@ export class CategoryComponent {
   private category(categories: Category[]) {
     return categories.map((category: Category) => {
       const formattedCategory = { ...category };
-      formattedCategory.category_name = `<div class="product-names">
+      formattedCategory.name = `<div class="product-names">
                                 <div class="light-product-box">
                                   <img class="img-fluid" src="${category.image}" alt="t-shirt">
                                 </div>
-                                <p>${category.category_name}</p>
+                                <p>${category.name}</p>
                               </div>`;
 
       formattedCategory.description = `<p class="f-light">${category.description}</p>`;
