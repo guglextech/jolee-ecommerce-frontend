@@ -12,6 +12,7 @@ import { CardComponent } from 'src/app/features/admin/components/sharedComponent
 import { checkoutTabs, orderDetails } from 'src/app/core/data/order';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CountryService } from 'src/app/core/services/country.service';
+import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 
 @Component({
   selector: 'app-checkout',
@@ -24,6 +25,7 @@ import { CountryService } from 'src/app/core/services/country.service';
     ShippingComponent,
     PaymentComponent,
     CompletedComponent,
+    HeaderComponent,
   ],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
