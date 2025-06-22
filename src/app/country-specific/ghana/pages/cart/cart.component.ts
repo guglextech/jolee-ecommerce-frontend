@@ -7,6 +7,7 @@ import { CountryService } from 'src/app/core/services/country.service';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { CheckoutComponent } from '../checkout/checkout.component';
 
 @Component({
   selector: 'app-cart',
@@ -19,6 +20,7 @@ import { NotificationService } from 'src/app/core/services/notification.service'
     FormsModule,
     HeaderComponent,
     FooterComponent,
+    CheckoutComponent,
   ],
 })
 export class CartComponent implements OnInit {

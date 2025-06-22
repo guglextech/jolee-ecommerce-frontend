@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -30,7 +30,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })
-export class CheckoutComponent {
+export class CheckoutComponent implements OnInit {
   public activeTab: number = 1;
   public orderDetails = orderDetails;
   public checkoutTabs = checkoutTabs;
@@ -41,6 +41,10 @@ export class CheckoutComponent {
     public cart: CartService,
     private countryService: CountryService
   ) {}
+
+  ngOnInit(): void {
+    this.calculateTotals();
+  }
 
   handleStep(value: number) {
     if (value == -1) {

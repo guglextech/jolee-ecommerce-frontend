@@ -1,7 +1,7 @@
-<app-header></app-header>
+<!-- <app-header></app-header> -->
 <div class="container">
   <div class="row shipping-form">
-    <div class="col-xl-8">
+    <div class="">
       <app-card
         [cardClass]="'checkout-cart'"
         [cardBodyClass]="'basic-wizard important-validation'"
@@ -60,7 +60,7 @@
         </div>
       </app-card>
     </div>
-    <div class="col-xl-4">
+    <!-- <div class="col-xl-4">
       <app-card
         [headerTitle]="'Order Details'"
         [border]="true"
@@ -74,14 +74,16 @@
               {{ product.name }}
               <span> X {{ product.quantity }} </span>
             </h6>
-            <h6 class="price">${{ subtotal }}</h6>
+            <h6 class="price">
+              ${{ getPrice(product.price) * product.quantity }}
+            </h6>
           </li>
           }
         </ul>
         <ul class="summary-total">
           <li>
             <h6>Subtotal</h6>
-            <h6 class="price">${{ orderDetails.billing_details.sub_total }}</h6>
+            <h6 class="price">${{ subtotal }}</h6>
           </li>
           <li>
             <h6>Shipping</h6>
@@ -99,10 +101,10 @@
           </li>
           <li class="list-total">
             <h6>Total</h6>
-            <h6 class="price">${{ orderDetails.billing_details.total }}</h6>
+            <h6 class="price">${{ subtotal }}</h6>
           </li>
         </ul>
       </app-card>
-    </div>
+    </div> -->
   </div>
 </div>
