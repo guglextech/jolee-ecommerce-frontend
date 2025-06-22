@@ -79,7 +79,6 @@ export class IndexComponent {
 
   handleAddToCart(product: Product): void {
     // The product card component already adds to cart, but we can show a notification
-    this.cartService.addToCart(product);
     this.notificationService.success(`${product.name} added to cart`);
   }
 

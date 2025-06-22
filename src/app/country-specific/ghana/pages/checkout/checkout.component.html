@@ -66,22 +66,14 @@
         [padding]="false"
       >
         <ul class="summery-contain">
-          @for(product of orderDetails.products; track product) {
+          @for(product of cart.getCartItems(); track product) {
           <li>
-            <img
-              class="img-fluid"
-              [src]="product.product_image"
-              [alt]="product.product_name"
-            />
+            <img class="img-fluid" [src]="product.image" [alt]="product.name" />
             <h6>
-              {{ product.product_name }}
+              {{ product.name }}
               <span> X {{ product.quantity }} </span>
             </h6>
-            <h6 class="price">
-              ${{
-                product.discount_price ? product.discount_price : product.price
-              }}
-            </h6>
+            <h6 class="price">${{ subtotal }}</h6>
           </li>
           }
         </ul>

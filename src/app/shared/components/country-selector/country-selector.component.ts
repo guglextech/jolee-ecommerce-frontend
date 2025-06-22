@@ -4,13 +4,7 @@ import {
   CountryService,
   CountryCode,
 } from 'src/app/core/services/country.service';
-
-interface Country {
-  code: CountryCode;
-  name: string;
-  flag: string;
-  currency: string;
-}
+import { Country } from 'src/app/core/models/country';
 
 @Component({
   selector: 'app-country-selector',
@@ -20,25 +14,10 @@ interface Country {
   imports: [CommonModule],
 })
 export class CountrySelectorComponent implements OnInit {
-  countries: Country[] = [
-    {
-      code: 'GH',
-      name: 'Ghana',
-      flag: 'assets/images/flags/gh.svg',
-      currency: 'GHS',
-    },
-    {
-      code: 'US',
-      name: 'United States',
-      flag: 'assets/images/flags/us.svg',
-      currency: 'USD',
-    },
-  ];
-
   currentCountry: CountryCode = 'US';
   isDropdownOpen = false;
 
-  constructor(private countryService: CountryService) {}
+  constructor(public countryService: CountryService) {}
 
   ngOnInit(): void {
     this.countryService.country$.subscribe((countryCode) => {
@@ -63,8 +42,9 @@ export class CountrySelectorComponent implements OnInit {
 
   getCurrentCountry(): Country {
     return (
-      this.countries.find((c) => c.code === this.currentCountry) ||
-      this.countries[1]
+      this.countryService.countries.find(
+        (c) => c.code === this.currentCountry
+      ) || this.countryService.countries[1]
     );
   }
 

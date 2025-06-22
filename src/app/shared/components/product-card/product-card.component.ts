@@ -71,17 +71,9 @@ export class ProductCardComponent {
   addToCart(): void {
     this.isAddingToCart = true;
 
-    this.cartService.addToCart(
-      {
-        id: this.product.id,
-        name: this.product.name,
-        price: this.currentPrice,
-        // images: this.product.images
-      },
-      1
-    );
+    this.cartService.addToCart(this.product, 1);
 
-    this.addToCartClicked.emit(this.product);
+    // this.addToCartClicked.emit(this.product);
 
     // Reset animation after a short delay
     setTimeout(() => {

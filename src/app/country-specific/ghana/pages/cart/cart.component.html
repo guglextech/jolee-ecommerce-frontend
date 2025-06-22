@@ -38,10 +38,7 @@
                     <td class="align-middle">
                       <div class="d-flex align-items-center">
                         <img
-                          [src]="
-                            (item.images && item.images[0]?.url) ||
-                            'assets/images/placeholder.jpg'
-                          "
+                          [src]="item.image || 'assets/images/placeholder.jpg'"
                           [alt]="item.name"
                           class="img-fluid cart-item-image me-3"
                         />
@@ -50,7 +47,7 @@
                         </div>
                       </div>
                     </td>
-                    <td class="align-middle">{{ formatPrice(item.price) }}</td>
+                    <td class="align-middle">{{ getPrice(item.price) }}</td>
                     <td class="align-middle">
                       <div class="quantity-control d-flex align-items-center">
                         <button
@@ -77,12 +74,12 @@
                       </div>
                     </td>
                     <td class="align-middle">
-                      {{ formatPrice(item.price * item.quantity) }}
+                      {{ getPrice(item.price) * item.quantity }}
                     </td>
                     <td class="align-middle text-end">
                       <button
                         class="btn btn-sm btn-outline-danger"
-                        (click)="removeItem(item.id)"
+                        (click)="removeItem(item.productId)"
                       >
                         <i class="bi bi-trash"></i>
                       </button>
@@ -153,27 +150,27 @@
                 <h5 class="card-title mb-3">Order Summary</h5>
                 <div class="d-flex justify-content-between mb-2">
                   <span>Subtotal</span>
-                  <span>{{ formatPrice(subtotal) }}</span>
+                  <span>{{ subtotal }}</span>
                 </div>
                 <div
                   *ngIf="promoDiscount > 0"
                   class="d-flex justify-content-between mb-2 text-success"
                 >
                   <span>Discount</span>
-                  <span>-{{ formatPrice(promoDiscount) }}</span>
+                  <span>-{{ promoDiscount }}</span>
                 </div>
                 <div class="d-flex justify-content-between mb-2">
                   <span>Shipping</span>
-                  <span>{{ formatPrice(shipping) }}</span>
+                  <span>{{ shipping }}</span>
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                   <span>Tax</span>
-                  <span>{{ formatPrice(tax) }}</span>
+                  <span>{{ tax }}</span>
                 </div>
                 <hr />
                 <div class="d-flex justify-content-between mb-3">
                   <span class="fw-bold">Total</span>
-                  <span class="fw-bold">{{ formatPrice(total) }}</span>
+                  <span class="fw-bold">{{ total }}</span>
                 </div>
                 <button
                   routerLink="/checkout"

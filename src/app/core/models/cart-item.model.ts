@@ -7,9 +7,10 @@
  * @property {number} quantity
  */
 export interface CartItem {
-    productId: string;
-    name: string;
-    price: number;
-    image: string;
-    quantity: number;
+  productId: string;
+  name: string;
+  price: number;
+  image: string;
+  quantity: number;
+  available?: number; // Optional field to indicate available stock
 }

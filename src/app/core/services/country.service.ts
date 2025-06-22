@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
+import { Country } from '../models/country';
 
 export type CountryCode = 'GH' | 'US';
 
@@ -25,6 +26,21 @@ export interface CountryConfig {
 export class CountryService {
   private countrySubject = new BehaviorSubject<CountryCode>('US');
   public country$ = this.countrySubject.asObservable();
+
+  countries: Country[] = [
+    {
+      code: 'GH',
+      name: 'Ghana',
+      flag: 'assets/images/flags/gh.svg',
+      currency: 'GHS',
+    },
+    {
+      code: 'US',
+      name: 'United States',
+      flag: 'assets/images/flags/us.svg',
+      currency: 'USD',
+    },
+  ];
 
   private countryConfig: Record<CountryCode, CountryConfig> = {
     GH: {

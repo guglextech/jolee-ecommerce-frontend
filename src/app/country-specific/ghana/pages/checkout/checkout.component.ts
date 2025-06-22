@@ -10,6 +10,8 @@ import { ShippingComponent } from './widgets/shipping/shipping.component';
 // import { checkoutTabs, orderDetails } from '../../shared/data/order';
 import { CardComponent } from 'src/app/features/admin/components/sharedComponents/card/card.component';
 import { checkoutTabs, orderDetails } from 'src/app/core/data/order';
+import { CartService } from 'src/app/core/services/cart.service';
+import { CountryService } from 'src/app/core/services/country.service';
 
 @Component({
   selector: 'app-checkout',
@@ -30,8 +32,13 @@ export class CheckoutComponent {
   public activeTab: number = 1;
   public orderDetails = orderDetails;
   public checkoutTabs = checkoutTabs;
+  subtotal: number;
 
-  constructor(public router: Router) {}
+  constructor(
+    public router: Router,
+    public cart: CartService,
+    private countryService: CountryService
+  ) {}
 
   handleStep(value: number) {
     if (value == -1) {
@@ -39,6 +46,20 @@ export class CheckoutComponent {
     } else if (value == 1 && this.activeTab < this.checkoutTabs.length) {
       this.activeTab = this.activeTab + 1;
     }
+  }
+
+  getPrice(item: any): number {
+    const country = this.countryService.getCurrentCountry();
+    const priceInfo = item?.find((p: any) => p.countryCode === country);
+    return priceInfo ? priceInfo.amount : 0;
+  }
+
+  calculateTotals(): void {
+    // Calculate subtotal
+    this.subtotal = this.cart.getCartItems().reduce((total, item) => {
+      const priceInfo = this.getPrice(item.price);
+      return total + priceInfo * item.quantity;
+    }, 0);
   }
 
   placeOrder() {
