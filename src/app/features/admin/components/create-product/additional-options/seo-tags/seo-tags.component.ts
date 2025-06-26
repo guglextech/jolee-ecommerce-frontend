@@ -3,13 +3,13 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { SvgIconComponent } from '../../../header/svg-icon/svg-icon.component';
 
 @Component({
-  selector: 'app-seo-tags',
+  selector: 'app-badges',
   standalone: true,
   imports: [AngularEditorModule, SvgIconComponent],
   templateUrl: './seo-tags.component.html',
   styleUrl: './seo-tags.component.scss',
 })
-export class SeoTagsComponent {
+export class BadgesComponent {
   @Input() additionalActiveId: number;
   @Output() changeTabDetails = new EventEmitter<number>();
 

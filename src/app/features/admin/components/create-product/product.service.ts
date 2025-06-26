@@ -6,25 +6,35 @@ import {
   IProductCategory,
   IProductCategoryRes,
 } from '../../../../core/models/category';
+import { LocalStorageService } from 'src/app/core/services/localStorage.service';
+import { IProductBrand } from 'src/app/core/models/brand';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProductService {
-  productForm: any;
-  constructor(private fb: FormBuilder, private api: ApiService) {
+  private productForm: any;
+  constructor(
+    private fb: FormBuilder,
+    private api: ApiService,
+    private ls: LocalStorageService
+  ) {
     this.productForm = this.fb.group({
       inStock: [''],
+      isActive: [true],
       name: [''],
       description: [''],
-      price: [[]],
-      discount: [0],
+      prices: [[]],
       images: [[]],
       reviews: [[]],
+      brand: [''],
       category: [''],
+      categoryId: [''],
       subcategory: [''],
-      totalQty: [0],
+      quantity: [{}],
       metadata: [[]],
+      attributes: [{}],
+      averageRating: [0],
     });
   }
 
@@ -34,6 +44,15 @@ export class ProductService {
 
   get images(): FormArray {
     return this.productForm.get('image') as FormArray;
+  }
+
+  updateProductForm(data: any) {
+    this.productForm.patchValue(data);
+    this.persistProduct();
+  }
+
+  getProductForm(): FormGroup {
+    return this.productForm;
   }
 
   createProductCategory(category: IProductCategory) {
@@ -54,5 +73,33 @@ export class ProductService {
 
   updateProductCategory(categoryId: string, category: IProductCategory) {
     return this.api.put(`categories/${categoryId}`, category);
+  }
+
+  getBrands() {
+    return this.api.get<IProductBrand>('brands');
+  }
+
+  createBrand(brand: { name: string; description?: string }) {
+    return this.api.post('brands', brand);
+  }
+
+  createProduct() {
+    return this.api.post('products', this.productForm.value);
+  }
+
+  persistProduct() {
+    this.ls.setItem('product', this.productForm.value);
+  }
+
+  clearProductForm() {
+    this.productForm.reset();
+    this.ls.removeItem('product');
+  }
+
+  restoreProductForm() {
+    const product = this.ls.getItem('product');
+    if (product) {
+      this.productForm.patchValue(product);
+    }
   }
 }

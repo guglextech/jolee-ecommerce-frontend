@@ -6,6 +6,7 @@ import {
 } from '@kolkov/angular-editor';
 import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../../header/svg-icon/svg-icon.component';
+import { ProductService } from '../product.service';
 
 @Component({
   selector: 'app-add-product-details',
@@ -35,7 +36,7 @@ export class AddProductDetailsComponent {
     toolbarHiddenButtons: [['unorderedList'], ['fontSize']],
   };
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private productService: ProductService) {
     this.productDetailsForm = this.fb.group({
       name: [''],
       description: [''],
@@ -44,6 +45,13 @@ export class AddProductDetailsComponent {
 
   ngOnInit() {
     this.active;
+    const form = this.productService.getProductForm();
+    if (form) {
+      this.productDetailsForm.patchValue({
+        name: form.get('name')?.value,
+        description: form.get('description')?.value,
+      });
+    }
   }
 
   next() {

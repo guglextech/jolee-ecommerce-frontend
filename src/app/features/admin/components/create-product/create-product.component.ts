@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { OwlNativeDateTimeModule } from '@danielmoncada/angular-datetime-picker';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
@@ -12,6 +12,7 @@ import { ProductService } from './product.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SvgIconComponent } from '../header/svg-icon/svg-icon.component';
 import { addProduct } from '../../data/product';
+import { LocalStorageService } from 'src/app/core/services/localStorage.service';
 
 @Component({
   selector: 'app-create-product',
@@ -31,14 +32,23 @@ import { addProduct } from '../../data/product';
   templateUrl: './create-product.component.html',
   styleUrl: './create-product.component.scss',
 })
-export class CreateProductComponent {
+export class CreateProductComponent implements OnInit {
   public active = 1;
   public addProduct = addProduct;
 
-  constructor(public productService: ProductService) {}
+  constructor(
+    public productService: ProductService,
+    private ls: LocalStorageService
+  ) {}
   changeTab(data: any) {
     this.active = data.activeTab;
-    this.productService.productForm.patchValue(data.formProps);
-    console.log({ formValue: this.productService.productForm.value });
+    this.productService.updateProductForm(data.formProps);
+    // this.productService.productForm.patchValue(data.formProps);
+    // this.productService.persistProduct();
+    console.log({ formValue: this.productService.getProductForm().value });
+  }
+
+  ngOnInit(): void {
+    if (this.ls.getItem('product')) this.productService.restoreProductForm();
   }
 }

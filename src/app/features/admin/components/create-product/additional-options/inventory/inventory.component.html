@@ -32,14 +32,14 @@
               />
             </div>
             <div class="col-sm-6">
-              <label class="form-label" for="sellingPrice">inStock </label>
+              <label class="form-label" for="sellingPrice">total Sold </label>
               <input
                 class="form-control"
                 id="sellingPrice"
                 type="number"
                 min="0"
-                formControlName="inStock"
-                placeholder="inStock"
+                formControlName="totalSold"
+                placeholder="totalSold"
               />
             </div>
           </div>
@@ -69,14 +69,14 @@
               />
             </div>
             <div class="col-sm-6">
-              <label class="form-label" for="sellingPrice">inStock </label>
+              <label class="form-label" for="sellingPrice">total Sold </label>
               <input
                 class="form-control"
                 id="sellingPrice"
                 type="number"
                 min="0"
-                formControlName="inStock"
-                placeholder="inStock"
+                formControlName="totalSold"
+                placeholder="totalSold"
               />
             </div>
           </div>
@@ -116,8 +116,13 @@
     <button class="btn" type="button" (click)="previous()">
       <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous
     </button>
-    <button class="btn" type="button" (click)="next()">
-      SUbmit
+    <button
+      [disabled]="stockForm.invalid"
+      class="btn"
+      type="button"
+      (click)="next()"
+    >
+      Next
       <app-svg-icon [icon]="'front-arrow'"></app-svg-icon>
     </button>
   </div>

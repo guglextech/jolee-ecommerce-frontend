@@ -37,6 +37,7 @@
                     id="initialCost"
                     formControlName="amount"
                     type="number"
+                    min="0"
                     placeholder="Price"
                   />
                 </div>
@@ -49,16 +50,16 @@
                     id="sellingPrice"
                     type="number"
                     [ngModelOptions]="{ standalone: true }"
-                    [(ngModel)]="discountedPrice"
+                    [(ngModel)]="ghSellingPrice"
                     placeholder="Price"
-                    (ngModelChange)="getDiscount('GH')"
+                    readonly="true"
                   />
                 </div>
               </div>
               <div class="row g-3 mt-4">
                 <div class="col-12">
                   <label class="form-label" for="validationDiscountPrice"
-                    >Discount</label
+                    >Discount %</label
                   >
                   <input
                     class="form-control"
@@ -66,10 +67,8 @@
                     type="number"
                     placeholder="Discount"
                     max="100"
-                    standalone
-                    [ngModelOptions]="{ standalone: true }"
-                    [(ngModel)]="discountPercentage"
-                    (ngModelChange)="getDiscountedPrice('GH')"
+                    min="0"
+                    formControlName="discount"
                   />
                 </div>
               </div>
@@ -94,6 +93,7 @@
                     id="initialCost"
                     formControlName="amount"
                     type="number"
+                    min="0"
                     placeholder="Price"
                   />
                 </div>
@@ -106,26 +106,25 @@
                     id="sellingPrice"
                     type="number"
                     [ngModelOptions]="{ standalone: true }"
-                    [(ngModel)]="discountedPrice"
-                    (ngModelChange)="getDiscount('UK')"
+                    [(ngModel)]="ukSellingPrice"
                     placeholder="Price"
+                    readonly="true"
                   />
                 </div>
               </div>
               <div class="row g-3 mt-4">
                 <div class="col-12">
                   <label class="form-label" for="validationDiscountPrice"
-                    >Discount Price</label
+                    >Discount %</label
                   >
                   <input
                     class="form-control"
                     id="validationDiscountPrice"
                     type="number"
-                    [ngModelOptions]="{ standalone: true }"
-                    [(ngModel)]="priceDiscount"
-                    (ngModelChange)="getDiscountedPrice('UK')"
-                    placeholder="Discount"
+                    formControlName="discount"
                     max="100"
+                    min="0"
+                    placeholder="Discount"
                   />
                 </div>
               </div>

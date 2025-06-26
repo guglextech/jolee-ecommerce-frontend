@@ -117,5 +117,6 @@ export interface IProduct {
 export interface productPrice {
   countryCode: string;
   amount: number;
+  discount?: number;
   currency: string;
 }

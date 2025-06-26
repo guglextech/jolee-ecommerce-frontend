@@ -1,4 +1,4 @@
-import { Select2Data } from 'ng-select2-component';
+// import { Select2Data } from 'ng-select2-component';
 // import { User, Users, Notification, Role, Module } from "../user";
 import { Tabs } from '../models/common';
 import { User, Users, Notification, Role, Module } from '../models/user';
@@ -336,7 +336,7 @@ export const notifications: Notification[] = [
   },
 ];
 
-export const languages: Select2Data = [
+export const languages: any = [
   {
     value: 'english',
     label: 'English',

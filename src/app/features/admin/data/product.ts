@@ -44,16 +44,11 @@ export const additionalOptions = [
     title: 'Inventory',
     value: 'inventory',
   },
-  // {
-  //   id: 2,
-  //   title: 'Variations',
-  //   value: 'variations',
-  // },
-  // {
-  //   id: 3,
-  //   title: 'Publish',
-  //   value: 'publish',
-  // },
+  {
+    id: 2,
+    title: 'Attributes',
+    value: 'allergens',
+  },
 ];
 
 export const stockAvailability = [

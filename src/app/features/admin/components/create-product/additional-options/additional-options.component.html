@@ -21,26 +21,13 @@
               [active]="active"
               [additionalActiveId]="additionalActiveId"
             ></app-inventory>
-            }
-            <!-- @if(item.value == 'seo tag'){
-                    <app-seo-tags (changeTabDetails)="changeTabDetails($event)" [additionalActiveId]="additionalActiveId"></app-seo-tags>
-                  } -->
-            <!-- @if(item.value == 'shipping'){
-            <app-shipping
+            } @if(item.value == 'allergens'){
+            <app-allergens
               (changeTabDetails)="changeTabDetails($event)"
+              [active]="active"
+              (changeTab)="handleChangeTab($event)"
               [additionalActiveId]="additionalActiveId"
-            ></app-shipping>
-            } -->
-            @if(item.value == 'variations'){
-            <app-variations
-              (changeTabDetails)="changeTabDetails($event)"
-              [additionalActiveId]="additionalActiveId"
-            ></app-variations>
-            } @if(item.value == 'publish'){
-            <app-publish
-              (changeTabDetails)="changeTabDetails($event)"
-              [additionalActiveId]="additionalActiveId"
-            ></app-publish>
+            ></app-allergens>
             }
           </div>
         </ng-template>

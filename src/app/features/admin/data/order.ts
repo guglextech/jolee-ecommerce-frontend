@@ -1,8 +1,8 @@
-import { Select2Data } from 'ng-select2-component';
+// import { Select2Data } from 'ng-select2-component';
 import { Tabs } from 'src/app/core/models/common';
 import { Order, OrderDetails } from 'src/app/core/models/order';
 
-export const paymentStatus: Select2Data = [
+export const paymentStatus: any = [
   {
     value: 'Completed',
     label: 'Completed',
@@ -17,7 +17,7 @@ export const paymentStatus: Select2Data = [
   },
 ];
 
-export const paymentMethod: Select2Data = [
+export const paymentMethod: any = [
   {
     value: 'Paypal',
     label: 'Paypal',

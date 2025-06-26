@@ -16,7 +16,9 @@ export class HeaderLogoComponent {
   @Input() icon: string;
   @Input() type: string;
 
-  constructor(public layoutService: LayoutService) {}
+  constructor(public layoutService: LayoutService) {
+    console.log(this.icon);
+  }
 
   toggleSidebar() {
     this.layoutService.closeSidebar = !this.layoutService.closeSidebar;

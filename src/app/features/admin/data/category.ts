@@ -1,4 +1,4 @@
-import { Select2Data } from 'ng-select2-component';
+// import { Select2Data } from 'ng-select2-component';
 import { Category } from 'src/app/core/models/category';
 
 export const category: Category[] = [
@@ -60,7 +60,7 @@ export const category: Category[] = [
   },
 ];
 
-export const categoryStatus: Select2Data = [
+export const categoryStatus: any = [
   {
     value: 1,
     label: 'Active',

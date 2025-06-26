@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Select2Module } from 'ng-select2-component';
+// import { Select2Module } from 'ng-select2-component';
 import { SvgIconComponent } from '../../../header/svg-icon/svg-icon.component';
 import { shippingClass } from 'src/app/features/admin/data/product';
 
 @Component({
   selector: 'app-shipping',
   standalone: true,
-  imports: [Select2Module, SvgIconComponent],
+  imports: [SvgIconComponent],
   templateUrl: './shipping.component.html',
   styleUrl: './shipping.component.scss',
 })

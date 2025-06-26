@@ -7,11 +7,14 @@
       </p>
       <form class="dropzone dropzone-secondary">
         <dropzone
+          #dropzoneRef
           class="dropzone-container flex"
           [config]="config"
           [message]="text"
           (addedFile)="onFileAdded($event)"
           (removedFile)="onFileRemoved($event)"
+          (error)="onUploadError($event)"
+          (complete)="onUploadComplete($event)"
         >
         </dropzone>
       </form>

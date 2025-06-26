@@ -1,6 +1,6 @@
-import { Select2Data } from 'ng-select2-component';
+// import { Select2Data } from 'ng-select2-component';
 
-export const country: Select2Data = [
+export const country: any = [
   {
     value: 'Africa',
     label: 'Africa',

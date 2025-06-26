@@ -11,7 +11,7 @@ import { profile } from '../../../data/header';
   styleUrl: './profile.component.scss',
 })
 export class ProfileComponent {
-  public profile = profile;
+  // public profile = profile;
 
   constructor(private router: Router) {}
 

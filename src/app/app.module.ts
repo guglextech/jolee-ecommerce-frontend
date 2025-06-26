@@ -17,7 +17,7 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { provideToastr } from 'ngx-toastr';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-import { Select2Module } from 'ng-select2-component';
+// import { Select2Module } from 'ng-select2-component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { httpInterceptor } from './core/interceptors/http.interceptor';
@@ -33,7 +33,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     BrowserModule,
     FormsModule,
     AngularEditorModule,
-    Select2Module,
+    // Select2Module,
     NgbTooltipModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
