@@ -36,10 +36,10 @@ export class ProductPriceDiscountComponent implements OnInit {
         currency: ['GHC'],
       }),
       this.fb.group({
-        countryCode: ['UK'],
+        countryCode: ['US'],
         amount: [0],
         discount: [0],
-        currency: ['£'],
+        currency: ['$'],
       }),
     ]);
 

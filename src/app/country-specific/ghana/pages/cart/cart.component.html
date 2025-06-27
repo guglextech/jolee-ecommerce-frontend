@@ -68,8 +68,10 @@
                           class="form-control mx-2"
                           min="1"
                           max="99"
-                          [(ngModel)]="item.quantity"
-                          (change)="updateQuantity(item.id, item.quantity)"
+                          [(ngModel)]="item.cartQty"
+                          (change)="
+                            updateQuantity(item.productId, item.cartQty)
+                          "
                         />
                         <button
                           class="btn btn-sm btn-outline-secondary"
@@ -82,8 +84,8 @@
                     <td class="align-middle">
                       {{
                         countryService.formatPrice(
-                          item.price[countryPrice].amount
-                        ) * item.quantity
+                          item.price[countryPrice].amount * item.cartQty
+                        )
                       }}
                     </td>
                     <td class="align-middle text-end">
@@ -187,9 +189,9 @@
                   }}</span>
                 </div>
                 <button
-                  [disabled]="true"
+                  [disabled]="total > 0 ? false : true"
                   [class]="
-                    disabled
+                    total > 0
                       ? 'btn btn-primary w-100'
                       : 'btn btn-secondary w-100'
                   "

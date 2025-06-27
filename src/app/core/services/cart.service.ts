@@ -93,7 +93,8 @@ export class CartService {
         name: product.name,
         price: product.prices,
         image: product.images[0]?.url || '',
-        quantity: quantity,
+        quantity: product.quantity,
+        cartQty: quantity,
         available: product.totalQty - product.totalSold,
       };
       this.cartItemsSubject.next([...currentCart, newItem]);
@@ -115,7 +116,7 @@ export class CartService {
 
     if (itemIndex !== -1) {
       const updatedCart = [...currentCart];
-      updatedCart[itemIndex].quantity = quantity;
+      updatedCart[itemIndex].cartQty = quantity;
       this.cartItemsSubject.next(updatedCart);
       this.saveCart();
     }
@@ -171,21 +172,21 @@ export class CartService {
     });
   }
 
-  checkout(shippingDetails: any, paymentDetails: any): Observable<any> {
+  checkout(shippingDetails: any, paymentDetails: any) {
     const country = this.countryService.getCurrentCountry();
-
-    return this.http
-      .post(`${environment.API_URL}/orders`, {
-        items: this.cartItemsSubject.value,
-        shippingDetails,
-        paymentDetails,
-        country,
-      })
-      .pipe(
-        map((response) => {
-          this.clearCart();
-          return response;
-        })
-      );
+    console.log({
+      shippingDetails,
+      paymentDetails,
+    });
+    return this.http.post(
+      `${environment.API_URL}/payment/create-invoice`,
+      paymentDetails
+    );
+    // .pipe(
+    //   map((response) => {
+    //     this.clearCart();
+    //     return response;
+    //   })
+    // );
   }
 }

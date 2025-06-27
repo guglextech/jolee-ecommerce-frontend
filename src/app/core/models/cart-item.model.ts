@@ -12,5 +12,6 @@ export interface CartItem {
   price: number;
   image: string;
   quantity: number;
+  cartQty?: number; // Quantity in the cart
   available?: number; // Optional field to indicate available stock
 }

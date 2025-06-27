@@ -59,6 +59,7 @@ export class LoginComponent {
             this.authService.setProperty('isAuthenticated', true);
             // Store token or user data as needed
             this.localStorage.setItem('token', response.token);
+            this.localStorage.setItem('shipping', response.shippingAddress);
             this.authService.setProperty('user', response.user);
             this.router.navigate(['/dashboard/home']);
           }

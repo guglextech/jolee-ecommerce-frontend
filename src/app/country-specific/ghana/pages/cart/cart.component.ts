@@ -8,6 +8,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CheckoutComponent } from '../checkout/checkout.component';
+import { LocalStorageService } from 'src/app/core/services/localStorage.service';
 
 @Component({
   selector: 'app-cart',
@@ -34,11 +35,13 @@ export class CartComponent implements OnInit {
   promoDiscount: number = 0;
   promoApplied: boolean = false;
   countryPrice: number = 0;
+  selectedCountry: string = 'GH'; // Default to Ghana
 
   constructor(
     private cartService: CartService,
-    private countryService: CountryService,
-    private notificationService: NotificationService
+    public countryService: CountryService,
+    private notificationService: NotificationService,
+    private localStorage: LocalStorageService
   ) {}
 
   ngOnInit(): void {
@@ -54,8 +57,10 @@ export class CartComponent implements OnInit {
       this.calculateTotals();
       if (data === 'GH') {
         this.countryPrice = 0; // Ghana price index
+        this.selectedCountry = 'GH';
       } else if (data === 'US') {
         this.countryPrice = 1; // US price index
+        this.selectedCountry = 'US';
       }
     });
   }
@@ -83,7 +88,7 @@ export class CartComponent implements OnInit {
     // Calculate subtotal
     this.subtotal = this.cartItems.reduce((total, item) => {
       const priceInfo = this.getPrice(item.price);
-      return total + priceInfo * item.quantity;
+      return total + priceInfo * item.cartQty;
     }, 0);
 
     // Calculate shipping (could be more complex based on country, weight, etc.)
@@ -101,10 +106,10 @@ export class CartComponent implements OnInit {
   }
 
   updateQuantity(itemId: string, newQuantity: number): void {
+    console.log('Updating quantity for item:', itemId, 'to', newQuantity);
     if (newQuantity < 1) {
       return;
     }
-
     this.isUpdating = true;
     this.cartService.updateQuantity(itemId, newQuantity);
     this.loadCart();
@@ -163,6 +168,25 @@ export class CartComponent implements OnInit {
   checkout(): void {
     // In a real app, this would navigate to checkout page or process
     this.notificationService.info('Proceeding to checkout...');
+    const paymentDetails = {
+      totalAmount: 0.01,
+      description: 'Jolee Bakery Order',
+    };
+    const shippingDetails = this.localStorage.getItem('shipping');
+
+    this.cartService.checkout(shippingDetails, paymentDetails).subscribe({
+      next: (response: any) => {
+        if (response.checkoutDirectUrl) {
+          // Redirect to payment gateway
+          window.location.href = response.checkoutDirectUrl;
+        }
+      },
+      error: (error) => {
+        console.error('Checkout error:', error);
+        this.notificationService.error('Checkout failed. Please try again.');
+      },
+    });
+
     // this.router.navigate(['/checkout']);
   }
 
@@ -173,14 +197,19 @@ export class CartComponent implements OnInit {
 
   // Helper method to increment quantity
   incrementQuantity(item: any): void {
-    if (item.quantity > item.available) return;
-    this.updateQuantity(item.productId, item.quantity + 1);
+    console.log(item.quantity);
+    if (
+      item.quantity[this.selectedCountry].totalQty <
+      item.quantity[this.selectedCountry].totalSold
+    )
+      return;
+    this.updateQuantity(item.productId, item.cartQty + 1);
   }
 
   // Helper method to decrement quantity
   decrementQuantity(item: any): void {
-    if (item.quantity > 1) {
-      this.updateQuantity(item.productId, item.quantity - 1);
+    if (item.cartQty > 1) {
+      this.updateQuantity(item.productId, item.cartQty - 1);
     }
   }
 }
