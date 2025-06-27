@@ -70,7 +70,7 @@ export class ProductDetailsComponent implements OnInit {
       .pipe(
         map((products) => {
           const related = products
-            .filter((p) => p.id !== product.id)
+            .filter((p) => p._id !== product._id)
             .slice(0, 4);
           return related;
         })
@@ -106,15 +106,15 @@ export class ProductDetailsComponent implements OnInit {
     if (!product.images || product.images.length === 0) {
       return 'assets/images/placeholder.jpg';
     }
-    const primaryImage = product.images.find((img) => img.isPrimary);
-    return primaryImage ? primaryImage.url : product.images[0].url;
+    const primaryImage = product.images[0];
+    return primaryImage;
   }
 
   getProductImages(product: Product): string[] {
     if (!product.images || product.images.length === 0) {
       return ['assets/images/placeholder.jpg'];
     }
-    return product.images.map((img) => img.url);
+    return product.images;
   }
 
   getOriginalPrice(product: Product): number | undefined {
@@ -135,8 +135,15 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   isNew(product: Product): boolean {
-    return (
-      product.attributes?.badges?.includes('New') || !!product.attributes?.isNew
-    );
+    return product.attributes?.badges?.find(
+      (item) => item.display.toLowerCase() === 'new'
+    )
+      ? true
+      : false ||
+        !!product.attributes?.badges.find(
+          (item) => item.display.toLowerCase() === 'isnew'
+        )
+      ? true
+      : false || false;
   }
 }

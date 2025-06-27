@@ -33,12 +33,12 @@
   </div>
 
   <div class="product-thumb">
-    <a [routerLink]="['/products', product.id]">
-      <!-- <img
-        [src]="product.images[0]?.url || 'assets/images/placeholder.jpg'"
+    <a [routerLink]="['/products', product._id]">
+      <img
+        [src]="product.images[0] || 'assets/images/placeholder.jpg'"
         [alt]="product.name"
         class="product-img"
-      /> -->
+      />
     </a>
     <div class="product-stock">
       <span [ngClass]="getStockClass()">{{ getStockLabel() }}</span>
@@ -46,9 +46,9 @@
   </div>
 
   <div class="product-content">
-    <div class="product-category">{{ product.category }}</div>
+    <div class="product-category">{{ product.categoryId }}</div>
     <h3 class="product-title">
-      <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
+      <a [routerLink]="['/products', product._id]">{{ product.name }}</a>
     </h3>
 
     <div class="product-price">
@@ -69,13 +69,19 @@
       <button
         type="button"
         class="btn btn-primary btn-add-to-cart w-100"
-        [disabled]="!product.stock || product.stock <= 0"
+        [disabled]="
+          product.quantity.GH.totalQty === product.quantity.GH.totalSold
+        "
         [ngClass]="{ 'is-adding': isAddingToCart }"
         (click)="addToCart()"
       >
         <span class="btn-text">
           <i class="bi bi-cart-plus me-1"></i>
-          {{ product.stock > 0 ? "Add to Cart" : "Out of Stock" }}
+          {{
+            product.quantity.GH.totalQty > product.quantity.GH.totalSold
+              ? "Add to Cart"
+              : "Out of Stock"
+          }}
         </span>
         <span class="btn-added"><i class="bi bi-check-lg me-1"></i> Added</span>
         <span

@@ -10,12 +10,12 @@ import { CountryService } from './country.service';
 import { NotificationService } from './notification.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class WishlistService {
   private wishlistItemsSubject = new BehaviorSubject<Product[]>([]);
   public wishlist$ = this.wishlistItemsSubject.asObservable();
-  
+
   constructor(
     private http: HttpClient,
     private authService: AuthService,
@@ -23,14 +23,14 @@ export class WishlistService {
     private notificationService: NotificationService
   ) {
     this.loadWishlist();
-    
+
     // Reload wishlist when country changes
     this.countryService.country$.subscribe(() => {
       this.loadWishlist();
     });
-    
+
     // Reload wishlist when user authentication changes
-    this.authService.currentUser$.subscribe(user => {
+    this.authService.currentUser$.subscribe((user) => {
       if (user) {
         this.syncWishlistWithServer();
       } else {
@@ -38,7 +38,7 @@ export class WishlistService {
       }
     });
   }
-  
+
   private loadWishlist(): void {
     if (this.authService.isAuthenticated()) {
       this.syncWishlistWithServer();
@@ -46,12 +46,12 @@ export class WishlistService {
       this.loadLocalWishlist();
     }
   }
-  
+
   private loadLocalWishlist(): void {
     const country = this.countryService.getCurrentCountry();
     const wishlistKey = `wishlist_${country}`;
     const storedWishlist = localStorage.getItem(wishlistKey);
-    
+
     if (storedWishlist) {
       try {
         const wishlistItems: Product[] = JSON.parse(storedWishlist);
@@ -64,52 +64,61 @@ export class WishlistService {
       this.wishlistItemsSubject.next([]);
     }
   }
-  
+
   private saveLocalWishlist(): void {
     const country = this.countryService.getCurrentCountry();
     const wishlistKey = `wishlist_${country}`;
-    localStorage.setItem(wishlistKey, JSON.stringify(this.wishlistItemsSubject.value));
+    localStorage.setItem(
+      wishlistKey,
+      JSON.stringify(this.wishlistItemsSubject.value)
+    );
   }
-  
+
   private syncWishlistWithServer(): void {
     const country = this.countryService.getCurrentCountry();
-    
-    this.http.get<{ items: Product[] }>(`${environment.API_URL}/wishlist?country=${country}`)
+
+    this.http
+      .get<{ items: Product[] }>(
+        `${environment.API_URL}/wishlist?country=${country}`
+      )
       .pipe(
-        map(response => response.items),
+        map((response) => response.items),
         catchError(() => {
           // If API fails, fall back to local storage
           this.loadLocalWishlist();
           return of([]);
         })
       )
-      .subscribe(items => {
+      .subscribe((items) => {
         this.wishlistItemsSubject.next(items);
       });
   }
-  
+
   addToWishlist(product: Product): void {
     const currentItems = this.wishlistItemsSubject.value;
-    
+
     // Check if product is already in wishlist
-    if (this.isInWishlist(product.id)) {
+    if (this.isInWishlist(product._id)) {
       this.notificationService.info('Product is already in your wishlist');
       return;
     }
-    
+
     // Add to local state
     this.wishlistItemsSubject.next([...currentItems, product]);
-    
+
     // Save to local storage (as backup)
     this.saveLocalWishlist();
-    
+
     // If user is logged in, sync with server
     if (this.authService.isAuthenticated()) {
-      this.http.post(`${environment.API_URL}/wishlist/add`, { productId: product.id })
+      this.http
+        .post(`${environment.API_URL}/wishlist/add`, { productId: product._id })
         .pipe(
-          catchError(error => {
+          catchError((error) => {
             // If API call fails, we keep the item in local state
-            this.notificationService.error('Failed to sync wishlist with server');
+            this.notificationService.error(
+              'Failed to sync wishlist with server'
+            );
             return of(null);
           })
         )
@@ -120,24 +129,27 @@ export class WishlistService {
       this.notificationService.success('Product added to wishlist');
     }
   }
-  
+
   removeFromWishlist(productId: string): void {
     const currentItems = this.wishlistItemsSubject.value;
-    const updatedItems = currentItems.filter(item => item.id !== productId);
-    
+    const updatedItems = currentItems.filter((item) => item._id !== productId);
+
     // Update local state
     this.wishlistItemsSubject.next(updatedItems);
-    
+
     // Save to local storage (as backup)
     this.saveLocalWishlist();
-    
+
     // If user is logged in, sync with server
     if (this.authService.isAuthenticated()) {
-      this.http.post(`${environment.API_URL}/wishlist/remove`, { productId })
+      this.http
+        .post(`${environment.API_URL}/wishlist/remove`, { productId })
         .pipe(
-          catchError(error => {
+          catchError((error) => {
             // If API call fails, we still remove from local state
-            this.notificationService.error('Failed to sync wishlist with server');
+            this.notificationService.error(
+              'Failed to sync wishlist with server'
+            );
             return of(null);
           })
         )
@@ -148,22 +160,25 @@ export class WishlistService {
       this.notificationService.success('Product removed from wishlist');
     }
   }
-  
+
   clearWishlist(): void {
     // Update local state
     this.wishlistItemsSubject.next([]);
-    
+
     // Clear from local storage
     const country = this.countryService.getCurrentCountry();
     const wishlistKey = `wishlist_${country}`;
     localStorage.removeItem(wishlistKey);
-    
+
     // If user is logged in, sync with server
     if (this.authService.isAuthenticated()) {
-      this.http.post(`${environment.API_URL}/wishlist/clear`, {})
+      this.http
+        .post(`${environment.API_URL}/wishlist/clear`, {})
         .pipe(
-          catchError(error => {
-            this.notificationService.error('Failed to sync wishlist with server');
+          catchError((error) => {
+            this.notificationService.error(
+              'Failed to sync wishlist with server'
+            );
             return of(null);
           })
         )
@@ -174,34 +189,40 @@ export class WishlistService {
       this.notificationService.success('Wishlist cleared');
     }
   }
-  
+
   isInWishlist(productId: string): boolean {
-    return this.wishlistItemsSubject.value.some(item => item.id === productId);
+    return this.wishlistItemsSubject.value.some(
+      (item) => item._id === productId
+    );
   }
-  
+
   getWishlistItemCount(): number {
     return this.wishlistItemsSubject.value.length;
   }
-  
+
   moveAllToCart(): Observable<boolean> {
     const items = this.wishlistItemsSubject.value;
-    
+
     if (items.length === 0) {
       return of(false);
     }
-    
+
     // If logged in, use API
     if (this.authService.isAuthenticated()) {
-      return this.http.post<{success: boolean}>(`${environment.API_URL}/wishlist/move-to-cart`, {})
+      return this.http
+        .post<{ success: boolean }>(
+          `${environment.API_URL}/wishlist/move-to-cart`,
+          {}
+        )
         .pipe(
-          map(response => response.success),
-          tap(success => {
+          map((response) => response.success),
+          tap((success) => {
             if (success) {
               this.clearWishlist();
               this.notificationService.success('All items moved to cart');
             }
           }),
-          catchError(error => {
+          catchError((error) => {
             this.notificationService.error('Failed to move items to cart');
             return of(false);
           })

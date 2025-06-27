@@ -65,7 +65,7 @@ export class ProductCardComponent {
   }
 
   private checkIfInWishlist(): void {
-    this.isFavorite = this.wishlistService.isInWishlist(this.product?.id);
+    this.isFavorite = this.wishlistService.isInWishlist(this.product?._id);
   }
 
   addToCart(): void {
@@ -87,7 +87,7 @@ export class ProductCardComponent {
 
   toggleWishlist(): void {
     if (this.isFavorite) {
-      this.wishlistService.removeFromWishlist(this.product.id);
+      this.wishlistService.removeFromWishlist(this.product._id);
     } else {
       this.wishlistService.addToWishlist(this.product);
     }
@@ -95,20 +95,25 @@ export class ProductCardComponent {
   }
 
   getStockLabel(): string {
-    if (!this.product.stock || this.product.stock <= 0) {
+    if (this.product.quantity.GH.totalQty === 0) {
       return 'Out of Stock';
     }
-    if (this.product.stock < 5) {
+    if (this.product.quantity.GH.totalQty < 5) {
       return 'Low Stock';
     }
     return 'In Stock';
   }
 
   getStockClass(): string {
-    if (!this.product.stock || this.product.stock <= 0) {
+    if (
+      this.product.quantity.GH.totalQty >= this.product.quantity.GH.totalSold
+    ) {
       return 'badge bg-danger';
     }
-    if (this.product.stock < 5) {
+    if (
+      this.product.quantity.GH.totalQty - this.product.quantity.GH.totalSold <
+      5
+    ) {
       return 'badge bg-warning text-dark';
     }
     return 'badge bg-success';

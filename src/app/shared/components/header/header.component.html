@@ -4,7 +4,7 @@
       <div
         class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0"
       >
-        <app-header-notice></app-header-notice>
+        <!-- <app-header-notice></app-header-notice> -->
       </div>
       <div class="row align-items-center">
         <div class="col-lg-4 d-none d-lg-block">
@@ -116,12 +116,12 @@
         <!-- Login/Register Buttons -->
         <div class="d-flex" *ngIf="!isAuthenticated">
           <a
-            routerLink="/auth/login"
+            routerLink="/dashboard/login"
             class="btn btn-sm btn-outline-primary me-2"
             >Login</a
           >
           <a
-            routerLink="/auth/register"
+            routerLink="/dashboard/register"
             class="btn btn-sm btn-primary d-none d-sm-inline-block"
             >Register</a
           >

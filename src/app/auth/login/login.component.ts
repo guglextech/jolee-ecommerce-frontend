@@ -25,6 +25,8 @@ export class LoginComponent {
   public validate: boolean = false;
   public isLoading: boolean = false;
 
+  public loginType: string = 'login';
+
   constructor(
     public router: Router,
     private toast: ToastrService,
@@ -77,5 +79,9 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  updateLoginType(type: string) {
+    this.loginType = type;
   }
 }

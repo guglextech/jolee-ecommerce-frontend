@@ -5,6 +5,7 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { CountryService } from 'src/app/core/services/country.service';
 import { MockProductService } from 'src/app/core/services/mockproduct.service';
 import { NotificationService } from 'src/app/core/services/notification.service';
+import { ProductService } from 'src/app/core/services/product.service';
 import { WishlistService } from 'src/app/core/services/wishlist.service';
 import { FooterComponent } from 'src/app/shared/components/footer/footer.component';
 import { HeaderComponent } from 'src/app/shared/components/header/header.component';
@@ -37,7 +38,7 @@ export class IndexComponent {
   currentCountry = 'US';
 
   constructor(
-    private mockProductService: MockProductService,
+    private mockProductService: ProductService,
     private countryService: CountryService,
     private cartService: CartService,
     private notificationService: NotificationService,
@@ -57,8 +58,9 @@ export class IndexComponent {
   loadProducts(): void {
     this.isLoading = true;
     this.mockProductService.getProducts().subscribe(
-      (products) => {
-        this.products = products;
+      (products: any) => {
+        this.products = products.products;
+        console.log(products);
         this.isLoading = false;
       },
       (error) => {
@@ -91,7 +93,7 @@ export class IndexComponent {
     if (this.wishlistService.isInWishlist(productId)) {
       this.wishlistService.removeFromWishlist(productId);
     } else {
-      const product = this.products.find((p) => p.id === productId);
+      const product = this.products.find((p) => p._id === productId);
       if (product) {
         this.wishlistService.addToWishlist(product);
       }
