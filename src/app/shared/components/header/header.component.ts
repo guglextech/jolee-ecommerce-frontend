@@ -44,14 +44,14 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartSummary$.subscribe((summary) => {
       this.cartItemCount = summary.itemCount;
     });
-    this.productService.getProductCategories().subscribe((categories) => {
-      console.log({ categories });
-      this.categories = categories?.categories?.map((category) => ({
-        // route: `/products/category/${category}`,
-        icon: 'bi-box-seam',
-        ...category,
-      }));
-    });
+    // this.productService.getProductCategories().subscribe((categories) => {
+    //   console.log({ categories });
+    //   this.categories = categories?.categories?.map((category) => ({
+    //     // route: `/products/category/${category}`,
+    //     icon: 'bi-box-seam',
+    //     ...category,
+    //   }));
+    // });
     this.authService.currentUser$.subscribe((user) => {
       this.isAuthenticated = !!user;
       this.isAdmin = user?.role === 'admin';
