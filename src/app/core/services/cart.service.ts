@@ -87,12 +87,11 @@ export class CartService {
       // this.cartItemsSubject.next(updatedCart);
     } else {
       // Add new item
-      // console.log({ product });
       const newItem: CartItem = {
         productId: product.id,
         name: product.name,
         price: product.prices,
-        image: product.images[0]?.url || '',
+        image: product.images[0] || '',
         quantity: product.quantity,
         cartQty: quantity,
         available: product.totalQty - product.totalSold,
