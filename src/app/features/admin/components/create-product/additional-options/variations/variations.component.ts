@@ -31,6 +31,7 @@ export class AllergensComponent implements OnInit {
   @Output() changeTab = new EventEmitter<any>();
 
   public badges = [];
+  public isSubmitting: boolean = false;
   public allergens = [];
   public weight = 0;
   public unit = 'g';

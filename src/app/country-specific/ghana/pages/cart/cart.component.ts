@@ -68,7 +68,7 @@ export class CartComponent implements OnInit {
   loadCart(): void {
     this.cartItems = this.cartService.getCartItems();
     this.calculateTotals();
-    console.log(this.cartItems);
+    // console.log(this.cartItems);
   }
 
   getPrice(item: any): number {
@@ -186,8 +186,6 @@ export class CartComponent implements OnInit {
         this.notificationService.error('Checkout failed. Please try again.');
       },
     });
-
-    // this.router.navigate(['/checkout']);
   }
 
   // Helper method to format currency based on current country
