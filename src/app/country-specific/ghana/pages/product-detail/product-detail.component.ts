@@ -92,7 +92,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    console.log('Added to cart:', product.name, 'Quantity:', this.quantity);
+    this.cartService.addToCart(product, 1);
   }
 
   setSelectedImage(index: number): void {

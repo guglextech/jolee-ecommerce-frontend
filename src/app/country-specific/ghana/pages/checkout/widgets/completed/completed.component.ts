@@ -15,9 +15,9 @@ export class CompletedComponent implements OnInit {
   private intervalId: any;
   constructor(private router: Router) {}
   ngOnInit(): void {
-    // setTimeout(() => {
-    //   this.router.navigate(['/']);
-    // }, 5000);
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 5000);
     this.intervalId = setInterval(() => {
       this.count--;
       if (this.count < 0) {

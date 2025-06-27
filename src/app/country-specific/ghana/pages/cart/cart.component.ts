@@ -48,9 +48,9 @@ export class CartComponent implements OnInit {
     this.loadCart();
 
     // Subscribe to cart changes
-    this.cartService.cart$.subscribe(() => {
-      this.loadCart();
-    });
+    // this.cartService.cart$.subscribe(() => {
+    //   this.loadCart();
+    // });
 
     // Subscribe to country changes to update prices
     this.countryService.country$.subscribe((data) => {

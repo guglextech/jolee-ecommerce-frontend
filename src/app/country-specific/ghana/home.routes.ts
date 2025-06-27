@@ -25,6 +25,9 @@ export const HomepageInRoutes: Routes = [
   },
   {
     path: 'payment-complete',
-    component: CompletedComponent,
+    loadComponent: () =>
+      import('./pages/checkout/widgets/completed/completed.component').then(
+        (c) => c.CompletedComponent
+      ),
   },
 ];
