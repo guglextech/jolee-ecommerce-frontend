@@ -1,4 +1,4 @@
-<app-header></app-header>
+<app-header (categorySelected)="onCategoryChange($event)"></app-header>
 
 <div class="container py-4">
   <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>

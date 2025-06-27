@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -7,6 +7,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderNoticeComponent } from 'src/app/features/admin/components/header/header-notice/header-notice.component';
+import { ProductService } from 'src/app/features/admin/components/create-product/product.service';
 
 @Component({
   selector: 'app-header',
@@ -22,6 +23,7 @@ import { HeaderNoticeComponent } from 'src/app/features/admin/components/header/
   ],
 })
 export class HeaderComponent implements OnInit {
+  @Output() categorySelected = new EventEmitter<any>();
   cartItemCount = 0;
   isAuthenticated = false;
   isAdmin = false;
@@ -29,20 +31,12 @@ export class HeaderComponent implements OnInit {
   searchQuery = '';
   userName = '';
 
-  categories = [
-    { name: 'Bakery', route: '/products/category/bakery', icon: 'bi-cake2' },
-    { name: 'Grocery', route: '/products/category/grocery', icon: 'bi-basket' },
-    {
-      name: 'Fresh Produce',
-      route: '/products/category/produce',
-      icon: 'bi-apple',
-    },
-    { name: 'Dairy', route: '/products/category/dairy', icon: 'bi-cup-hot' },
-  ];
+  categories: any = [];
 
   constructor(
     private authService: AuthService,
     private cartService: CartService,
+    private productService: ProductService,
     private router: Router
   ) {}
 
@@ -50,12 +44,24 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartSummary$.subscribe((summary) => {
       this.cartItemCount = summary.itemCount;
     });
-
+    this.productService.getProductCategories().subscribe((categories) => {
+      console.log({ categories });
+      this.categories = categories?.categories?.map((category) => ({
+        // route: `/products/category/${category}`,
+        icon: 'bi-box-seam',
+        ...category,
+      }));
+    });
     this.authService.currentUser$.subscribe((user) => {
       this.isAuthenticated = !!user;
       this.isAdmin = user?.role === 'admin';
       this.userName = user ? `${user.firstName} ${user.lastName}` : '';
     });
+  }
+
+  handleCategoryClick(category: any): void {
+    this.categorySelected.emit(category);
+    this.menuOpen = false;
   }
 
   toggleMenu(): void {

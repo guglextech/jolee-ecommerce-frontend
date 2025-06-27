@@ -48,7 +48,11 @@
                       </div>
                     </td>
                     <td class="align-middle">
-                      {{ countryService.formatPrice(getPrice(item.price)) }}
+                      {{
+                        countryService.formatPrice(
+                          item.price[countryPrice].amount
+                        )
+                      }}
                     </td>
                     <td class="align-middle">
                       <div class="quantity-control d-flex align-items-center">
@@ -78,8 +82,8 @@
                     <td class="align-middle">
                       {{
                         countryService.formatPrice(
-                          getPrice(item.price) * item.quantity
-                        )
+                          item.price[countryPrice].amount
+                        ) * item.quantity
                       }}
                     </td>
                     <td class="align-middle text-end">

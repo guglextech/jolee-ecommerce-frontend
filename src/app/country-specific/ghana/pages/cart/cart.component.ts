@@ -33,6 +33,7 @@ export class CartComponent implements OnInit {
   promoCode: string = '';
   promoDiscount: number = 0;
   promoApplied: boolean = false;
+  countryPrice: number = 0;
 
   constructor(
     private cartService: CartService,
@@ -49,20 +50,33 @@ export class CartComponent implements OnInit {
     });
 
     // Subscribe to country changes to update prices
-    this.countryService.country$.subscribe(() => {
+    this.countryService.country$.subscribe((data) => {
       this.calculateTotals();
+      if (data === 'GH') {
+        this.countryPrice = 0; // Ghana price index
+      } else if (data === 'US') {
+        this.countryPrice = 1; // US price index
+      }
     });
   }
 
   loadCart(): void {
     this.cartItems = this.cartService.getCartItems();
     this.calculateTotals();
+    console.log(this.cartItems);
   }
 
   getPrice(item: any): number {
     const country = this.countryService.getCurrentCountry();
     const priceInfo = item?.find((p: any) => p.countryCode === country);
     return priceInfo ? priceInfo.amount : 0;
+  }
+
+  getDiscountedPrice(item: any): string {
+    const originalPrice = item?.prices[this.countryPrice].amount;
+    const discount = item?.prices[this.countryPrice].discount || 0;
+    const discountedPrice = originalPrice - (originalPrice * discount) / 100;
+    return this.countryService.formatPrice(discountedPrice);
   }
 
   calculateTotals(): void {

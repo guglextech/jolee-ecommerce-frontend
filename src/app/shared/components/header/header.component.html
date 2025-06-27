@@ -33,8 +33,12 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
     <div class="container">
-      <a class="navbar-brand" routerLink="/">
-        <img src="assets/images/logo.png" alt="Jolee" height="40" />
+      <a
+        class="navbar-brand"
+        routerLink="/"
+        (click)="handleCategoryClick('home')"
+      >
+        <img src="assets/images/logo/logo-icon.png" alt="Jolee" height="40" />
       </a>
 
       <div class="d-flex align-items-center ms-auto order-lg-last">
@@ -114,7 +118,7 @@
         </div>
 
         <!-- Login/Register Buttons -->
-        <div class="d-flex" *ngIf="!isAuthenticated">
+        <!-- <div class="d-flex" *ngIf="!isAuthenticated">
           <a
             routerLink="/dashboard/login"
             class="btn btn-sm btn-outline-primary me-2"
@@ -125,7 +129,7 @@
             class="btn btn-sm btn-primary d-none d-sm-inline-block"
             >Register</a
           >
-        </div>
+        </div> -->
 
         <!-- Navbar Toggler (Mobile) -->
         <button
@@ -185,18 +189,21 @@
             </a>
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
               <li *ngFor="let category of categories">
-                <a class="dropdown-item" [routerLink]="category.route">
+                <a
+                  class="dropdown-item"
+                  (click)="handleCategoryClick(category.products)"
+                >
                   <i class="bi" [ngClass]="category.icon"></i>
                   {{ category.name }}
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" routerLink="/deals" routerLinkActive="active"
               >Deals</a
             >
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/about" routerLinkActive="active"
               >About Us</a
