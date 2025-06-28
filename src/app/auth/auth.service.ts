@@ -61,4 +61,9 @@ export class AuthService {
     this.currentUserSubject.next(this.localStorage.getItem('user') || null);
     return !!this.isAuthenticated.value;
   }
+
+  getAdminStatus(): boolean {
+    const user = this.localStorage.getItem('user');
+    return user ? (user as UserProfile).isAdmin : false;
+  }
 }

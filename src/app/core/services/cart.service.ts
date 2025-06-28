@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { CountryService } from './country.service';
 import { CartItem } from '../models/cart-item.model';
+import { ToastrService } from 'ngx-toastr';
 
 export interface CartSummary {
   subtotal: number;
@@ -32,7 +33,8 @@ export class CartService {
 
   constructor(
     private http: HttpClient,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private toast: ToastrService
   ) {
     this.loadCart();
     this.countryService.country$.subscribe(() => {
@@ -79,11 +81,7 @@ export class CartService {
     );
 
     if (existingItemIndex !== -1) {
-      // Update existing item
       return;
-      // const updatedCart = [...currentCart];
-      // updatedCart[existingItemIndex].quantity += quantity;
-      // this.cartItemsSubject.next(updatedCart);
     } else {
       // Add new item
       const newItem: CartItem = {
@@ -96,6 +94,9 @@ export class CartService {
         available: product.totalQty - product.totalSold,
       };
       this.cartItemsSubject.next([...currentCart, newItem]);
+      this.toast.info(`Added ${newItem.name} to cart`, '', {
+        timeOut: 1000,
+      });
     }
 
     this.saveCart();
@@ -125,6 +126,9 @@ export class CartService {
       (item) => item.productId !== productId
     );
     this.cartItemsSubject.next(filteredCart);
+    this.toast.info(`Removed from cart`, '', {
+      timeOut: 1000,
+    });
     this.saveCart();
   }
 

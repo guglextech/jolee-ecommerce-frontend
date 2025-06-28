@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { FeatherIconComponent } from '../../sharedComponents/feather-icon/feather-icon.component';
 import { profile } from '../../../data/header';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -13,10 +14,9 @@ import { profile } from '../../../data/header';
 export class ProfileComponent {
   // public profile = profile;
 
-  constructor(private router: Router) {}
+  constructor(private authService: AuthService) {}
 
   logOut() {
-    localStorage.clear();
-    this.router.navigate(['/auth/login']);
+    this.authService.logout();
   }
 }
