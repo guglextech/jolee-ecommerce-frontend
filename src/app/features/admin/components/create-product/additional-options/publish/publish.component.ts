@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OwlDateTimeModule } from '@danielmoncada/angular-datetime-picker';
-import { Select2Module } from 'ng-select2-component';
+// import { Select2Module } from 'ng-select2-component';
 import { ToastrService } from 'ngx-toastr';
 import { SvgIconComponent } from '../../../header/svg-icon/svg-icon.component';
 import { publishStatus } from 'src/app/features/admin/data/product';
@@ -8,7 +8,7 @@ import { publishStatus } from 'src/app/features/admin/data/product';
 @Component({
   selector: 'app-publish',
   standalone: true,
-  imports: [OwlDateTimeModule, Select2Module, SvgIconComponent],
+  imports: [OwlDateTimeModule, SvgIconComponent],
   templateUrl: './publish.component.html',
   styleUrl: './publish.component.scss',
 })

@@ -10,107 +10,101 @@ export class MockProductService {
   private mockProducts: Product[] = [
     {
       inStock: true,
-      discount: 0,
-      reviews: [],
-      totalQty: 100,
-      totalSold: 20,
-      _id: '1',
       name: 'Organic Banana',
       description: 'Fresh organic bananas from Ghana.',
-      category: 'Fruits',
-      subcategory: 'Bananas',
-      images: [
-        {
-          _id: 'img1',
-          url: 'https://example.com/banana.jpg',
-          alt: 'Organic Banana',
-          isPrimary: true,
-        },
-      ],
       prices: [
         {
-          _id: 'price1',
           countryCode: 'GH',
           amount: 10,
+          discount: 0,
           currency: 'GHS',
         },
         {
-          _id: 'price2',
           countryCode: 'US',
           amount: 2,
+          discount: 0,
           currency: 'USD',
         },
       ],
-      attributes: {
-        badges: ['organic'],
-        allergens: [],
-        _id: 'attr1',
-        weight: '1kg',
-        ingredients: 'Banana',
-        organic: true,
-        isNew: true,
+      images: ['https://example.com/banana.jpg'],
+      reviews: [],
+      category: 'Fruits',
+      categoryId: 'cat1',
+      subcategory: 'Bananas',
+      quantity: {
+        GH: { totalQty: 100, totalSold: 20 },
+        US: { totalQty: 50, totalSold: 10 },
       },
-      stock: 80,
-      sku: 'BANANA-ORG-001',
-      isActive: true,
-      __v: 0,
       metadata: [],
-      qtyLeft: '80',
-      totalReviews: 5,
-      averageRating: 4.8,
-      id: '1',
+      attributes: {
+        badges: [{ display: 'Organic', value: 'organic' }],
+        allergens: [{ display: 'None', value: 'none' }],
+        weight: '1',
+        weightUnit: 'kg',
+        ingredients: [{ display: 'Banana', value: 'banana' }],
+        organic: true,
+      },
+      _id: '',
+      brand: '',
+      discount: 0,
+      user: '',
+      url: '',
+      __v: 0,
+      qtyLeft: null,
+      totalReviews: 0,
+      averageRating: '',
     },
     {
       inStock: false,
-      discount: 5,
-      reviews: [],
-      totalQty: 50,
-      totalSold: 50,
-      _id: '2',
       name: 'Almond Milk',
       description: 'Dairy-free almond milk, unsweetened.',
-      category: 'Beverages',
-      subcategory: 'Milk Alternatives',
-      images: [
-        {
-          _id: 'img2',
-          url: 'https://example.com/almondmilk.jpg',
-          alt: 'Almond Milk',
-          isPrimary: true,
-        },
-      ],
       prices: [
         {
-          _id: 'price3',
           countryCode: 'GH',
           amount: 25,
+          discount: 5,
           currency: 'GHS',
         },
         {
-          _id: 'price4',
           countryCode: 'US',
           amount: 5,
+          discount: 0,
           currency: 'USD',
         },
       ],
-      attributes: {
-        badges: ['vegan', 'dairy-free'],
-        allergens: ['almond'],
-        _id: 'attr2',
-        weight: '1L',
-        ingredients: 'Water, Almonds',
-        organic: false,
-        isNew: false,
+      images: ['https://example.com/almondmilk.jpg'],
+      reviews: [],
+      category: 'Beverages',
+      categoryId: 'cat2',
+      subcategory: 'Milk Alternatives',
+      quantity: {
+        GH: { totalQty: 50, totalSold: 50 },
+        US: { totalQty: 30, totalSold: 20 },
       },
-      stock: 0,
-      sku: 'ALMOND-MILK-001',
-      isActive: false,
-      __v: 0,
       metadata: [],
-      qtyLeft: '0',
-      totalReviews: 12,
-      averageRating: 4.2,
-      id: '2',
+      attributes: {
+        badges: [
+          { display: 'Vegan', value: 'vegan' },
+          { display: 'Dairy-free', value: 'dairy-free' },
+        ],
+        allergens: [{ display: 'Almond', value: 'almond' }],
+        weight: '1',
+        weightUnit: 'L',
+        ingredients: [
+          { display: 'Water', value: 'water' },
+          { display: 'Almonds', value: 'almonds' },
+        ],
+        organic: false,
+      },
+      _id: '',
+      brand: '',
+      discount: 0,
+      user: '',
+      url: '',
+      __v: 0,
+      qtyLeft: null,
+      totalReviews: 0,
+      averageRating: '',
     },
   ];
 
@@ -121,13 +115,15 @@ export class MockProductService {
   }
 
   getProduct(id: string): Observable<Product | undefined> {
-    const product = this.mockProducts.find((p) => p.id === id);
+    const product = this.mockProducts.find((p) => p._id === id);
     return of(product).pipe(delay(500));
   }
 
   getFeaturedProducts(): Observable<Product[]> {
     const featured = this.mockProducts.filter(
-      (p) => p.attributes?.badges?.includes('Bestseller') && p.stock > 0
+      (p) =>
+        p.attributes?.badges?.find((item) => item.value === 'Bestseller') &&
+        p.quantity.GH.totalQty - p.quantity.GH.totalSold > 0
     );
     return of(featured).pipe(delay(800));
   }
@@ -135,8 +131,9 @@ export class MockProductService {
   getNewArrivals(): Observable<Product[]> {
     const newProducts = this.mockProducts.filter(
       (p) =>
-        (p.attributes?.badges?.includes('New') || p.attributes?.isNew) &&
-        p.stock > 0
+        p.attributes?.badges?.find(
+          (item) => item.value.toLowerCase() === 'new'
+        ) && p.quantity.GH.totalQty - p.quantity.GH.totalSold > 0
     );
     return of(newProducts).pipe(delay(800));
   }
@@ -144,7 +141,7 @@ export class MockProductService {
   getPopularProducts(): Observable<Product[]> {
     const popularIds = ['1', '2', '5', '10'];
     const popular = this.mockProducts.filter(
-      (p) => popularIds.includes(p.id) && p.stock > 0
+      (p) => p.quantity.GH.totalQty - p.quantity.GH.totalSold > 0
     );
     return of(popular).pipe(delay(800));
   }

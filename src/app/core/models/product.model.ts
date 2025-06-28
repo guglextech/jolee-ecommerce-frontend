@@ -38,7 +38,7 @@ export interface ProductImage {
  * @property {string} createdAt
  * @property {string} updatedAt
  */
-export interface Product {
+export interface ProductOld {
   inStock: boolean;
   discount: number;
   reviews: any[];
@@ -117,5 +117,47 @@ export interface IProduct {
 export interface productPrice {
   countryCode: string;
   amount: number;
+  discount?: number;
   currency: string;
+}
+
+export interface Product {
+  _id: string;
+  name: string;
+  description: string;
+  brand: string;
+  category: string;
+  categoryId: string;
+  subcategory: string;
+  metadata: any[];
+  attributes: {
+    badges: { display: string; value: string }[];
+    allergens: { display: string; value: string }[];
+    ingredients: { display: string; value: string }[];
+    weight: string;
+    weightUnit: string;
+    organic: boolean;
+  };
+  prices: {
+    countryCode: string;
+    amount: number;
+    currency: string;
+    discount: number;
+  }[];
+  images: string[];
+  quantity: {
+    [countryCode: string]: {
+      totalQty: number;
+      totalSold: number;
+    };
+  };
+  inStock: boolean;
+  discount: number;
+  user: string;
+  reviews: any[];
+  url: string;
+  __v: number;
+  qtyLeft: number | null;
+  totalReviews: number;
+  averageRating: number | string;
 }

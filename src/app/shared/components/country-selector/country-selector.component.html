@@ -23,7 +23,7 @@
     </div>
     <div class="country-dropdown-body">
       <button
-        *ngFor="let country of countries"
+        *ngFor="let country of countryService.countries"
         type="button"
         class="country-option"
         [ngClass]="{ active: country.code === currentCountry }"

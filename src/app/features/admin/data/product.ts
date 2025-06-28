@@ -46,23 +46,8 @@ export const additionalOptions = [
   },
   {
     id: 2,
-    title: 'SEO Tag',
-    value: 'seo tag',
-  },
-  {
-    id: 3,
-    title: 'Shipping',
-    value: 'shipping',
-  },
-  {
-    id: 4,
-    title: 'Variations',
-    value: 'variations',
-  },
-  {
-    id: 5,
-    title: 'Publish',
-    value: 'publish',
+    title: 'Attributes',
+    value: 'allergens',
   },
 ];
 

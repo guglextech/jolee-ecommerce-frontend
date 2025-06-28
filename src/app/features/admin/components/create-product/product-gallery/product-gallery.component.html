@@ -7,22 +7,39 @@
       </p>
       <form class="dropzone dropzone-secondary">
         <dropzone
+          #dropzoneRef
           class="dropzone-container flex"
           [config]="config"
           [message]="text"
           (addedFile)="onFileAdded($event)"
+          (uploadProgress)="onUploadProgress($event)"
           (removedFile)="onFileRemoved($event)"
+          (error)="onUploadError($event)"
+          (complete)="onUploadComplete($event)"
         >
         </dropzone>
       </form>
     </div>
     <div class="product-buttons">
-      <button class="btn" type="button" (click)="previous()">
+      <button
+        class="btn"
+        type="button"
+        [disabled]="isUploadingFiles"
+        (click)="previous()"
+      >
         <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous
       </button>
-      <button class="btn" type="button" (click)="next()">
-        Next
+      <button
+        [disabled]="isUploadingFiles"
+        class="btn"
+        type="button"
+        (click)="next()"
+      >
+        @if(isUploadingFiles){
+        <div class="loader"></div>
+        }@else { Next
         <app-svg-icon [icon]="'front-arrow'"></app-svg-icon>
+        }
       </button>
     </div>
   </div>

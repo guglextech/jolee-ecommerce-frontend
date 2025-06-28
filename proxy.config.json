@@ -1,0 +1,10 @@
+{
+  "/upload": {
+    "target": "https://upload.trenda.live",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {
+      "^/upload": ""
+    }
+  }
+}

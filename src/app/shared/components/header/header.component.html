@@ -4,7 +4,7 @@
       <div
         class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0"
       >
-        <app-header-notice></app-header-notice>
+        <!-- <app-header-notice></app-header-notice> -->
       </div>
       <div class="row align-items-center">
         <div class="col-lg-4 d-none d-lg-block">
@@ -33,8 +33,12 @@
 
   <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3">
     <div class="container">
-      <a class="navbar-brand" routerLink="/">
-        <img src="assets/images/logo.png" alt="Jolee" height="40" />
+      <a
+        class="navbar-brand"
+        routerLink="/"
+        (click)="handleCategoryClick('home')"
+      >
+        <img src="assets/images/logo/logo-icon.png" alt="Jolee" height="40" />
       </a>
 
       <div class="d-flex align-items-center ms-auto order-lg-last">
@@ -48,7 +52,10 @@
           <i class="bi bi-search fs-5"></i>
         </button>
 
-        <a routerLink="/cart" class="btn btn-link position-relative me-2">
+        <a
+          (click)="handleNavigation()"
+          class="btn btn-link position-relative me-2"
+        >
           <i class="bi bi-cart3 fs-5"></i>
           <span
             *ngIf="cartItemCount > 0"
@@ -76,7 +83,7 @@
             <li>
               <span class="dropdown-item-text">Hello, {{ userName }}</span>
             </li>
-            <li>
+            <!-- <li>
               <hr class="dropdown-divider" />
             </li>
             <li>
@@ -101,14 +108,9 @@
             </li>
             <li>
               <hr class="dropdown-divider" />
-            </li>
+            </li> -->
             <li>
-              <a
-                class="dropdown-item"
-                href="javascript:void(0)"
-                (click)="logout()"
-                >Logout</a
-              >
+              <a class="dropdown-item" (click)="logout()">Logout</a>
             </li>
           </ul>
         </div>
@@ -116,12 +118,12 @@
         <!-- Login/Register Buttons -->
         <div class="d-flex" *ngIf="!isAuthenticated">
           <a
-            routerLink="/auth/login"
+            (click)="handleAuthentication('login')"
             class="btn btn-sm btn-outline-primary me-2"
             >Login</a
           >
           <a
-            routerLink="/auth/register"
+            (click)="handleAuthentication('register')"
             class="btn btn-sm btn-primary d-none d-sm-inline-block"
             >Register</a
           >
@@ -170,29 +172,36 @@
           </li>
           <li class="nav-item dropdown">
             <a
-              class="nav-link dropdown-toggle"
+              class="nav-link"
               href="#"
               id="categoriesDropdown"
               role="button"
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Categories
+              <div class="d-flex">
+                <span>Categories</span>
+                <i class="bi bi-chevron-down"></i>
+                <!-- <i class="bi bi-chevron-right"></i> -->
+              </div>
             </a>
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
               <li *ngFor="let category of categories">
-                <a class="dropdown-item" [routerLink]="category.route">
+                <a
+                  class="dropdown-item"
+                  (click)="handleCategoryClick(category.products)"
+                >
                   <i class="bi" [ngClass]="category.icon"></i>
                   {{ category.name }}
                 </a>
               </li>
             </ul>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" routerLink="/deals" routerLinkActive="active"
               >Deals</a
             >
-          </li>
+          </li> -->
           <li class="nav-item">
             <a class="nav-link" routerLink="/about" routerLinkActive="active"
               >About Us</a

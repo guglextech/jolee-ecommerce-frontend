@@ -1,51 +1,128 @@
-<form class="common-form row g-3" id="advance-tab">
-  <div class="col-sm-6">
+<form
+  [formGroup]="fb.group({ inventory: stockForm })"
+  class="common-form row g-3"
+  id="advance-tab"
+>
+  <nav
+    ngbNav
+    #nav="ngbNav"
+    class="nav nav-pills discount-options"
+    formArrayName="inventory"
+  >
+    <ng-container ngbNavItem>
+      <div class="nav-item">
+        <a ngbNavLink>
+          <span>Ghana</span>
+        </a>
+      </div>
+      <ng-template ngbNavContent>
+        <div class="meta-body" [formGroupName]="0">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label" for="initialCost"
+                >Initial totalQty</label
+              >
+              <input
+                class="form-control"
+                id="initialCost"
+                formControlName="totalQty"
+                type="number"
+                min="0"
+                placeholder="totalQty"
+              />
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="sellingPrice">total Sold </label>
+              <input
+                class="form-control"
+                id="sellingPrice"
+                type="number"
+                min="0"
+                formControlName="totalSold"
+                placeholder="totalSold"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+    <ng-container ngbNavItem>
+      <div class="nav-item">
+        <a ngbNavLink>
+          <span>US</span>
+        </a>
+      </div>
+      <ng-template ngbNavContent>
+        <div class="meta-body" [formGroupName]="1">
+          <div class="row g-3">
+            <div class="col-sm-6">
+              <label class="form-label" for="initialCost"
+                >Initial totalQty</label
+              >
+              <input
+                class="form-control"
+                id="initialCost"
+                formControlName="totalQty"
+                type="number"
+                min="0"
+                placeholder="totalQty"
+              />
+            </div>
+            <div class="col-sm-6">
+              <label class="form-label" for="sellingPrice">total Sold </label>
+              <input
+                class="form-control"
+                id="sellingPrice"
+                type="number"
+                min="0"
+                formControlName="totalSold"
+                placeholder="totalSold"
+              />
+            </div>
+          </div>
+        </div>
+      </ng-template>
+    </ng-container>
+  </nav>
+  <div [ngbNavOutlet]="nav" class="mt-2"></div>
+
+  <!-- <div class="col-sm-6">
     <label class="form-label">Stock Availability</label>
-    <select2 [data]="stockAvailability" [templates]="template" placeholder="In stock">
+    <select2
+      [data]="stockAvailability"
+      [templates]="template"
+      placeholder="In stock"
+      formControlName="inStock"
+    >
       <ng-template #template let-item="label">
         {{ item }}
       </ng-template>
     </select2>
-  </div>
-  <div class="col-sm-6">
-    <label class="form-label">Low Stock Level</label>
-    <select2 [data]="stockLevel" [templates]="template" placeholder="Low Stock (5 or less)">
-      <ng-template #template let-item="label">
-        {{ item }}
-      </ng-template>
-    </select2>
-  </div>
-  <div class="col-xxl-4 col-sm-6">
-    <label class="form-label" for="exampleFormControlInputa">Stock Quantity 
+  </div> -->
+  <!-- <div class="col-sm-6">
+    <label class="form-label" for="exampleFormControlInputa"
+      >Stock Quantity
       <span class="txt-danger">*</span>
     </label>
-    <input class="form-control" id="exampleFormControlInputa" type="number" placeholder="Quantity">
-  </div>
-  <div class="col-xxl-4 col-sm-6">
-    <label class="form-label">Restock Date 
-      <span class="txt-danger">*</span>
-    </label>
-    <div class="input-group flatpicker-calender product-date">
-      <input class="form-control" id="datetime-local2" type="date">
-    </div>
-  </div>
-  <div class="col-xxl-4 col-12">
-    <label class="form-label" for="exampleFormControlInputc">Pre-Order 
-      <span class="txt-danger">*</span>
-    </label>
-    <input class="form-control" id="exampleFormControlInputc" type="number" placeholder="Quantity">
-  </div>
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" id="gridCheck" type="checkbox">
-      <label class="form-check-label m-0" for="gridCheck">This is a digital product.</label>
-    </div>
-  </div>
+    <input
+      class="form-control"
+      id="exampleFormControlInputa"
+      type="number"
+      placeholder="Quantity"
+      formControlName="totalQty"
+    />
+  </div> -->
   <div class="col-12 product-buttons">
     <button class="btn" type="button" (click)="previous()">
       <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous
     </button>
-    <button class="btn" type="button" (click)="next()">Next
+    <button
+      [disabled]="stockForm.invalid"
+      class="btn"
+      type="button"
+      (click)="next()"
+    >
+      Next
       <app-svg-icon [icon]="'front-arrow'"></app-svg-icon>
     </button>
   </div>

@@ -18,7 +18,6 @@ import { CustomizerComponent } from './components/customizer/customizer.componen
     SidebarComponent,
     BreadcrumbsComponent,
     FooterComponent,
-    CustomizerComponent,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',

@@ -1,0 +1,13 @@
+.loader {
+  width: 120px;
+  height: 20px;
+  -webkit-mask: radial-gradient(circle closest-side, #e4e4e4 90%, #a7a5a500)
+    left/33.3% 100%;
+  background: linear-gradient(#000 0 0) left/0% 100% no-repeat #ddd;
+  animation: l17 2s infinite steps(6);
+}
+@keyframes l17 {
+  100% {
+    background-size: 120% 100%;
+  }
+}

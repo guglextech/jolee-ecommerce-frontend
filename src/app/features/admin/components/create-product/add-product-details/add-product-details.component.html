@@ -1,7 +1,7 @@
 <div class="tab-content custom-input">
   <div class="sidebar-body">
     <form [formGroup]="productDetailsForm" class="row g-3 common-form">
-      <div class="col-12">
+      <!-- <div class="col-12">
         <label class="form-label" for="exampleFormControlInput1"
           >Product SKU</label
         >
@@ -12,7 +12,7 @@
           type="text"
           placeholder="Enter a number"
         />
-      </div>
+      </div> -->
       <div class="col-md-12">
         <label class="form-label" for="validationProductTitle"
           >Product Title</label
@@ -29,6 +29,7 @@
       <div class="col-md-12">
         <label class="form-label">Product Description</label>
         <angular-editor
+          [config]="editorConfig"
           formControlName="description"
           [placeholder]="'Enter text here...'"
         ></angular-editor>

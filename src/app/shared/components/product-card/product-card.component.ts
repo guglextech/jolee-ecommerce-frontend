@@ -24,10 +24,11 @@ export class ProductCardComponent {
   discountPercentage: number = 0;
   isAddingToCart = false;
   isFavorite = false;
+  countryPrice: number = 0;
 
   constructor(
-    private countryService: CountryService,
-    private cartService: CartService,
+    public countryService: CountryService,
+    public cartService: CartService,
     private wishlistService: WishlistService
   ) {}
 
@@ -35,8 +36,14 @@ export class ProductCardComponent {
     this.updateProductPrices();
     this.checkIfInWishlist();
 
-    this.countryService.country$.subscribe(() => {
+    this.countryService.country$.subscribe((data) => {
       this.updateProductPrices();
+      if (data === 'GH') {
+        this.countryPrice = 0;
+      }
+      if (data === 'US') {
+        this.countryPrice = 1;
+      }
     });
 
     this.wishlistService.wishlist$.subscribe(() => {
@@ -64,29 +71,28 @@ export class ProductCardComponent {
     }
   }
 
-  private checkIfInWishlist(): void {
-    this.isFavorite = this.wishlistService.isInWishlist(this.product?.id);
+  getDiscountedPrice(): string {
+    const originalPrice = this.product.prices[this.countryPrice].amount;
+    const discount = this.product.prices[this.countryPrice].discount || 0;
+    const discountedPrice = originalPrice - (originalPrice * discount) / 100;
+    return this.countryService.formatPrice(discountedPrice);
   }
 
-  addToCart(): void {
-    this.isAddingToCart = true;
+  private checkIfInWishlist(): void {
+    this.isFavorite = this.wishlistService.isInWishlist(this.product?._id);
+  }
 
-    this.cartService.addToCart(
-      {
-        id: this.product.id,
-        name: this.product.name,
-        price: this.currentPrice,
-        // images: this.product.images
-      },
-      1
-    );
-
-    this.addToCartClicked.emit(this.product);
-
-    // Reset animation after a short delay
-    setTimeout(() => {
-      this.isAddingToCart = false;
-    }, 800);
+  toggleCartAddRemove(): void {
+    const isInCart = this.cartService.isInCart(this.product._id);
+    if (isInCart) {
+      this.cartService.removeFromCart(this.product._id);
+    } else {
+      // this.addToCart();
+      this.cartService.addToCart(this.product, 1);
+    }
+    // setTimeout(() => {
+    //   this.isAddingToCart = false;
+    // }, 800);
   }
 
   openQuickView(): void {
@@ -95,7 +101,7 @@ export class ProductCardComponent {
 
   toggleWishlist(): void {
     if (this.isFavorite) {
-      this.wishlistService.removeFromWishlist(this.product.id);
+      this.wishlistService.removeFromWishlist(this.product._id);
     } else {
       this.wishlistService.addToWishlist(this.product);
     }
@@ -103,20 +109,25 @@ export class ProductCardComponent {
   }
 
   getStockLabel(): string {
-    if (!this.product.stock || this.product.stock <= 0) {
+    if (this.product.quantity.GH.totalQty === 0) {
       return 'Out of Stock';
     }
-    if (this.product.stock < 5) {
+    if (this.product.quantity.GH.totalQty < 5) {
       return 'Low Stock';
     }
     return 'In Stock';
   }
 
   getStockClass(): string {
-    if (!this.product.stock || this.product.stock <= 0) {
+    if (
+      this.product.quantity.GH.totalQty >= this.product.quantity.GH.totalSold
+    ) {
       return 'badge bg-danger';
     }
-    if (this.product.stock < 5) {
+    if (
+      this.product.quantity.GH.totalQty - this.product.quantity.GH.totalSold <
+      5
+    ) {
       return 'badge bg-warning text-dark';
     }
     return 'badge bg-success';

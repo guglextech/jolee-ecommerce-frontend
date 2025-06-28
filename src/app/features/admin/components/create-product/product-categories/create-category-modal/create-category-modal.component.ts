@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { Select2Data, Select2Module } from 'ng-select2-component';
+// import { Select2Data, Select2Module } from 'ng-select2-component';
 import { Category, IProductCategory } from 'src/app/core/models/category';
 import { category, categoryStatus } from 'src/app/features/admin/data/category';
 import { ProductService } from '../../product.service';
@@ -10,7 +10,7 @@ import { ProductService } from '../../product.service';
 @Component({
   selector: 'app-create-category-modal',
   standalone: true,
-  imports: [AngularEditorModule, Select2Module],
+  imports: [AngularEditorModule],
   templateUrl: './create-category-modal.component.html',
   styleUrl: './create-category-modal.component.scss',
 })
@@ -18,8 +18,8 @@ export class CreateCategoryModalComponent {
   public category: Category[] = category;
   public catObj: FormGroup = new FormGroup({});
   public categoryStatus = categoryStatus;
-  public parentCategory: Select2Data = [];
-  public categoryType: Select2Data = [];
+  public parentCategory: any = [];
+  public categoryType: any = [];
 
   constructor(
     private modal: NgbActiveModal,

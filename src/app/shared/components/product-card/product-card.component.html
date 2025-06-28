@@ -33,12 +33,12 @@
   </div>
 
   <div class="product-thumb">
-    <a [routerLink]="['/products', product.id]">
-      <!-- <img
-        [src]="product.images[0]?.url || 'assets/images/placeholder.jpg'"
+    <a [routerLink]="['/products', product._id]">
+      <img
+        [src]="product.images[0] || 'assets/images/placeholder.jpg'"
         [alt]="product.name"
         class="product-img"
-      /> -->
+      />
     </a>
     <div class="product-stock">
       <span [ngClass]="getStockClass()">{{ getStockLabel() }}</span>
@@ -46,16 +46,28 @@
   </div>
 
   <div class="product-content">
-    <div class="product-category">{{ product.category }}</div>
+    <div class="product-category">{{ product.categoryId }}</div>
     <h3 class="product-title">
-      <a [routerLink]="['/products', product.id]">{{ product.name }}</a>
+      <a [routerLink]="['/products', product._id]">{{ product.name }}</a>
     </h3>
 
     <div class="product-price">
-      <span class="current-price">{{ formattedPrice }}</span>
-      <span class="old-price" *ngIf="discountPercentage > 0">
-        {{ countryService.formatPrice(product.attributes?.originalPrice) }}
+      <span
+        class="current-price"
+        *ngIf="product.prices[countryPrice].discount > 0"
+      >
+        {{ getDiscountedPrice() }}
       </span>
+      <span
+        [class]="
+          product.prices[countryPrice].discount > 0
+            ? 'old-price'
+            : 'current-price'
+        "
+        >{{
+          countryService.formatPrice(product.prices[countryPrice].amount)
+        }}</span
+      >
     </div>
 
     <div class="product-description" *ngIf="layout === 'list'">
@@ -68,16 +80,29 @@
     <div class="product-bottom-action">
       <button
         type="button"
-        class="btn btn-primary btn-add-to-cart w-100"
-        [disabled]="!product.stock || product.stock <= 0"
+        class="btn btn-add-to-cart w-100"
+        [class]="
+          cartService.isInCart(product._id) ? 'btn-danger' : 'btn-primary'
+        "
+        [disabled]="
+          product.quantity[countryService.country$ | async].totalQty ===
+          product.quantity[countryService.country$ | async].totalSold
+        "
         [ngClass]="{ 'is-adding': isAddingToCart }"
-        (click)="addToCart()"
+        (click)="toggleCartAddRemove()"
       >
+        @if (cartService.isInCart(product._id)) {
+        <span class="btn-text"><i class="bi bi-check-lg me-1"></i> Added</span>
+        }@else {
         <span class="btn-text">
           <i class="bi bi-cart-plus me-1"></i>
-          {{ product.stock > 0 ? "Add to Cart" : "Out of Stock" }}
-        </span>
-        <span class="btn-added"><i class="bi bi-check-lg me-1"></i> Added</span>
+          {{
+            product.quantity[countryService.country$ | async].totalQty >
+            product.quantity[countryService.country$ | async].totalSold
+              ? "Add to Cart"
+              : "Out of Stock"
+          }} </span
+        >}
         <span
           class="btn-loader spinner-border spinner-border-sm"
           role="status"

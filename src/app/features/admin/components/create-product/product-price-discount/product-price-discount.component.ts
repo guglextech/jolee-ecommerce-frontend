@@ -1,7 +1,7 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { SvgIconComponent } from '../../header/svg-icon/svg-icon.component';
-import { bogoProducts, priceDiscount } from '../../../data/product';
+import { bogoProducts, discount, priceDiscount } from '../../../data/product';
 import { ProductService } from '../product.service';
 import { productPrice } from 'src/app/core/models/product.model';
 import {
@@ -18,80 +18,89 @@ import {
   templateUrl: './product-price-discount.component.html',
   styleUrl: './product-price-discount.component.scss',
 })
-export class ProductPriceDiscountComponent {
+export class ProductPriceDiscountComponent implements OnInit {
   @Input() active: number;
-  @Output() changeTab = new EventEmitter<number>();
-  public discountedPrice: number = 0;
-  public discountPercentage: number = 0;
-  public priceForm: any;
+  @Output() changeTab = new EventEmitter<any>();
+  public ghSellingPrice: number = 0;
+  public ukSellingPrice: number = 0;
+  public priceForm: FormArray;
 
   public bogoProducts = bogoProducts;
   public priceDiscount = priceDiscount;
-  constructor(private productService: ProductService, public fb: FormBuilder) {
+  constructor(public fb: FormBuilder, private productService: ProductService) {
     this.priceForm = this.fb.array([
       this.fb.group({
         countryCode: ['GH'],
         amount: [0],
+        discount: [0],
         currency: ['GHC'],
       }),
       this.fb.group({
-        countryCode: ['UK'],
+        countryCode: ['US'],
         amount: [0],
+        discount: [0],
         currency: ['$'],
       }),
     ]);
 
     this.priceForm.controls.forEach((control: any) => {
       control.valueChanges.subscribe((value: productPrice) => {
-        if (this.discountPercentage > 0) {
-          this.getDiscount(value.countryCode);
-        }
-        if (this.discountedPrice > 0) {
-          this.getDiscountedPrice(value.countryCode);
+        if ((value.discount ?? 0) > 0 && value.amount > 0) {
+          // console.log('Discount Value:', value.discount);
+          // console.log('Amount Value:', value.amount);
+          if (value.countryCode === 'US') {
+            this.ukSellingPrice =
+              value?.amount - ((value?.discount ?? 0) / 100) * value.amount;
+          }
+          if (value.countryCode === 'GH') {
+            this.ghSellingPrice =
+              value?.amount - ((value?.discount ?? 0) / 100) * value.amount;
+          }
+        } else {
+          if (value.countryCode === 'US') {
+            this.ukSellingPrice = value.amount;
+          }
+          if (value.countryCode === 'GH') {
+            this.ghSellingPrice = value.amount;
+          }
         }
       });
     });
+  }
+
+  ngOnInit(): void {
+    const form = this.productService.getProductForm();
+    if (form) {
+      const prices = form.get('prices')?.value;
+      if (Array.isArray(prices)) {
+        this.priceForm.patchValue(prices);
+      }
+      // console.log('Form Value:', this.priceForm.value);
+      return;
+    }
   }
   get prices() {
     return this.priceForm.value;
   }
 
-  public getDiscount(countryCode: string) {
-    const selectedCountryprice = this.prices.find(
-      (price: productPrice) => price.countryCode === countryCode
-    );
-    console.log('selectedCountryprice', selectedCountryprice);
-    if (this.discountedPrice && selectedCountryprice.amount) {
-      this.discountPercentage =
-        ((selectedCountryprice?.amount - this.discountedPrice) /
-          selectedCountryprice.amount) *
-        100;
-      return;
-    }
-    this.discountPercentage = 0;
-  }
-
-  public getDiscountedPrice(countryCode: string) {
-    const selectedCountryprice =
-      this.prices.find(
-        (price: productPrice) => price.countryCode === countryCode
-      ) || 0;
-    if (this.discountPercentage) {
-      this.discountedPrice =
-        selectedCountryprice.amount -
-        (selectedCountryprice.amount * this.discountPercentage) / 100;
-    } else {
-      this.discountedPrice = selectedCountryprice.amount;
-    }
-  }
-
   next() {
     this.active = this.active + 1;
-    this.changeTab.emit(this.active);
+    // console.log('prices', this.prices);
+    this.changeTab.emit({
+      activeTab: this.active,
+      formProps: {
+        prices: this.prices,
+      },
+    });
   }
 
   previous() {
     this.active = this.active - 1;
-    this.changeTab.emit(this.active);
+    this.changeTab.emit({
+      activeTab: this.active,
+      formProps: {
+        price: this.prices,
+      },
+    });
   }
 }

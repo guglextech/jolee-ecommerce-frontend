@@ -3,9 +3,9 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { InventoryComponent } from './inventory/inventory.component';
 import { PublishComponent } from './publish/publish.component';
-import { SeoTagsComponent } from './seo-tags/seo-tags.component';
+import { BadgesComponent } from './seo-tags/seo-tags.component';
 import { ShippingComponent } from './shipping/shipping.component';
-import { VariationsComponent } from './variations/variations.component';
+import { AllergensComponent } from './variations/variations.component';
 import { additionalOptions } from '../../../data/product';
 
 @Component({
@@ -14,9 +14,9 @@ import { additionalOptions } from '../../../data/product';
   imports: [
     NgbNavModule,
     InventoryComponent,
-    SeoTagsComponent,
+    BadgesComponent,
     ShippingComponent,
-    VariationsComponent,
+    AllergensComponent,
     PublishComponent,
   ],
   templateUrl: './additional-options.component.html',
@@ -33,7 +33,7 @@ export class AdditionalOptionsComponent {
     this.additionalActiveId = value;
   }
 
-  handleChangeTab(value: number) {
+  handleChangeTab(value: any) {
     this.changeTab.emit(value);
   }
 }

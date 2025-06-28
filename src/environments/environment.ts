@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   API_URL: 'https://jolee-ecommerce-backend.onrender.com/api/v1',
+  IMG_UPLOAD_API: 'https://upload.trenda.live',
 };
 
 /*
