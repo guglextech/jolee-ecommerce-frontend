@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
     }
 
     const userDetails = localStorage.getItem('user');
-    if (userDetails?.length != null) {
+    if (userDetails?.email) {
       if (this.marketAuth) {
         this.router.navigate(['/']);
       } else {

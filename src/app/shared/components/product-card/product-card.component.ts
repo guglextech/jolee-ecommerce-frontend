@@ -28,7 +28,7 @@ export class ProductCardComponent {
 
   constructor(
     public countryService: CountryService,
-    private cartService: CartService,
+    public cartService: CartService,
     private wishlistService: WishlistService
   ) {}
 
@@ -82,17 +82,17 @@ export class ProductCardComponent {
     this.isFavorite = this.wishlistService.isInWishlist(this.product?._id);
   }
 
-  addToCart(): void {
-    this.isAddingToCart = true;
-
-    this.cartService.addToCart(this.product, 1);
-
-    // this.addToCartClicked.emit(this.product);
-
-    // Reset animation after a short delay
-    setTimeout(() => {
-      this.isAddingToCart = false;
-    }, 800);
+  toggleCartAddRemove(): void {
+    const isInCart = this.cartService.isInCart(this.product._id);
+    if (isInCart) {
+      this.cartService.removeFromCart(this.product._id);
+    } else {
+      // this.addToCart();
+      this.cartService.addToCart(this.product, 1);
+    }
+    // setTimeout(() => {
+    //   this.isAddingToCart = false;
+    // }, 800);
   }
 
   openQuickView(): void {

@@ -64,3 +64,26 @@ export interface Permission {
   permission_id: number;
   name: string;
 }
+
+export interface ShippingAddress {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  province: string;
+  phone: string;
+}
+
+export interface UserProfile {
+  shippingAddress: ShippingAddress;
+  fullname: string;
+  email: string;
+  orders: any[]; // Replace 'any' with your Order type if available
+  wishLists: any[]; // Replace 'any' with your WishList type if available
+  isAdmin: boolean;
+  hasShippingAddress: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}

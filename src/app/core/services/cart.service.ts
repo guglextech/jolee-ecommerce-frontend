@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { CountryService } from './country.service';
 import { CartItem } from '../models/cart-item.model';
@@ -43,7 +42,7 @@ export class CartService {
 
   private loadCart(): void {
     const country = this.countryService.getCurrentCountry();
-    const cartKey = `cart_${country}`;
+    const cartKey = `cart`;
     const storedCart = localStorage.getItem(cartKey);
 
     if (storedCart) {
@@ -68,7 +67,7 @@ export class CartService {
 
   private saveCart(): void {
     const country = this.countryService.getCurrentCountry();
-    const cartKey = `cart_${country}`;
+    const cartKey = `cart`;
     localStorage.setItem(cartKey, JSON.stringify(this.cartItemsSubject.value));
     this.updateCartSummary();
   }
@@ -187,5 +186,11 @@ export class CartService {
     //     return response;
     //   })
     // );
+  }
+
+  isInCart(productId: string): boolean {
+    return this.cartItemsSubject.value.some(
+      (item) => item.productId === productId
+    );
   }
 }

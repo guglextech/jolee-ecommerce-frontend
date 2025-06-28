@@ -16,15 +16,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgbNavModule,
-    CardComponent,
-    InformationComponent,
-    ShippingComponent,
-    PaymentComponent,
-    HeaderComponent,
-  ],
+  imports: [CommonModule, NgbNavModule, CardComponent, ShippingComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })

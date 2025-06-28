@@ -3,24 +3,18 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { CountrySelectorComponent } from '../country-selector/country-selector.component';
-import { AuthService } from 'src/app/core/services/auth.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderNoticeComponent } from 'src/app/features/admin/components/header/header-notice/header-notice.component';
 import { ProductService } from 'src/app/features/admin/components/create-product/product.service';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   standalone: true,
-  imports: [
-    CommonModule,
-    HeaderNoticeComponent,
-    RouterModule,
-    FormsModule,
-    CountrySelectorComponent,
-  ],
+  imports: [CommonModule, RouterModule, FormsModule, CountrySelectorComponent],
 })
 export class HeaderComponent implements OnInit {
   @Output() categorySelected = new EventEmitter<any>();
@@ -44,6 +38,7 @@ export class HeaderComponent implements OnInit {
     this.cartService.cartSummary$.subscribe((summary) => {
       this.cartItemCount = summary.itemCount;
     });
+    this.authService.getAuthStatus();
     this.productService.getProductCategories().subscribe((categories) => {
       // console.log({ categories });
       this.categories = categories?.categories?.map((category) => ({
@@ -54,8 +49,8 @@ export class HeaderComponent implements OnInit {
     });
     this.authService.currentUser$.subscribe((user) => {
       this.isAuthenticated = !!user;
-      this.isAdmin = user?.role === 'admin';
-      this.userName = user ? `${user.firstName} ${user.lastName}` : '';
+      this.isAdmin = user?.isAdmin || false;
+      this.userName = user ? `${user.fullname}` : '';
     });
   }
 

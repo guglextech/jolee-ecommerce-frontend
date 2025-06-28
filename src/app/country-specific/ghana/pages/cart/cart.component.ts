@@ -9,6 +9,8 @@ import { FooterComponent } from 'src/app/shared/components/footer/footer.compone
 import { NotificationService } from 'src/app/core/services/notification.service';
 import { CheckoutComponent } from '../checkout/checkout.component';
 import { LocalStorageService } from 'src/app/core/services/localStorage.service';
+import { AuthService } from 'src/app/auth/auth.service';
+import { ShippingAddress } from 'src/app/core/models/user';
 
 @Component({
   selector: 'app-cart',
@@ -36,21 +38,26 @@ export class CartComponent implements OnInit {
   promoApplied: boolean = false;
   countryPrice: number = 0;
   selectedCountry: string = 'GH'; // Default to Ghana
+  isAuthenticated: boolean = false;
+  hasAddress: boolean = false;
+  address: ShippingAddress | null = null;
 
   constructor(
     private cartService: CartService,
     public countryService: CountryService,
     private notificationService: NotificationService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadCart();
 
-    // Subscribe to cart changes
-    // this.cartService.cart$.subscribe(() => {
-    //   this.loadCart();
-    // });
+    this.authService.currentUser$.subscribe((user) => {
+      this.isAuthenticated = !!user;
+      this.hasAddress = (user && user.hasShippingAddress) || false;
+      this.address = user?.shippingAddress || null;
+    });
 
     // Subscribe to country changes to update prices
     this.countryService.country$.subscribe((data) => {
@@ -171,7 +178,7 @@ export class CartComponent implements OnInit {
     // In a real app, this would navigate to checkout page or process
     this.notificationService.info('Proceeding to checkout...');
     const paymentDetails = {
-      totalAmount: 0.01,
+      totalAmount: this.total,
       description: 'Jolee Bakery Order',
     };
     const shippingDetails = this.localStorage.getItem('shipping');

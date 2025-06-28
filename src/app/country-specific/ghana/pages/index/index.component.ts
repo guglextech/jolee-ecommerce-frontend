@@ -71,7 +71,7 @@ export class IndexComponent {
       next: (products: any) => {
         this.products = products.products;
         this.originalProductList = this.products;
-        console.log(products);
+        // console.log(products);
         this.isLoading = false;
       },
       error: (error) => {
