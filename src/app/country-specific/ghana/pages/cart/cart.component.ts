@@ -121,11 +121,13 @@ export class CartComponent implements OnInit {
 
   removeItem(itemId: string): void {
     this.cartService.removeFromCart(itemId);
+    this.loadCart();
     this.notificationService.success('Item removed from cart');
   }
 
   clearCart(): void {
     this.cartService.clearCart();
+    this.loadCart();
     this.notificationService.info('Cart has been cleared');
   }
 

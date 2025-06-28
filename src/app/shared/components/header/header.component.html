@@ -121,18 +121,18 @@
         </div>
 
         <!-- Login/Register Buttons -->
-        <!-- <div class="d-flex" *ngIf="!isAuthenticated">
+        <div class="d-flex" *ngIf="!isAuthenticated">
           <a
-            routerLink="/dashboard/login"
+            (click)="handleAuthentication('login')"
             class="btn btn-sm btn-outline-primary me-2"
             >Login</a
           >
           <a
-            routerLink="/dashboard/register"
+            (click)="handleAuthentication('register')"
             class="btn btn-sm btn-primary d-none d-sm-inline-block"
             >Register</a
           >
-        </div> -->
+        </div>
 
         <!-- Navbar Toggler (Mobile) -->
         <button

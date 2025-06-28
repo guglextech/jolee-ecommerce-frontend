@@ -8,10 +8,11 @@ import { CartService } from 'src/app/core/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../../shared/components/header/header.component';
 import { ApiService } from 'src/app/features/admin/services/api.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-details',
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, FormsModule],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
   standalone: true,
@@ -92,7 +93,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    this.cartService.addToCart(product, 1);
+    this.cartService.addToCart(product, this.quantity);
   }
 
   setSelectedImage(index: number): void {

@@ -30,4 +30,11 @@ export const HomepageInRoutes: Routes = [
         (c) => c.CompletedComponent
       ),
   },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('src/app/auth/login/login.component').then(
+        (c) => c.LoginComponent
+      ),
+  },
 ];

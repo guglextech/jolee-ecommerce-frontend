@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
       this.cartItemCount = summary.itemCount;
     });
     this.productService.getProductCategories().subscribe((categories) => {
-      console.log({ categories });
+      // console.log({ categories });
       this.categories = categories?.categories?.map((category) => ({
         // route: `/products/category/${category}`,
         icon: 'bi-box-seam',
@@ -57,6 +57,16 @@ export class HeaderComponent implements OnInit {
       this.isAdmin = user?.role === 'admin';
       this.userName = user ? `${user.firstName} ${user.lastName}` : '';
     });
+  }
+
+  handleAuthentication(param: string) {
+    if (this.isAuthenticated) {
+      this.logout();
+    } else {
+      this.router.navigate(['/login'], {
+        state: { status: param, marketAuth: true },
+      });
+    }
   }
 
   handleCategoryClick(category: any): void {
