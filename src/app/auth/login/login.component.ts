@@ -36,8 +36,10 @@ export class LoginComponent implements OnInit {
     private localStorage: LocalStorageService
   ) {
     this.loginForm = new FormGroup({
+      fullname: new FormControl(''),
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
+      confirmPassword: new FormControl(''),
     });
     const navigation = this.router.getCurrentNavigation();
     const state = navigation?.extras.state;
@@ -67,7 +69,11 @@ export class LoginComponent implements OnInit {
     this.validate = true;
     this.isLoading = true;
     if (this.loginForm.valid) {
-      this.authService.login(this.loginForm.value).subscribe({
+      const payload = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      };
+      this.authService.login(payload).subscribe({
         next: (response) => {
           if (response && response.token) {
             this.isLoading = false;
@@ -78,7 +84,7 @@ export class LoginComponent implements OnInit {
             this.localStorage.setItem('shipping', response.shippingAddress);
             this.localStorage.setItem('user', response.user);
             this.authService.setProperty('user', response.user);
-            if (this.marketAuth) {
+            if (this.marketAuth || !response.user?.isAdmin) {
               this.router.navigate(['/']);
             } else {
               this.router.navigate(['/dashboard/home']);
@@ -103,7 +109,56 @@ export class LoginComponent implements OnInit {
     }
   }
 
+  register() {
+    this.validate = true;
+    this.isLoading = true;
+    if (
+      this.loginForm.valid &&
+      this.loginForm.value.password === this.loginForm.value.confirmPassword
+    ) {
+      const payload = {
+        fullname: this.loginForm.value.fullname,
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password,
+      };
+      this.authService.register(payload).subscribe({
+        next: (response) => {
+          if (response && response.token) {
+            this.isLoading = false;
+            this.authService.setProperty('isAuthenticated', true);
+            // Store token or user data as needed
+            console.log('Registration successful', response);
+            this.localStorage.setItem('token', response.token);
+            this.localStorage.setItem('shipping', response.shippingAddress);
+            this.localStorage.setItem('user', response.user);
+            this.authService.setProperty('user', response.user);
+            if (this.marketAuth) {
+              this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/dashboard/home']);
+            }
+          }
+        },
+        error: (error) => {
+          console.error('Registration failed', error);
+          this.authService.setProperty('isAuthenticated', false);
+          this.isLoading = false;
+          this.toast.error(
+            'Registration failed. Please check your details.',
+            'Error',
+            {
+              timeOut: 3000,
+              positionClass: 'toast-top-right',
+              progressBar: true,
+            }
+          );
+        },
+      });
+    }
+  }
+
   updateLoginType(type: string) {
     this.loginType = type;
+    this.isLoading = false;
   }
 }

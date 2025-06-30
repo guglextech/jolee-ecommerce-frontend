@@ -57,21 +57,17 @@
       </select>
     </div>
   </div>
-  <div class="col-12 product-buttons">
-    <button class="btn" type="button" (click)="previous()">
-      <app-svg-icon [icon]="'back-arrow'"></app-svg-icon>Previous
-    </button>
-    <button
-      class="btn"
-      type="button"
-      (click)="next()"
-      [disabled]="isSubmitting"
-    >
-      @if(isSubmitting) {
-      <div class="loader"></div>
-      } @else { Submit
-      <app-svg-icon [icon]="'front-arrow'"></app-svg-icon>
-      }
-    </button>
-  </div>
+</div>
+<div class="col-12 product-buttons d-flex justify-content-end">
+  <button class="btn" type="button" (click)="previous()">
+    <!-- <app-svg-icon [icon]="'back-arrow'"></app-svg-icon> -->
+    Previous
+  </button>
+  <button class="btn" type="button" (click)="next()" [disabled]="isSubmitting">
+    @if(isSubmitting) {
+    <div class="loader"></div>
+    } @else { Submit
+    <!-- <app-svg-icon [icon]="'front-arrow'"></app-svg-icon> -->
+    }
+  </button>
 </div>

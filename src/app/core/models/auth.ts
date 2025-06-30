@@ -5,36 +5,46 @@ export interface ILogin {
   password: string;
 }
 
+export interface IShippingAddress {
+  firstName: string;
+  lastName: string;
+  address: string;
+  city: string;
+  postalCode: string;
+  province: string;
+  phone: string;
+}
+
+export interface ILoggedInUser {
+  shippingAddress: IShippingAddress;
+  fullname: string;
+  email: string;
+  orders: any[];
+  wishLists: any[];
+  isAdmin: boolean;
+  hasShippingAddress: boolean;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
+}
+
 export interface ILoginRes extends IBaseApiRes {
   token: string;
-  user: {
-    id: string;
-    name: string;
-    email: string;
-    role: string;
-  };
+  user: ILoggedInUser;
 }
 
 export interface ILoginRes extends IBaseApiRes, ILoggedInUser {
   token: string;
 }
-interface ILoggedInUser {
-  shippingAddress: {
-    firstName: string;
-    lastName: string;
-    address: string;
-    city: string;
-    postalCode: string;
-    province: string;
-    phone: number;
-  };
+export interface ILoggedInUser {
+  shippingAddress: IShippingAddress;
   fullname: string;
   email: string;
-  orders: unknown[];
-  wishLists: unknown[];
+  orders: any[];
+  wishLists: any[];
   isAdmin: boolean;
   hasShippingAddress: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-  id: number;
+  createdAt: string;
+  updatedAt: string;
+  id: string;
 }

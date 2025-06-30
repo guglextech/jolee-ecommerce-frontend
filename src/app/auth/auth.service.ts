@@ -33,6 +33,16 @@ export class AuthService {
     );
   }
 
+  register(payload: ILogin) {
+    return this.apiService.post<ILoginRes>('users/register', payload).pipe(
+      tap((response: ILoginRes) => {
+        if (response && response.token) {
+          this.isAuthenticated.next(true);
+        }
+      })
+    );
+  }
+
   logout(): void {
     this.isAuthenticated.next(false);
     localStorage.removeItem('token');

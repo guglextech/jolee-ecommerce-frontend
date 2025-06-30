@@ -21,10 +21,31 @@
             <form
               class="theme-form"
               [formGroup]="loginForm"
-              (ngSubmit)="login()"
+              (ngSubmit)="loginType === 'login' ? login() : register()"
             >
-              <h4>Sign in to account</h4>
+              @if (loginType === 'register') {
+              <h4 class="text-center">Create Account</h4>
+              }@else {
+              <h4 class="text-center">Sign in</h4>
               <p>Enter your email & password to login</p>
+              } @if (loginType === 'register') {
+              <div class="form-group">
+                <label class="col-form-label">Enter Your full Name</label>
+                <input
+                  class="form-control"
+                  type="text"
+                  required=""
+                  placeholder="christabel whiteney"
+                  formControlName="fullname"
+                />
+                @if(loginForm.controls['fullname'].touched &&
+                loginForm.controls['fullname'].errors?.['required']){
+                <div class="text text-danger mt-1">
+                  Your Full Name is required
+                </div>
+                }
+              </div>
+              }
               <div class="form-group">
                 <label class="col-form-label">Email Address</label>
                 <input
@@ -128,7 +149,7 @@
                   <button
                     class="btn btn-primary btn-block w-100 mt-3 d-flex justify-content-center"
                     type="submit"
-                    [disabled]="!loginForm.valid || isLoading"
+                    [disabled]="loginForm.invalid || isLoading"
                   >
                     @if(isLoading){
                     <div class="loader"></div>
