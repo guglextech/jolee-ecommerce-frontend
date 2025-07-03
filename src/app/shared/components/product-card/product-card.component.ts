@@ -24,10 +24,11 @@ export class ProductCardComponent {
   discountPercentage: number = 0;
   isAddingToCart = false;
   isFavorite = false;
+  countryPrice: number = 0;
 
   constructor(
-    private countryService: CountryService,
-    private cartService: CartService,
+    public countryService: CountryService,
+    public cartService: CartService,
     private wishlistService: WishlistService
   ) {}
 
@@ -35,8 +36,14 @@ export class ProductCardComponent {
     this.updateProductPrices();
     this.checkIfInWishlist();
 
-    this.countryService.country$.subscribe(() => {
+    this.countryService.country$.subscribe((data) => {
       this.updateProductPrices();
+      if (data === 'GH') {
+        this.countryPrice = 0;
+      }
+      if (data === 'US') {
+        this.countryPrice = 1;
+      }
     });
 
     this.wishlistService.wishlist$.subscribe(() => {
@@ -64,21 +71,28 @@ export class ProductCardComponent {
     }
   }
 
+  getDiscountedPrice(): string {
+    const originalPrice = this.product.prices[this.countryPrice].amount;
+    const discount = this.product.prices[this.countryPrice].discount || 0;
+    const discountedPrice = originalPrice - (originalPrice * discount) / 100;
+    return this.countryService.formatPrice(discountedPrice);
+  }
+
   private checkIfInWishlist(): void {
     this.isFavorite = this.wishlistService.isInWishlist(this.product?._id);
   }
 
-  addToCart(): void {
-    this.isAddingToCart = true;
-
-    this.cartService.addToCart(this.product, 1);
-
-    // this.addToCartClicked.emit(this.product);
-
-    // Reset animation after a short delay
-    setTimeout(() => {
-      this.isAddingToCart = false;
-    }, 800);
+  toggleCartAddRemove(): void {
+    const isInCart = this.cartService.isInCart(this.product._id);
+    if (isInCart) {
+      this.cartService.removeFromCart(this.product._id);
+    } else {
+      // this.addToCart();
+      this.cartService.addToCart(this.product, 1);
+    }
+    // setTimeout(() => {
+    //   this.isAddingToCart = false;
+    // }, 800);
   }
 
   openQuickView(): void {

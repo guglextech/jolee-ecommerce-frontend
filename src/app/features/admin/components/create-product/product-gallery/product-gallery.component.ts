@@ -27,6 +27,7 @@ export class ProductGalleryComponent implements AfterViewInit {
   @ViewChild('dropzoneRef', { static: false }) dropzone: DropzoneComponent;
   @Input() active: number;
   @Output() changeTab = new EventEmitter<any>();
+  isUploadingFiles: boolean = false;
 
   public text =
     ' <i class="fa-solid fa-cloud-arrow-up fa-fade"></i><h6>Drop files here or click to upload.</h6><span class="note needsclick">SVG,PNG,JPG <strong>or</strong> GIF</span>';
@@ -63,8 +64,13 @@ export class ProductGalleryComponent implements AfterViewInit {
     }
   }
 
+  onUploadProgress(event: any) {
+    this.isUploadingFiles = true;
+  }
+
   onFileAdded(file: File) {
     this.uploadedFiles.push(file);
+    this.isUploadingFiles = true;
     // You can now access the uploaded files in this.uploadedFiles
   }
 
@@ -82,6 +88,7 @@ export class ProductGalleryComponent implements AfterViewInit {
     const file = JSON.parse(event.xhr.response);
     if (file && file.uploadedFiles[0].url)
       this.imageUrls.push(file.uploadedFiles[0].url);
+    this.isUploadingFiles = false;
   }
 
   next() {

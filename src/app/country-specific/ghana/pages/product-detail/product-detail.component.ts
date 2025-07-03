@@ -7,10 +7,12 @@ import { MockProductService } from 'src/app/core/services/mockproduct.service';
 import { CartService } from 'src/app/core/services/cart.service';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../../shared/components/header/header.component';
+import { ApiService } from 'src/app/features/admin/services/api.service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-product-details',
-  imports: [CommonModule, HeaderComponent],
+  imports: [CommonModule, HeaderComponent, FormsModule],
   templateUrl: './product-detail.component.html',
   styleUrls: ['./product-detail.component.scss'],
   standalone: true,
@@ -27,6 +29,7 @@ export class ProductDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: MockProductService,
+    private api: ApiService,
     private cartService: CartService
   ) {
     console.log('ProductDetailsComponent constructor called');
@@ -39,6 +42,7 @@ export class ProductDetailsComponent implements OnInit {
     this.product$ = this.route.paramMap.pipe(
       tap((params) => {
         const productId = params.get('id');
+        console.log({ productId });
       }),
       switchMap((params) => {
         const productId = params.get('id');
@@ -46,17 +50,18 @@ export class ProductDetailsComponent implements OnInit {
           return of(undefined);
         }
 
-        return this.productService.getProduct(productId).pipe(
+        return this.api.get<Product | undefined>(`products/${productId}`).pipe(
           tap((product) => console.log('Product fetched:', product)),
+          map((product: any) => product.product),
           catchError((error) => {
             return of(undefined);
           })
         );
       }),
-      tap((product) => {
+      tap((product: any) => {
         this.loading = false;
         if (product) {
-          this.getRelatedProducts(product);
+          // this.getRelatedProducts(product.product);
         } else {
           console.warn('No product found');
         }
@@ -88,7 +93,7 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart(product: Product): void {
-    console.log('Added to cart:', product.name, 'Quantity:', this.quantity);
+    this.cartService.addToCart(product, this.quantity);
   }
 
   setSelectedImage(index: number): void {

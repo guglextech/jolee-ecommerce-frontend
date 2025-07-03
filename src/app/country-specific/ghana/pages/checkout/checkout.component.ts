@@ -3,7 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { CompletedComponent } from './widgets/completed/completed.component';
 import { InformationComponent } from './widgets/information/information.component';
 import { PaymentComponent } from './widgets/payment/payment.component';
 import { ShippingComponent } from './widgets/shipping/shipping.component';
@@ -17,16 +16,7 @@ import { HeaderComponent } from 'src/app/shared/components/header/header.compone
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [
-    CommonModule,
-    NgbNavModule,
-    CardComponent,
-    InformationComponent,
-    ShippingComponent,
-    PaymentComponent,
-    CompletedComponent,
-    HeaderComponent,
-  ],
+  imports: [CommonModule, NgbNavModule, CardComponent, ShippingComponent],
   templateUrl: './checkout.component.html',
   styleUrl: './checkout.component.scss',
 })

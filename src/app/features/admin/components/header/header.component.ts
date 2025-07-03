@@ -19,8 +19,6 @@ import { NavService } from '../../services/nav.service';
   imports: [
     OutsideDirective,
     HeaderLogoComponent,
-    HeaderNoticeComponent,
-    HeaderLanguageComponent,
     SearchComponent,
     ModeComponent,
     HeaderNotificationComponent,

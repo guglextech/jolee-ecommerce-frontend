@@ -52,10 +52,22 @@
     </h3>
 
     <div class="product-price">
-      <span class="current-price">{{ formattedPrice }}</span>
-      <span class="old-price" *ngIf="discountPercentage > 0">
-        {{ countryService.formatPrice(product.attributes?.originalPrice) }}
+      <span
+        class="current-price"
+        *ngIf="product.prices[countryPrice].discount > 0"
+      >
+        {{ getDiscountedPrice() }}
       </span>
+      <span
+        [class]="
+          product.prices[countryPrice].discount > 0
+            ? 'old-price'
+            : 'current-price'
+        "
+        >{{
+          countryService.formatPrice(product.prices[countryPrice].amount)
+        }}</span
+      >
     </div>
 
     <div class="product-description" *ngIf="layout === 'list'">
@@ -68,22 +80,29 @@
     <div class="product-bottom-action">
       <button
         type="button"
-        class="btn btn-primary btn-add-to-cart w-100"
+        class="btn btn-add-to-cart w-100"
+        [class]="
+          cartService.isInCart(product._id) ? 'btn-danger' : 'btn-primary'
+        "
         [disabled]="
-          product.quantity.GH.totalQty === product.quantity.GH.totalSold
+          product.quantity[countryService.country$ | async].totalQty ===
+          product.quantity[countryService.country$ | async].totalSold
         "
         [ngClass]="{ 'is-adding': isAddingToCart }"
-        (click)="addToCart()"
+        (click)="toggleCartAddRemove()"
       >
+        @if (cartService.isInCart(product._id)) {
+        <span class="btn-text"><i class="bi bi-check-lg me-1"></i> Added</span>
+        }@else {
         <span class="btn-text">
           <i class="bi bi-cart-plus me-1"></i>
           {{
-            product.quantity.GH.totalQty > product.quantity.GH.totalSold
+            product.quantity[countryService.country$ | async].totalQty >
+            product.quantity[countryService.country$ | async].totalSold
               ? "Add to Cart"
               : "Out of Stock"
-          }}
-        </span>
-        <span class="btn-added"><i class="bi bi-check-lg me-1"></i> Added</span>
+          }} </span
+        >}
         <span
           class="btn-loader spinner-border spinner-border-sm"
           role="status"

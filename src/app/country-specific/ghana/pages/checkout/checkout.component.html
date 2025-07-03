@@ -7,7 +7,15 @@
         [cardBodyClass]="'basic-wizard important-validation'"
       >
         <div class="stepper-horizontal custom-scrollbar" id="stepper1">
-          @for(tab of checkoutTabs; track tab) {
+          <div class="stepper-one step" [class]="'active done'">
+            <div class="step-circle">
+              <span>{{ 1 }}</span>
+            </div>
+            <div class="step-title">Shipping Information</div>
+            <div class="step-bar-left"></div>
+            <div class="step-bar-right"></div>
+          </div>
+          <!-- @for(tab of checkoutTabs; track tab) {
           <div
             class="stepper-one step"
             [ngClass]="{ 'active done': tab.id < activeTab }"
@@ -19,27 +27,27 @@
             <div class="step-bar-left"></div>
             <div class="step-bar-right"></div>
           </div>
-          }
+          } -->
         </div>
         <div class="shipping-content" id="msform">
-          <div [ngStyle]="{ display: activeTab === 1 ? 'block' : 'none' }">
+          <!-- <div [ngStyle]="{ display: activeTab === 1 ? 'block' : 'none' }">
             <app-information></app-information>
-          </div>
+          </div> -->
 
-          <div [ngStyle]="{ display: activeTab === 2 ? 'block' : 'none' }">
+          <div>
             <app-shipping></app-shipping>
           </div>
 
-          <div [ngStyle]="{ display: activeTab === 3 ? 'block' : 'none' }">
+          <!-- <div [ngStyle]="{ display: activeTab === 3 ? 'block' : 'none' }">
             <app-payment></app-payment>
-          </div>
+          </div> -->
 
-          <div [ngStyle]="{ display: activeTab === 4 ? 'block' : 'none' }">
+          <!-- <div [ngStyle]="{ display: activeTab === 4 ? 'block' : 'none' }">
             <app-completed></app-completed>
-          </div>
+          </div> -->
         </div>
 
-        <div class="wizard-footer d-flex gap-2 justify-content-end mt-3">
+        <!-- <div class="wizard-footer d-flex gap-2 justify-content-end mt-3">
           <button
             class="btn button-light-primary"
             id="backbtn"
@@ -57,7 +65,7 @@
           >
             {{ activeTab == checkoutTabs.length ? "Finish" : "Next" }}
           </button>
-        </div>
+        </div> -->
       </app-card>
     </div>
     <!-- <div class="col-xl-4">

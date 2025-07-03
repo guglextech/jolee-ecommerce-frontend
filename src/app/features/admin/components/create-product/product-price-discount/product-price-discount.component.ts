@@ -36,10 +36,10 @@ export class ProductPriceDiscountComponent implements OnInit {
         currency: ['GHC'],
       }),
       this.fb.group({
-        countryCode: ['UK'],
+        countryCode: ['US'],
         amount: [0],
         discount: [0],
-        currency: ['£'],
+        currency: ['$'],
       }),
     ]);
 
@@ -48,7 +48,7 @@ export class ProductPriceDiscountComponent implements OnInit {
         if ((value.discount ?? 0) > 0 && value.amount > 0) {
           // console.log('Discount Value:', value.discount);
           // console.log('Amount Value:', value.amount);
-          if (value.countryCode === 'UK') {
+          if (value.countryCode === 'US') {
             this.ukSellingPrice =
               value?.amount - ((value?.discount ?? 0) / 100) * value.amount;
           }
@@ -57,7 +57,7 @@ export class ProductPriceDiscountComponent implements OnInit {
               value?.amount - ((value?.discount ?? 0) / 100) * value.amount;
           }
         } else {
-          if (value.countryCode === 'UK') {
+          if (value.countryCode === 'US') {
             this.ukSellingPrice = value.amount;
           }
           if (value.countryCode === 'GH') {

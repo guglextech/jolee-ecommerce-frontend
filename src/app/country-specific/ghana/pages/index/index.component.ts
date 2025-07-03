@@ -34,7 +34,7 @@ export class IndexComponent {
   isLoading = true;
   selectedLayout: 'grid' | 'list' = 'grid';
   selectedColumns = 3;
-
+  originalProductList: Product[] = [];
   currentCountry = 'US';
 
   constructor(
@@ -55,20 +55,31 @@ export class IndexComponent {
     });
   }
 
+  onCategoryChange(productIds: string[] | string): void {
+    if (typeof productIds === 'string') {
+      this.products = this.originalProductList;
+      return;
+    }
+    this.products = this.originalProductList.filter((product) =>
+      productIds?.includes(product._id)
+    );
+  }
+
   loadProducts(): void {
     this.isLoading = true;
-    this.mockProductService.getProducts().subscribe(
-      (products: any) => {
+    this.mockProductService.getProducts().subscribe({
+      next: (products: any) => {
         this.products = products.products;
-        console.log(products);
+        this.originalProductList = this.products;
+        // console.log(products);
         this.isLoading = false;
       },
-      (error) => {
+      error: (error) => {
         console.error('Error loading products', error);
         this.notificationService.error('Failed to load products');
         this.isLoading = false;
-      }
-    );
+      },
+    });
   }
 
   changeLayout(layout: 'grid' | 'list'): void {

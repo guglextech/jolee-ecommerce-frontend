@@ -48,7 +48,11 @@
                       </div>
                     </td>
                     <td class="align-middle">
-                      {{ countryService.formatPrice(getPrice(item.price)) }}
+                      {{
+                        countryService.formatPrice(
+                          item.price[countryPrice].amount
+                        )
+                      }}
                     </td>
                     <td class="align-middle">
                       <div class="quantity-control d-flex align-items-center">
@@ -64,8 +68,10 @@
                           class="form-control mx-2"
                           min="1"
                           max="99"
-                          [(ngModel)]="item.quantity"
-                          (change)="updateQuantity(item.id, item.quantity)"
+                          [(ngModel)]="item.cartQty"
+                          (change)="
+                            updateQuantity(item.productId, item.cartQty)
+                          "
                         />
                         <button
                           class="btn btn-sm btn-outline-secondary"
@@ -78,7 +84,7 @@
                     <td class="align-middle">
                       {{
                         countryService.formatPrice(
-                          getPrice(item.price) * item.quantity
+                          item.price[countryPrice].amount * item.cartQty
                         )
                       }}
                     </td>
@@ -182,10 +188,21 @@
                     countryService.formatPrice(total)
                   }}</span>
                 </div>
+                @if(!isAuthenticated) {
+                <div class="alert alert-warning mb-3">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  Please log in to proceed with checkout.
+                </div>
+                } @if(isAuthenticated && !hasAddress) {
+                <div class="alert alert-warning mb-3">
+                  <i class="bi bi-exclamation-triangle me-2"></i>
+                  Please add a shipping address to proceed with checkout.
+                </div>
+                } @if (hasAddress && address) {
                 <button
-                  [disabled]="true"
+                  [disabled]="total > 0 ? false : true"
                   [class]="
-                    disabled
+                    total > 0
                       ? 'btn btn-primary w-100'
                       : 'btn btn-secondary w-100'
                   "
@@ -194,6 +211,7 @@
                 >
                   Proceed to Checkout
                 </button>
+                }
               </div>
             </div>
             <div class="card mb-4">

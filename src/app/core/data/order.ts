@@ -253,21 +253,21 @@ export const checkoutTabs: Tabs[] = [
     title: 'Information',
     value: 'information',
   },
-  {
-    id: 2,
-    title: 'Shipping',
-    value: 'shipping',
-  },
-  {
-    id: 3,
-    title: 'Payment',
-    value: 'payment',
-  },
-  {
-    id: 4,
-    title: 'Completed',
-    value: 'completed',
-  },
+  // {
+  //   id: 2,
+  //   title: 'Shipping',
+  //   value: 'shipping',
+  // },
+  // {
+  //   id: 3,
+  //   title: 'Payment',
+  //   value: 'payment',
+  // },
+  // {
+  //   id: 4,
+  //   title: 'Completed',
+  //   value: 'completed',
+  // },
 ];
 
 export const orderDetails: OrderDetails = {

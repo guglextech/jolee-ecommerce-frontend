@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../auth.service';
 import { LocalStorageService } from 'src/app/core/services/localStorage.service';
@@ -19,30 +19,45 @@ import { LocalStorageService } from 'src/app/core/services/localStorage.service'
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   public show: boolean = false;
   public loginForm: FormGroup;
   public validate: boolean = false;
   public isLoading: boolean = false;
 
   public loginType: string = 'login';
+  private marketAuth: boolean = false;
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute,
     private toast: ToastrService,
     private authService: AuthService,
     private localStorage: LocalStorageService
   ) {
-    const userDetails = localStorage.getItem('user');
-    if (userDetails?.length != null) {
-      router.navigate(['/dashboard']);
-    }
-
     this.loginForm = new FormGroup({
       email: new FormControl('', [Validators.required, Validators.email]),
       password: new FormControl('', Validators.required),
     });
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state;
+    if (state) {
+      this.marketAuth = state.marketAuth || false;
+      console.log({ status: state });
+      this.loginType = state.status || 'login';
+    }
+
+    const userDetails = localStorage.getItem('user');
+    if (userDetails?.email) {
+      if (this.marketAuth) {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/dashboard/home']);
+      }
+    }
   }
+
+  ngOnInit(): void {}
 
   showPassword() {
     this.show = !this.show;
@@ -58,9 +73,16 @@ export class LoginComponent {
             this.isLoading = false;
             this.authService.setProperty('isAuthenticated', true);
             // Store token or user data as needed
+            console.log('Login successful', response);
             this.localStorage.setItem('token', response.token);
+            this.localStorage.setItem('shipping', response.shippingAddress);
+            this.localStorage.setItem('user', response.user);
             this.authService.setProperty('user', response.user);
-            this.router.navigate(['/dashboard/home']);
+            if (this.marketAuth) {
+              this.router.navigate(['/']);
+            } else {
+              this.router.navigate(['/dashboard/home']);
+            }
           }
         },
         error: (error) => {

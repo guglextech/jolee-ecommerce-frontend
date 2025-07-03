@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { CountryService } from './country.service';
 import { CartItem } from '../models/cart-item.model';
+import { ToastrService } from 'ngx-toastr';
 
 export interface CartSummary {
   subtotal: number;
@@ -33,7 +33,8 @@ export class CartService {
 
   constructor(
     private http: HttpClient,
-    private countryService: CountryService
+    private countryService: CountryService,
+    private toast: ToastrService
   ) {
     this.loadCart();
     this.countryService.country$.subscribe(() => {
@@ -43,7 +44,7 @@ export class CartService {
 
   private loadCart(): void {
     const country = this.countryService.getCurrentCountry();
-    const cartKey = `cart_${country}`;
+    const cartKey = `cart`;
     const storedCart = localStorage.getItem(cartKey);
 
     if (storedCart) {
@@ -68,7 +69,7 @@ export class CartService {
 
   private saveCart(): void {
     const country = this.countryService.getCurrentCountry();
-    const cartKey = `cart_${country}`;
+    const cartKey = `cart`;
     localStorage.setItem(cartKey, JSON.stringify(this.cartItemsSubject.value));
     this.updateCartSummary();
   }
@@ -80,23 +81,22 @@ export class CartService {
     );
 
     if (existingItemIndex !== -1) {
-      // Update existing item
       return;
-      // const updatedCart = [...currentCart];
-      // updatedCart[existingItemIndex].quantity += quantity;
-      // this.cartItemsSubject.next(updatedCart);
     } else {
       // Add new item
-      // console.log({ product });
       const newItem: CartItem = {
         productId: product.id,
         name: product.name,
         price: product.prices,
-        image: product.images[0]?.url || '',
-        quantity: quantity,
+        image: product.images[0] || '',
+        quantity: product.quantity,
+        cartQty: quantity,
         available: product.totalQty - product.totalSold,
       };
       this.cartItemsSubject.next([...currentCart, newItem]);
+      this.toast.info(`Added ${newItem.name} to cart`, '', {
+        timeOut: 1000,
+      });
     }
 
     this.saveCart();
@@ -115,7 +115,7 @@ export class CartService {
 
     if (itemIndex !== -1) {
       const updatedCart = [...currentCart];
-      updatedCart[itemIndex].quantity = quantity;
+      updatedCart[itemIndex].cartQty = quantity;
       this.cartItemsSubject.next(updatedCart);
       this.saveCart();
     }
@@ -126,6 +126,9 @@ export class CartService {
       (item) => item.productId !== productId
     );
     this.cartItemsSubject.next(filteredCart);
+    this.toast.info(`Removed from cart`, '', {
+      timeOut: 1000,
+    });
     this.saveCart();
   }
 
@@ -171,21 +174,27 @@ export class CartService {
     });
   }
 
-  checkout(shippingDetails: any, paymentDetails: any): Observable<any> {
+  checkout(shippingDetails: any, paymentDetails: any) {
     const country = this.countryService.getCurrentCountry();
+    console.log({
+      shippingDetails,
+      paymentDetails,
+    });
+    return this.http.post(
+      `${environment.API_URL}/payment/create-invoice`,
+      paymentDetails
+    );
+    // .pipe(
+    //   map((response) => {
+    //     this.clearCart();
+    //     return response;
+    //   })
+    // );
+  }
 
-    return this.http
-      .post(`${environment.API_URL}/orders`, {
-        items: this.cartItemsSubject.value,
-        shippingDetails,
-        paymentDetails,
-        country,
-      })
-      .pipe(
-        map((response) => {
-          this.clearCart();
-          return response;
-        })
-      );
+  isInCart(productId: string): boolean {
+    return this.cartItemsSubject.value.some(
+      (item) => item.productId === productId
+    );
   }
 }
